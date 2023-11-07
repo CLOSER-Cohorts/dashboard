@@ -1,5 +1,5 @@
 import Layout from '../components/layout';
-import Dashboard from '../components/dashboard';
+import Dashboard from '../components/Dashboard';
 import { executeGetRequest, getStudyGroups } from '../lib/posts';
 import { React, useState } from "react";
 
@@ -11,7 +11,15 @@ const urlBase = 'https://discovery.closer.ac.uk/api/v1/item'
 
 const convertToArray = (ddiObject) => Array.isArray(ddiObject) ? ddiObject : [ddiObject]
 
-const userAttributeTitles = ['Lifestage', 'LifestageDescription', 'Creator', 'Publisher']
+const userAttributeTitles = ['Lifestage', 
+                  'LifestageDescription', 
+                  'Creator', 
+                  'Publisher',
+                  'AnalysisUnit',
+                  'KindOfData',
+                  'CountryCode',
+                  'ModeOfCollectionDescription',
+                  'ModeOfCollectionType']
 
 export async function getDataForGroup(group, token) {
 
@@ -80,6 +88,10 @@ function getFreeTextElementValues(allStudyUnits) {
 
     let publishers = studyUnitXML.Fragment.StudyUnit['r:Citation']?.['r:Publisher']
 
+    let analysisUnit = studyUnitXML.Fragment.StudyUnit?.['r:AnalysisUnit']
+
+    let kindsOfData = studyUnitXML.Fragment.StudyUnit?.['r:KindOfData']
+
     if (!!creators) {
 
       const creatorData = convertToArray(creators).map(creator => {
@@ -107,6 +119,45 @@ function getFreeTextElementValues(allStudyUnits) {
           "studyUnitIdentifier": studyUnit.Identifier
         }]
     }
+
+      if (!!freeTextElementValues['AnalysisUnit'])
+        freeTextElementValues['AnalysisUnit'].push({
+          "agency": studyUnit.AgencyId,
+          "userAttributeValue": analysisUnit,
+          "studyUnitIdentifier": studyUnit.Identifier
+        })
+      else
+        freeTextElementValues['AnalysisUnit'] = [{
+          "agency": studyUnit.AgencyId,
+          "userAttributeValue": analysisUnit,
+          "studyUnitIdentifier": studyUnit.Identifier
+        }]
+
+        console.log(studyUnit.AgencyId)
+        console.log(studyUnit.Identifier)
+      
+
+        convertToArray(kindsOfData).forEach(kindOfData => {
+
+          console.log(kindOfData)
+
+        if (!!freeTextElementValues['KindOfData'])
+        freeTextElementValues['KindOfData'].push({
+          "agency": studyUnit.AgencyId,
+          "userAttributeValue": kindOfData,
+          "studyUnitIdentifier": studyUnit.Identifier
+        })
+      else
+        freeTextElementValues['KindOfData'] = [{
+          "agency": studyUnit.AgencyId,
+          "userAttributeValue": kindOfData,
+          "studyUnitIdentifier": studyUnit.Identifier
+        }]    
+      })
+
+
+      // console.log("FREE TEXT VALS")
+      // console.log(freeTextElementValues['KindOfData'])
 
     if (!!publishers) {
 
@@ -153,6 +204,8 @@ export async function getDashboardData(token) {
 
     const allStudyUnits = allGroups.length > 0 ? await getAllStudyUnits(allGroups, token)
       : []
+
+   // console.log("ALL STUDY UNITS: " + JSON.stringify(allStudyUnits[0]))  
 
     if (groups.Error != 'Invalid authentication token supplied')
 

@@ -16,6 +16,10 @@ export default function Dashboard (props) {
 
   const displayTable = (dataToDisplay) => {
 
+//    console.log(Object.keys(props.data))
+
+//    console.log(props.data)
+
     return !props.data.ErrorMessage ? dataToDisplay.map((dataField, index) => {
   
       const uniqueValues = getUniqueArrayValues(props.data[dataField].map(data => {
@@ -23,11 +27,20 @@ export default function Dashboard (props) {
         return Object.keys(data).includes('userAttributeValue') ? data.userAttributeValue : data;
   
       })).sort((x, y) => x.toString().charCodeAt() - y.toString().charCodeAt())
+
+      console.log("UNIQUE VALUES")
+      console.log(uniqueValues)
+
+//      console.log(dataField)
   
-      const tableData = uniqueValues.map(uniqueValue =>
-        [uniqueValue.replace(' ', "\u00A0"), props.data[dataField].filter(
+      const tableData = uniqueValues.map(uniqueValue => 
+  //      console.log(uniqueValue)
+        !!uniqueValue && [uniqueValue.replace(' ', "\u00A0"), props.data[dataField].filter(
           fieldValue => (Object.keys(fieldValue).includes('userAttributeValue') ? fieldValue.userAttributeValue : fieldValue) === uniqueValue).length])
   
+     // console.log(tableData)
+    //  console.log(dataField)
+
       return <div key={index}>
         <h4>Total unique values for '{dataField}': {uniqueValues.length}</h4>
         <DataTable key={index} data={tableData}
@@ -46,7 +59,9 @@ export default function Dashboard (props) {
       <Tab label="Lifestage Description" {...a11yProps(1)} />
       <Tab label="Creator" {...a11yProps(2)} />
       <Tab label="Publisher" {...a11yProps(3)} />
-    </Tabs>
+      <Tab label="AnalysisUnit" {...a11yProps(4)} />
+      <Tab label="KindOfData" {...a11yProps(5)} />
+          </Tabs>
   </Box>
   <div style={{ "display": "flex", "flexDirection": "row" }}>
     <div style={{ "width": "60%" }}>
@@ -61,6 +76,12 @@ export default function Dashboard (props) {
     </TabPanel>
     <TabPanel value={props.value} index={3}>
       {displayTable(['Publisher'])}
+    </TabPanel>
+    <TabPanel value={props.value} index={4}>
+      {displayTable(['AnalysisUnit'])}
+    </TabPanel>
+    <TabPanel value={props.value} index={5}>
+      {displayTable(['KindOfData'])}
     </TabPanel>
     </div>
     <div style={{ "flex": "1 1 100%" }}>{props.selectedValueDetails}</div>

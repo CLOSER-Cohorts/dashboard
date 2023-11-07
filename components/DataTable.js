@@ -35,8 +35,11 @@ export default function DataTable(props) {
 
   function tableRows() {
 
-    return !!props.data && props.data.map((tableRow, index) =>
-      <tr key={index}>{tableCells(tableRow)}</tr>
+   // console.log(props.data)
+
+    return !!props.data && props.data.map((tableRow, index) =>{ 
+      return <tr key={index}>{tableCells(tableRow)}</tr>
+    }
     )
   }
 
