@@ -11,15 +11,15 @@ const urlBase = 'https://discovery.closer.ac.uk/api/v1/item'
 
 const convertToArray = (ddiObject) => Array.isArray(ddiObject) ? ddiObject : [ddiObject]
 
-const userAttributeTitles = ['Lifestage', 
-                  'LifestageDescription', 
-                  'Creator', 
-                  'Publisher',
-                  'AnalysisUnit',
-                  'KindOfData',
-                  'CountryCode',
-                  'ModeOfCollectionDescription',
-                  'ModeOfCollectionType']
+const userAttributeTitles = ['Lifestage',
+  'LifestageDescription',
+  'Creator',
+  'Publisher',
+  'AnalysisUnit',
+  'KindOfData',
+  'Country',
+  'ModeOfCollectionDescription',
+  'ModeOfCollectionType']
 
 export async function getDataForGroup(group, token) {
 
@@ -58,6 +58,28 @@ async function getAllStudyUnits(allGroups, token) {
   )
 }
 
+const populateFreeTextElementValue = (userAttributeTitle,
+  userAttributeValue,
+  freeTextElementValues,
+  studyUnit) => {
+
+  //    console.log("FREE TEXT")
+  //    console.log(freeTextElementValues)
+  if (!!freeTextElementValues[userAttributeTitle])
+    freeTextElementValues[userAttributeTitle].push({
+      "agency": studyUnit.AgencyId,
+      "userAttributeValue": userAttributeValue,
+      "studyUnitIdentifier": studyUnit.Identifier
+    })
+  else
+    freeTextElementValues[userAttributeTitle] = [{
+      "agency": studyUnit.AgencyId,
+      "userAttributeValue": userAttributeValue,
+      "studyUnitIdentifier": studyUnit.Identifier
+    }]
+
+}
+
 function getFreeTextElementValues(allStudyUnits) {
 
   const freeTextElementValues = {};
@@ -92,6 +114,20 @@ function getFreeTextElementValues(allStudyUnits) {
 
     let kindsOfData = studyUnitXML.Fragment.StudyUnit?.['r:KindOfData']
 
+    let countries = studyUnitXML.Fragment.StudyUnit['r:Coverage']['r:SpatialCoverage']?.['r:Country']
+
+    !!countries && convertToArray(countries).forEach(country => {
+
+      if (!country) 
+
+      console.log("FALSE: " + studyUnit.AgencyId + ", " + studyUnit.Identifier) 
+
+      populateFreeTextElementValue('Country',
+        !!country ? country : "EMPTY VALUE",
+        freeTextElementValues,
+        studyUnit)
+    })
+
     if (!!creators) {
 
       const creatorData = convertToArray(creators).map(creator => {
@@ -103,61 +139,28 @@ function getFreeTextElementValues(allStudyUnits) {
       }
       ).flat(2).toString()
 
-      if (!!freeTextElementValues['Creator'])
-        freeTextElementValues['Creator'].push(
 
-          {
-            "agency": studyUnit.AgencyId,
-            "userAttributeValue": creatorData,
-            "studyUnitIdentifier": studyUnit.Identifier
-          }
-        )
-      else
-        freeTextElementValues['Creator'] = [{
-          "agency": studyUnit.AgencyId,
-          "userAttributeValue": creatorData,
-          "studyUnitIdentifier": studyUnit.Identifier
-        }]
+      populateFreeTextElementValue('Creator',
+        creatorData,
+        freeTextElementValues,
+        studyUnit)
+
     }
 
-      if (!!freeTextElementValues['AnalysisUnit'])
-        freeTextElementValues['AnalysisUnit'].push({
-          "agency": studyUnit.AgencyId,
-          "userAttributeValue": analysisUnit,
-          "studyUnitIdentifier": studyUnit.Identifier
-        })
-      else
-        freeTextElementValues['AnalysisUnit'] = [{
-          "agency": studyUnit.AgencyId,
-          "userAttributeValue": analysisUnit,
-          "studyUnitIdentifier": studyUnit.Identifier
-        }]
-
-        console.log(studyUnit.AgencyId)
-        console.log(studyUnit.Identifier)
-      
-
-        convertToArray(kindsOfData).forEach(kindOfData => {
-
-          console.log(kindOfData)
-
-        if (!!freeTextElementValues['KindOfData'])
-        freeTextElementValues['KindOfData'].push({
-          "agency": studyUnit.AgencyId,
-          "userAttributeValue": kindOfData,
-          "studyUnitIdentifier": studyUnit.Identifier
-        })
-      else
-        freeTextElementValues['KindOfData'] = [{
-          "agency": studyUnit.AgencyId,
-          "userAttributeValue": kindOfData,
-          "studyUnitIdentifier": studyUnit.Identifier
-        }]    
-      })
+    populateFreeTextElementValue('AnalysisUnit',
+      analysisUnit,
+      freeTextElementValues,
+      studyUnit)
 
 
-      // console.log("FREE TEXT VALS")
-      // console.log(freeTextElementValues['KindOfData'])
+    !!kindsOfData && convertToArray(kindsOfData).forEach(kindOfData => {
+
+      populateFreeTextElementValue('KindOfData',
+        kindOfData,
+        freeTextElementValues,
+        studyUnit)
+    })
+
 
     if (!!publishers) {
 
@@ -169,18 +172,10 @@ function getFreeTextElementValues(allStudyUnits) {
         )
       ).flat(2).toString()
 
-      if (!!freeTextElementValues['Publisher'])
-        freeTextElementValues['Publisher'].push({
-          "agency": studyUnit.AgencyId,
-          "userAttributeValue": publisherData,
-          "studyUnitIdentifier": studyUnit.Identifier
-        })
-      else
-        freeTextElementValues['Publisher'] = [{
-          "agency": studyUnit.AgencyId,
-          "userAttributeValue": publisherData,
-          "studyUnitIdentifier": studyUnit.Identifier
-        }]
+      populateFreeTextElementValue('Publisher',
+        publisherData,
+        freeTextElementValues,
+        studyUnit)
 
     }
 
@@ -205,7 +200,7 @@ export async function getDashboardData(token) {
     const allStudyUnits = allGroups.length > 0 ? await getAllStudyUnits(allGroups, token)
       : []
 
-   // console.log("ALL STUDY UNITS: " + JSON.stringify(allStudyUnits[0]))  
+    // console.log("ALL STUDY UNITS: " + JSON.stringify(allStudyUnits[0]))  
 
     if (groups.Error != 'Invalid authentication token supplied')
 
@@ -246,10 +241,10 @@ export async function getServerSideProps(context) {
 function displayDashboard(value, colecticaQueryResults, handleChange, selectedValueDetails, updateSelectedValueDetails) {
 
   return <Dashboard value={value}
-  data={colecticaQueryResults}
-  handleChange={handleChange}
-  selectedValueDetails={selectedValueDetails}
-  updateSelectedValueDetails={updateSelectedValueDetails}
+    data={colecticaQueryResults}
+    handleChange={handleChange}
+    selectedValueDetails={selectedValueDetails}
+    updateSelectedValueDetails={updateSelectedValueDetails}
   />
 
 }
@@ -273,7 +268,7 @@ export default function Home({ colecticaQueryResults, token, username }) {
       This is the home page.
       {
         loginStatus === 401 ? "Invalid login details"
-          : 
+          :
           displayDashboard(value, colecticaQueryResults, handleChange, selectedValueDetails, updateSelectedValueDetails)
       }
 
