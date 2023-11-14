@@ -1,17 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { executeGetRequestWithoutToken } from '../lib/posts';
+
 
 export default function LogoutForm(props) {
 
-      const logout = () => {
-       document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-       document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-       window.location.href='/'
-    }  
+    const [statusMessage, setStatusMessage] = useState("");
 
-    const handleButtonClicked = () => {
-        window.location.href='/'
-     }
+    const logout = () => {
 
-    return <button onClick={logout}>Logout</button>
+    
+      setStatusMessage("Logging out...")
+        
+        executeGetRequestWithoutToken("/logout").then(data => {
+    
+    
+           if (data?.status === 200) window.location.href = '/'
+           
+           else if (!data) setStatusMessage("Log out request did not return a reponse")
+        
+           else setStatusMessage("Log out failed with HTTP error code" + data.status)
+    
+        }
+        )
+      }
+    
+    return <div><button onClick={logout}>Logout</button>{statusMessage}</div>
 
 }

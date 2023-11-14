@@ -5,7 +5,7 @@ import Tab from '@mui/material/Tab';
 import TabPanel from '../components/TabPanel';
 import Box from '@mui/material/Box';
 
-export default function Dashboard (props) {
+export default function Dashboard(props) {
 
   function a11yProps(index) {
     return {
@@ -16,30 +16,18 @@ export default function Dashboard (props) {
 
   const displayTable = (dataToDisplay) => {
 
-//    console.log(Object.keys(props.data))
-
-//    console.log(props.data)
-
     return !props.data.ErrorMessage ? dataToDisplay.map((dataField, index) => {
-  
       const uniqueValues = getUniqueArrayValues(props.data[dataField].map(data => {
-  
         return Object.keys(data).includes('userAttributeValue') ? data.userAttributeValue : data;
-  
+
       })).sort((x, y) => x.toString().charCodeAt() - y.toString().charCodeAt())
 
-      console.log("UNIQUE VALUES")
-      console.log(uniqueValues)
-
-//      console.log(dataField)
-  
-      const tableData = uniqueValues.map(uniqueValue => 
-  //      console.log(uniqueValue)
-        !!uniqueValue && [uniqueValue.replace(' ', "\u00A0"), props.data[dataField].filter(
-          fieldValue => (Object.keys(fieldValue).includes('userAttributeValue') ? fieldValue.userAttributeValue : fieldValue) === uniqueValue).length])
-  
-     // console.log(tableData)
-    //  console.log(dataField)
+      const tableData = uniqueValues.map(uniqueValue => {
+        return !!uniqueValue && [uniqueValue.replace(' ', "\u00A0"), props.data[dataField].filter(
+          fieldValue => (Object.keys(fieldValue).includes('userAttributeValue')
+            ? fieldValue.userAttributeValue
+            : fieldValue) === uniqueValue).length]
+      })
 
       return <div key={index}>
         <h4>Total unique values for '{dataField}': {uniqueValues.length}</h4>
@@ -51,41 +39,53 @@ export default function Dashboard (props) {
       </div>
     }) : `Error retrieving data, the Collectica API is not reachable. ${props.data.ErrorMessage}`
   }
-  
+
   return Object.keys(props.data).length > 0 && <Box sx={{ width: '100%' }}>
-  <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-    <Tabs value={props.value} onChange={props.handleChange} aria-label="basic tabs example">
-      <Tab label="Lifestage" {...a11yProps(0)} />
-      <Tab label="Lifestage Description" {...a11yProps(1)} />
-      <Tab label="Creator" {...a11yProps(2)} />
-      <Tab label="Publisher" {...a11yProps(3)} />
-      <Tab label="AnalysisUnit" {...a11yProps(4)} />
-      <Tab label="KindOfData" {...a11yProps(5)} />
-          </Tabs>
-  </Box>
-  <div style={{ "display": "flex", "flexDirection": "row" }}>
-    <div style={{ "width": "60%" }}>
-    <TabPanel value={props.value} index={0}>
-      {displayTable(['Lifestage'])}
-    </TabPanel>
-    <TabPanel value={props.value} index={1}>
-      {displayTable(['LifestageDescription'])}
-    </TabPanel>
-    <TabPanel value={props.value} index={2}>
-      {displayTable(['Creator'])}
-    </TabPanel>
-    <TabPanel value={props.value} index={3}>
-      {displayTable(['Publisher'])}
-    </TabPanel>
-    <TabPanel value={props.value} index={4}>
-      {displayTable(['AnalysisUnit'])}
-    </TabPanel>
-    <TabPanel value={props.value} index={5}>
-      {displayTable(['KindOfData'])}
-    </TabPanel>
+    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      <Tabs value={props.value} onChange={props.handleChange} aria-label="basic tabs example">
+        <Tab label="Lifestage" {...a11yProps(0)} />
+        <Tab label="Lifestage Description" {...a11yProps(1)} />
+        <Tab label="Creator" {...a11yProps(2)} />
+        <Tab label="Publisher" {...a11yProps(3)} />
+        <Tab label="AnalysisUnit" {...a11yProps(4)} />
+        <Tab label="KindOfData" {...a11yProps(5)} />
+        <Tab label="Country" {...a11yProps(6)} />
+        <Tab label="Mode of Collection" {...a11yProps(7)} />
+        <Tab label="Type of Mode of Collection" {...a11yProps(8)} />
+      </Tabs>
+    </Box>
+    <div style={{ "display": "flex", "flexDirection": "row" }}>
+      <div style={{ "width": "60%" }}>
+        <TabPanel value={props.value} index={0}>
+          {displayTable(['Lifestage'])}
+        </TabPanel>
+        <TabPanel value={props.value} index={1}>
+          {displayTable(['LifestageDescription'])}
+        </TabPanel>
+        <TabPanel value={props.value} index={2}>
+          {displayTable(['Creator'])}
+        </TabPanel>
+        <TabPanel value={props.value} index={3}>
+          {displayTable(['Publisher'])}
+        </TabPanel>
+        <TabPanel value={props.value} index={4}>
+          {displayTable(['AnalysisUnit'])}
+        </TabPanel>
+        <TabPanel value={props.value} index={5}>
+          {displayTable(['KindOfData'])}
+        </TabPanel>
+        <TabPanel value={props.value} index={6}>
+          {displayTable(['Country'])}
+        </TabPanel>
+        <TabPanel value={props.value} index={7}>
+          {displayTable(['ModeOfCollection'])}
+        </TabPanel>
+        <TabPanel value={props.value} index={8}>
+          {displayTable(['TypeOfModeOfCollection'])}
+        </TabPanel>
+      </div>
+      <div style={{ "flex": "1 1 100%" }}>{props.selectedValueDetails}</div>
     </div>
-    <div style={{ "flex": "1 1 100%" }}>{props.selectedValueDetails}</div>
-  </div>
-</Box>
+  </Box>
 
 }

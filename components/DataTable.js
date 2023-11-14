@@ -18,7 +18,7 @@ export default function DataTable(props) {
     </div>
   }
 
-  function tableCells(row,) {
+  function tableCells(row) {
     return row.map(
       (tableCell, index) => {
         return <td align="left"
@@ -34,8 +34,6 @@ export default function DataTable(props) {
   }
 
   function tableRows() {
-
-   // console.log(props.data)
 
     return !!props.data && props.data.map((tableRow, index) =>{ 
       return <tr key={index}>{tableCells(tableRow)}</tr>

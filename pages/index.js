@@ -21,6 +21,14 @@ const userAttributeTitles = ['Lifestage',
   'ModeOfCollectionDescription',
   'ModeOfCollectionType']
 
+export async function getItemData(agencyId, identifier, token) {
+
+  const url = `${urlBase}/${agencyId}/${identifier}`
+
+  return await executeGetRequest(url, token)
+
+}
+
 export async function getDataForGroup(group, token) {
 
   const url = `${urlBase}/${group.AgencyId}/${group.Identifier}`
@@ -51,36 +59,55 @@ async function getAllStudyUnits(allGroups, token) {
       const studyUnitIdentifier = studyUnitReference['r:ID']
       const studyUnitAgencyId = studyUnitReference['r:Agency']
 
-      return getDataForStudyUnits(studyUnitAgencyId, studyUnitIdentifier, token)
+      return getItemData(studyUnitAgencyId, studyUnitIdentifier, token)
 
     })
   }).flat()
   )
 }
 
+async function getDataCollectionEvent(dataCollectionReference, token) {
+
+  return await getItemData(dataCollectionReference?.['r:Agency'], dataCollectionReference?.['r:ID'], token)
+
+}
+
+async function getAllDataCollectionEvents(allStudyUnits, token) {
+
+  return await Promise.all(!!allStudyUnits && allStudyUnits.map(studyUnit => {
+    let studyUnitXML = parser.parse(studyUnit.Item)
+
+    let dataCollectionReferences = convertToArray(studyUnitXML.Fragment.StudyUnit['r:DataCollectionReference']).filter(dataCollectionReference => !!dataCollectionReference)
+
+    return Promise.all(dataCollectionReferences.map(dataCollectionReference =>
+      getDataCollectionEvent(dataCollectionReference, token)
+    ))
+
+  }))
+}
+
 const populateFreeTextElementValue = (userAttributeTitle,
   userAttributeValue,
   freeTextElementValues,
-  studyUnit) => {
+  agencyId,
+  identifier) => {
 
-  //    console.log("FREE TEXT")
-  //    console.log(freeTextElementValues)
   if (!!freeTextElementValues[userAttributeTitle])
     freeTextElementValues[userAttributeTitle].push({
-      "agency": studyUnit.AgencyId,
+      "agency": agencyId,
       "userAttributeValue": userAttributeValue,
-      "studyUnitIdentifier": studyUnit.Identifier
+      "studyUnitIdentifier": identifier
     })
   else
     freeTextElementValues[userAttributeTitle] = [{
-      "agency": studyUnit.AgencyId,
+      "agency": agencyId,
       "userAttributeValue": userAttributeValue,
-      "studyUnitIdentifier": studyUnit.Identifier
+      "studyUnitIdentifier": identifier
     }]
 
 }
 
-function getFreeTextElementValues(allStudyUnits) {
+function getFreeTextElementValues(allStudyUnits, token) {
 
   const freeTextElementValues = {};
 
@@ -89,9 +116,10 @@ function getFreeTextElementValues(allStudyUnits) {
 
     let attributePairs = studyUnitXML.Fragment.StudyUnit?.['r:UserAttributePair']
 
-    convertToArray(attributePairs).map(attributePair => {
+    !!attributePairs && convertToArray(attributePairs).map(attributePair => {
+
       const userAttributeTitle = JSON.parse(attributePair['r:AttributeValue'])['Title']?.['en-GB'].trim()
-      const userAttributeValue = JSON.parse(attributePair['r:AttributeValue'])['StringValue']
+      const userAttributeValue = JSON.parse(attributePair['r:AttributeValue'])?.['StringValue']
       const freeTextElementValue = {
         "agency": studyUnit.AgencyId,
         "userAttributeValue": userAttributeValue,
@@ -118,14 +146,12 @@ function getFreeTextElementValues(allStudyUnits) {
 
     !!countries && convertToArray(countries).forEach(country => {
 
-      if (!country) 
-
-      console.log("FALSE: " + studyUnit.AgencyId + ", " + studyUnit.Identifier) 
 
       populateFreeTextElementValue('Country',
         !!country ? country : "EMPTY VALUE",
         freeTextElementValues,
-        studyUnit)
+        studyUnit.AgencyId,
+        studyUnit.Identifier)
     })
 
     if (!!creators) {
@@ -140,17 +166,21 @@ function getFreeTextElementValues(allStudyUnits) {
       ).flat(2).toString()
 
 
+
+
       populateFreeTextElementValue('Creator',
         creatorData,
         freeTextElementValues,
-        studyUnit)
+        studyUnit.AgencyId,
+        studyUnit.Identifier)
 
     }
 
     populateFreeTextElementValue('AnalysisUnit',
       analysisUnit,
       freeTextElementValues,
-      studyUnit)
+      studyUnit.AgencyId,
+      studyUnit.Identifier)
 
 
     !!kindsOfData && convertToArray(kindsOfData).forEach(kindOfData => {
@@ -158,7 +188,8 @@ function getFreeTextElementValues(allStudyUnits) {
       populateFreeTextElementValue('KindOfData',
         kindOfData,
         freeTextElementValues,
-        studyUnit)
+        studyUnit.AgencyId,
+        studyUnit.Identifier)
     })
 
 
@@ -175,7 +206,8 @@ function getFreeTextElementValues(allStudyUnits) {
       populateFreeTextElementValue('Publisher',
         publisherData,
         freeTextElementValues,
-        studyUnit)
+        studyUnit.AgencyId,
+        studyUnit.Identifier)
 
     }
 
@@ -193,18 +225,44 @@ export async function getDashboardData(token) {
 
     const allGroups = await Promise.all(groups.Results.map(group => {
 
-      return getDataForGroup(group, token)
+      return getItemData(group.AgencyId, group.Identifier, token)
 
     }))
 
     const allStudyUnits = allGroups.length > 0 ? await getAllStudyUnits(allGroups, token)
       : []
 
-    // console.log("ALL STUDY UNITS: " + JSON.stringify(allStudyUnits[0]))  
+    const allDataCollectionEvents = allStudyUnits.length > 0 ? (await getAllDataCollectionEvents(allStudyUnits, token)).flat() : []
+
+    const freeTextElementValues = await getFreeTextElementValues(allStudyUnits, token)
+
+    allDataCollectionEvents.forEach(dataCollection => {
+
+      let dataCollectionXML = parser.parse(dataCollection.Item)
+
+      const modesOfCollection = convertToArray(dataCollectionXML.Fragment.DataCollection.CollectionEvent.ModeOfCollection);
+
+      modesOfCollection.forEach(modeOfCollection => {
+
+        !!modeOfCollection?.['r:Description']?.['r:Content'] && populateFreeTextElementValue('ModeOfCollection',
+          modeOfCollection?.['r:Description']?.['r:Content'],
+          freeTextElementValues,
+          dataCollection.AgencyId,
+          dataCollection.Identifier)
+
+        !!modeOfCollection?.['TypeOfModeOfCollection'] && populateFreeTextElementValue('TypeOfModeOfCollection',
+          modeOfCollection?.['TypeOfModeOfCollection'],
+          freeTextElementValues,
+          dataCollection.AgencyId,
+          dataCollection.Identifier)
+
+      })
+
+    })
 
     if (groups.Error != 'Invalid authentication token supplied')
 
-      return getFreeTextElementValues(allStudyUnits)
+      return freeTextElementValues
 
     else
 
