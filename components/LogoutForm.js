@@ -13,7 +13,6 @@ export default function LogoutForm(props) {
         
         executeGetRequestWithoutToken("/logout").then(data => {
     
-    
            if (data?.status === 200) window.location.href = '/'
            
            else if (!data) setStatusMessage("Log out request did not return a reponse")

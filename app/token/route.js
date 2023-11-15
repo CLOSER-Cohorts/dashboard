@@ -9,7 +9,7 @@ export async function POST(request) {
 
   if (!!token) {
     cookies().set({name: 'token', value: token.access_token, secure:true, httpOnly: true})
-    cookies().set('username', requestData.username, {secure:true, httpOnly: true})
+    cookies().set({name: 'username', value: requestData.username, secure:true, httpOnly: true})
   }
   return (!!token) ? new Response(JSON.stringify(token), {
     status: 200,

@@ -146,7 +146,6 @@ function getFreeTextElementValues(allStudyUnits, token) {
 
     !!countries && convertToArray(countries).forEach(country => {
 
-
       populateFreeTextElementValue('Country',
         !!country ? country : "EMPTY VALUE",
         freeTextElementValues,
@@ -164,9 +163,6 @@ function getFreeTextElementValues(allStudyUnits, token) {
         )
       }
       ).flat(2).toString()
-
-
-
 
       populateFreeTextElementValue('Creator',
         creatorData,
