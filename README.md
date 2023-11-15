@@ -8,7 +8,7 @@ In the root directory of the dashboard application code, type:
 
 `npm run dev`
 
-The application can be viewed at https://localhost:3000
+The application can be viewed at http://localhost:3000
 
 ##Using the application
 
