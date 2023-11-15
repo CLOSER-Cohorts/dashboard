@@ -2,10 +2,9 @@ export default function DataTable(props) {
 
   const panelContents = (tableCell, e) => {
 
-    props.allData[props.headers[0]].map(ddiElement => console.log(`${ddiElement}, ${ddiElement === e.currentTarget.textContent.replace("\u00A0", ' ')}`))
-
     const selectedFieldValueInstances = props.allData[props.headers[0]].filter(
-      ddiElement => (Object.keys(ddiElement).includes('userAttributeValue') ? ddiElement.userAttributeValue : ddiElement) === e.currentTarget.textContent.replace("\u00A0", ' '))
+      ddiElement => (Object.keys(ddiElement).includes('userAttributeValue') 
+          ? ddiElement.userAttributeValue : ddiElement) === e.currentTarget.textContent.replace("\u00A0", ' '))
 
     return <div><h2>{tableCell}</h2>
       <ul>

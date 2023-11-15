@@ -1,5 +1,4 @@
 import { cookies } from 'next/headers'
-import { getToken } from '../../lib/posts';
 
 export async function GET(request) {
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { executePostRequestWithoutToken } from '../lib/posts';
+import { executePostRequestWithoutToken } from '../lib/utility';
 
 export default function LoginForm(props) {
 

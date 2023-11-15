@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers'
-import { getToken } from '../../lib/posts';
+import { getToken } from '../../lib/utility';
 
 export async function POST(request) {
 

@@ -1,6 +1,6 @@
 import Layout from '../components/layout';
 import Dashboard from '../components/Dashboard';
-import { executeGetRequest, getStudyGroups } from '../lib/posts';
+import { executeGetRequest, executePostRequestWithToken } from '../lib/utility';
 import { React, useState } from "react";
 
 const { XMLParser } = require("fast-xml-parser");
@@ -26,24 +26,6 @@ export async function getItemData(agencyId, identifier, token) {
   const url = `${urlBase}/${agencyId}/${identifier}`
 
   return await executeGetRequest(url, token)
-
-}
-
-export async function getDataForGroup(group, token) {
-
-  const url = `${urlBase}/${group.AgencyId}/${group.Identifier}`
-
-  const retVal = await executeGetRequest(url, token)
-
-  return retVal
-
-}
-
-export async function getDataForStudyUnits(studyUnitAgencyId, studyUnitIdentifier, token) {
-
-  const urlForRetrievingStudyUnit = `${urlBase}/${studyUnitAgencyId}/${studyUnitIdentifier}`
-
-  return await executeGetRequest(urlForRetrievingStudyUnit, token)
 
 }
 
@@ -217,7 +199,9 @@ export async function getDashboardData(token) {
 
   try {
 
-    const groups = await getStudyGroups(token)
+    const requestBody =  { 'ItemTypes': ['4bd6eef6-99df-40e6-9b11-5b8f64e5cb23'], 'searchTerms': [''], 'MaxResults': 0 }
+
+    const groups = await executePostRequestWithToken('https://discovery.closer.ac.uk/api/v1/_query', token, requestBody)
 
     const allGroups = await Promise.all(groups.Results.map(group => {
 
