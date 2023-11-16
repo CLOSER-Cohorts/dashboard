@@ -14,7 +14,9 @@ export default function LoginForm(props) {
 
     setIsLoading(true)
     
-    executePostRequestWithoutToken("/token", event.target.username.value, event.target.password.value).then(data => {
+    executePostRequestWithoutToken("/token", 
+    event.target.username.value, 
+    event.target.password.value).then(data => {
 
       props.setloginstatus(data.status)
 

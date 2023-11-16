@@ -1,6 +1,6 @@
 import Layout from '../components/layout';
 import Dashboard from '../components/Dashboard';
-import { executeGetRequest, executePostRequestWithToken } from '../lib/utility';
+import { executeGetRequest, executePostRequestWithToken, convertToArray } from '../lib/utility';
 import { React, useState } from "react";
 
 const { XMLParser } = require("fast-xml-parser");
@@ -8,8 +8,6 @@ const { XMLParser } = require("fast-xml-parser");
 const parser = new XMLParser();
 
 const urlBase = 'https://discovery.closer.ac.uk/api/v1/item'
-
-const convertToArray = (ddiObject) => Array.isArray(ddiObject) ? ddiObject : [ddiObject]
 
 const userAttributeTitles = ['Lifestage',
   'LifestageDescription',
@@ -59,7 +57,9 @@ async function getAllDataCollectionEvents(allStudyUnits, token) {
   return await Promise.all(!!allStudyUnits && allStudyUnits.map(studyUnit => {
     let studyUnitXML = parser.parse(studyUnit.Item)
 
-    let dataCollectionReferences = convertToArray(studyUnitXML.Fragment.StudyUnit['r:DataCollectionReference']).filter(dataCollectionReference => !!dataCollectionReference)
+    let dataCollectionReferences = convertToArray(
+      studyUnitXML.Fragment.StudyUnit['r:DataCollectionReference']).filter(
+        dataCollectionReference => !!dataCollectionReference)
 
     return Promise.all(dataCollectionReferences.map(dataCollectionReference =>
       getDataCollectionEvent(dataCollectionReference, token)
@@ -100,7 +100,8 @@ function getFreeTextElementValues(allStudyUnits, token) {
 
     !!attributePairs && convertToArray(attributePairs).map(attributePair => {
 
-      const userAttributeTitle = JSON.parse(attributePair['r:AttributeValue'])['Title']?.['en-GB'].trim()
+      const userAttributeTitle = JSON.parse(
+        attributePair['r:AttributeValue'])['Title']?.['en-GB'].trim()
       const userAttributeValue = JSON.parse(attributePair['r:AttributeValue'])?.['StringValue']
       const freeTextElementValue = {
         "agency": studyUnit.AgencyId,
@@ -108,7 +109,9 @@ function getFreeTextElementValues(allStudyUnits, token) {
         "studyUnitIdentifier": studyUnit.Identifier
       }
 
-      let canonicalUserAttributeTitle = userAttributeTitles.filter(title => userAttributeTitle.toLowerCase() === title.toLowerCase())
+      let canonicalUserAttributeTitle = userAttributeTitles.filter(
+        title => userAttributeTitle.toLowerCase() === title.toLowerCase())
+
       if (!!freeTextElementValues[canonicalUserAttributeTitle])
         freeTextElementValues[canonicalUserAttributeTitle].push(freeTextElementValue)
       else
@@ -138,7 +141,8 @@ function getFreeTextElementValues(allStudyUnits, token) {
     if (!!creators) {
 
       const creatorData = convertToArray(creators).map(creator => {
-        return !!creator['r:CreatorName'] && convertToArray(creator['r:CreatorName']).map(creatorName =>
+        return !!creator['r:CreatorName'] && convertToArray(creator['r:CreatorName']).map(
+          creatorName =>
           !!creatorName['r:String'] && convertToArray(creatorName['r:String']).map(
             creatorNameValue => creatorNameValue
           )
@@ -199,7 +203,9 @@ export async function getDashboardData(token) {
 
   try {
 
-    const requestBody =  { 'ItemTypes': ['4bd6eef6-99df-40e6-9b11-5b8f64e5cb23'], 'searchTerms': [''], 'MaxResults': 0 }
+    const requestBody =  { 'ItemTypes': ['4bd6eef6-99df-40e6-9b11-5b8f64e5cb23'], 
+                           'searchTerms': [''], 
+                           'MaxResults': 0 }
 
     const groups = await executePostRequestWithToken('https://discovery.closer.ac.uk/api/v1/_query', token, requestBody)
 
@@ -276,7 +282,11 @@ export async function getServerSideProps(context) {
   };
 }
 
-function displayDashboard(value, colecticaQueryResults, handleChange, selectedValueDetails, updateSelectedValueDetails) {
+function displayDashboard(value, 
+  colecticaQueryResults, 
+  handleChange, 
+  selectedValueDetails, 
+  updateSelectedValueDetails) {
 
   return <Dashboard value={value}
     data={colecticaQueryResults}
@@ -307,7 +317,11 @@ export default function Home({ colecticaQueryResults, token, username }) {
       {
         loginStatus === 401 ? "Invalid login details"
           :
-          displayDashboard(value, colecticaQueryResults, handleChange, selectedValueDetails, updateSelectedValueDetails)
+          displayDashboard(value, 
+            colecticaQueryResults, 
+            handleChange, 
+            selectedValueDetails, 
+            updateSelectedValueDetails)
       }
 
     </Layout>

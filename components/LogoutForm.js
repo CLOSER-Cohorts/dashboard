@@ -7,7 +7,6 @@ export default function LogoutForm(props) {
     const [statusMessage, setStatusMessage] = useState("");
 
     const logout = () => {
-
     
       setStatusMessage("Logging out...")
         
@@ -17,7 +16,7 @@ export default function LogoutForm(props) {
            
            else if (!data) setStatusMessage("Log out request did not return a reponse")
         
-           else setStatusMessage("Log out failed with HTTP error code" + data.status)
+           else setStatusMessage("Log out failed with HTTP error code " + data.status)
     
         }
         )
