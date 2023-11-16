@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { executePostRequestWithoutToken } from '../lib/posts';
+import { executePostRequestWithoutToken } from '../lib/utility';
 
 export default function LoginForm(props) {
 
@@ -14,7 +14,9 @@ export default function LoginForm(props) {
 
     setIsLoading(true)
     
-    executePostRequestWithoutToken("/token", event.target.username.value, event.target.password.value).then(data => {
+    executePostRequestWithoutToken("/token", 
+    event.target.username.value, 
+    event.target.password.value).then(data => {
 
       props.setloginstatus(data.status)
 

@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "next dev --experimental-https",
+    "dev": "SET NODE_EXTRA_CA_CERTS=public/geant.pem && next dev",
     "start": "next start"
   },
   "dependencies": {
