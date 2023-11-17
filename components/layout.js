@@ -18,8 +18,9 @@ export default function Layout({ children, home, token, username, setloginstatus
       <div style={{ "display": "flex", "flexDirection": "row" }}>
         <h1 className={utilStyles.heading2Xl}>{name}</h1>
 
-        {!!token ? <div>{username} <LogoutForm /></div>
-          : <div><LoginForm setloginstatus={setloginstatus} /></div>}
+        {!!token ? <div className={styles.container}>
+          <div className={styles.headerComponents}>{username} <LogoutForm /></div></div>
+          : <div className={styles.container}><div className={styles.headerComponents}><LoginForm setloginstatus={setloginstatus} /></div></div>}
 
       </div>
       <main>{children}</main>

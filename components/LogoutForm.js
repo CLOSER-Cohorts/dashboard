@@ -8,7 +8,7 @@ export default function LogoutForm(props) {
 
     const logout = () => {
     
-      setStatusMessage("Logging out...")
+      setStatusMessage(" Logging out...")
         
         executeGetRequestWithoutToken("/logout").then(data => {
     

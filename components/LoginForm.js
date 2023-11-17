@@ -47,9 +47,9 @@ export default function LoginForm(props) {
           </label>
         </div>
         <div>
-          <button type="submit">Login</button>
+          <button type="submit">Login</button>{!!isLoading ? " Loading..." : ""}
         </div>
       </form>
-      {!!isLoading ? "Loading..." : ""}
+      
     </div>)
 }
