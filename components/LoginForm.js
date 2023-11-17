@@ -32,7 +32,7 @@ export default function LoginForm(props) {
   return (
     <div style={{ "display": "flex", "flexDirection": "column" }}>
       <form onSubmit={handleSubmit}>
-        <div style={{ "display": "grid", "grid-template-columns": "repeat(2, 1fr)", "gap": "5px" }}>
+        <div style={{ "display": "grid", "gridTemplateColumns": "repeat(2, 1fr)", "gap": "5px" }}>
           <label>Username 
           </label>
             <input name="username"
