@@ -36,20 +36,20 @@ export default function LoginForm(props) {
           <label>Username 
           </label>
             <input name="username"
-              className={utilStyles.mediumText} 
+              className={utilStyles.textMd} 
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
         
           <label>Password</label>
             <input name="password"
-              className={utilStyles.mediumText} 
+              className={utilStyles.textMd} 
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)} />
         </div>
         <div>
-          <button className={utilStyles.mediumText} type="submit">Login</button>{!!isLoading ? " Loading..." : ""}
+          <button className={utilStyles.textMd} type="submit">Login</button>{!!isLoading ? " Loading..." : ""}
         </div>
       </form>
       

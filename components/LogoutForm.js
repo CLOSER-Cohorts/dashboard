@@ -22,6 +22,6 @@ export default function LogoutForm(props) {
         )
       }
     
-    return <div><button className={utilStyles.mediumText} onClick={logout}>Logout</button>{statusMessage}</div>
+    return <div><button className={utilStyles.textMd} onClick={logout}>Logout</button>{statusMessage}</div>
 
 }
