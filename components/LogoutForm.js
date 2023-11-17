@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { executeGetRequestWithoutToken } from '../lib/utility';
-
+import utilStyles from '../styles/utils.module.css';
 
 export default function LogoutForm(props) {
 
@@ -22,6 +22,6 @@ export default function LogoutForm(props) {
         )
       }
     
-    return <div><button onClick={logout}>Logout</button>{statusMessage}</div>
+    return <div><button className={utilStyles.mediumText} onClick={logout}>Logout</button>{statusMessage}</div>
 
 }

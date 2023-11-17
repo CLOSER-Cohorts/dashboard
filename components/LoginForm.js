@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { executePostRequestWithoutToken } from '../lib/utility';
+import utilStyles from '../styles/utils.module.css';
 
 export default function LoginForm(props) {
 
@@ -31,23 +32,24 @@ export default function LoginForm(props) {
   return (
     <div style={{ "display": "flex", "flexDirection": "column" }}>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username
+        <div style={{ "display": "grid", "grid-template-columns": "repeat(2, 1fr)", "gap": "5px" }}>
+          <label>Username 
+          </label>
             <input name="username"
+              className={utilStyles.mediumText} 
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-            /></label>
-        </div>
-        <div>
-          <label>Password
+            />
+        
+          <label>Password</label>
             <input name="password"
+              className={utilStyles.mediumText} 
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)} />
-          </label>
         </div>
         <div>
-          <button type="submit">Login</button>{!!isLoading ? " Loading..." : ""}
+          <button className={utilStyles.mediumText} type="submit">Login</button>{!!isLoading ? " Loading..." : ""}
         </div>
       </form>
       
