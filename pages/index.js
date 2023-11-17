@@ -313,7 +313,7 @@ export default function Home({ colecticaQueryResults, token, username }) {
 
   return (
     <Layout home token={token} username={username} setloginstatus={setLoginStatus}>
-      This purpose of this tool is to identify specific item types which are entered as 
+      The purpose of this tool is to identify specific item types which are entered as 
       'free text' for checking before deploying to production.
       {
         loginStatus === 401 ? "Invalid login details"
