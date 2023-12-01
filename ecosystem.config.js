@@ -11,7 +11,7 @@ module.exports = {
       "NODE_EXTRA_CA_CERTS": "public/geant.pem"
       },
       "env_staging" : {
-      "HOSTNAME": "***REMOVED***",
+      "HOSTNAME": "clsr-ppcolw01n.addev.ucl.ac.uk",
       "NODE_EXTRA_CA_CERTS": "public/www.ucl.ac.uk.cer"
     } 
   },

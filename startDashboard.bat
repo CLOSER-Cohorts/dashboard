@@ -1,1 +1,1 @@
-pm2 start > startDashboard.err 2>&1
+pm2 start ecosystem.config.js --env staging > startDashboard.err 2>&1
