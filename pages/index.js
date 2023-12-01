@@ -7,7 +7,7 @@ const { XMLParser } = require("fast-xml-parser");
 
 const parser = new XMLParser();
 
-const urlBase = 'https://discovery.closer.ac.uk/api/v1/item'
+const urlBase = `https://${process.env.HOSTNAME}/api/v1`;
 
 const userAttributeTitles = ['Lifestage',
   'LifestageDescription',
@@ -21,7 +21,7 @@ const userAttributeTitles = ['Lifestage',
 
 export async function getItemData(agencyId, identifier, token) {
 
-  const url = `${urlBase}/${agencyId}/${identifier}`
+  const url = `${urlBase}/item/${agencyId}/${identifier}`
 
   return await executeGetRequest(url, token)
 
@@ -207,8 +207,8 @@ export async function getDashboardData(token) {
                            'searchTerms': [''], 
                            'MaxResults': 0 }
 
-    const groups = await executePostRequestWithToken('https://discovery.closer.ac.uk/api/v1/_query', token, requestBody)
-
+    const groups = await executePostRequestWithToken(`${urlBase}/_query`, token, requestBody)
+    
     const allGroups = await Promise.all(groups.Results.map(group => {
 
       return getItemData(group.AgencyId, group.Identifier, token)
@@ -316,7 +316,7 @@ export default function Home({ colecticaQueryResults, token, username }) {
       The purpose of this tool is to identify specific item types which are entered as 
       'free text' for checking before deploying to production.
       {
-        loginStatus === 401 ? "Invalid login details"
+        loginStatus === 401 ? " Invalid login details"
           :
           displayDashboard(value, 
             colecticaQueryResults, 
