@@ -1,0 +1,1 @@
+pm2 start > startDashboard.err 2>&1

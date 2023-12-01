@@ -21,7 +21,7 @@ export default function LoginForm(props) {
 
       props.setloginstatus(data.status)
 
-      if (data.status === 200) window.location.href = '/'
+      if (data.status === 200) window.location.href = '/dashboard'
       
         else setIsLoading(false)
 
