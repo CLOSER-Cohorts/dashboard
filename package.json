@@ -3,7 +3,7 @@
   "scripts": {
     "build": "next build",
     "dev": "SET NODE_EXTRA_CA_CERTS=public/geant.pem && next dev",
-    "start": "next start"
+    "start": "SET NODE_EXTRA_CA_CERTS=public/www.ucl.ac.uk.cer && next start"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
