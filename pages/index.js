@@ -7,8 +7,6 @@ const { XMLParser } = require("fast-xml-parser");
 
 const parser = new XMLParser();
 
-const urlBase = `https://${process.env.HOSTNAME}/api/v1`;
-
 const userAttributeTitles = ['Lifestage',
   'LifestageDescription',
   'Creator',
@@ -19,7 +17,7 @@ const userAttributeTitles = ['Lifestage',
   'ModeOfCollectionDescription',
   'ModeOfCollectionType']
 
-export async function getItemData(agencyId, identifier, token) {
+export async function getItemData(agencyId, identifier, token, urlBase) {
 
   const url = `${urlBase}/item/${agencyId}/${identifier}`
 
@@ -27,7 +25,7 @@ export async function getItemData(agencyId, identifier, token) {
 
 }
 
-async function getAllStudyUnits(allGroups, token) {
+async function getAllStudyUnits(allGroups, token, urlBase) {
 
   return await Promise.all(allGroups.map(group => {
 
@@ -39,20 +37,20 @@ async function getAllStudyUnits(allGroups, token) {
       const studyUnitIdentifier = studyUnitReference['r:ID']
       const studyUnitAgencyId = studyUnitReference['r:Agency']
 
-      return getItemData(studyUnitAgencyId, studyUnitIdentifier, token)
+      return getItemData(studyUnitAgencyId, studyUnitIdentifier, token, urlBase)
 
     })
   }).flat()
   )
 }
 
-async function getDataCollectionEvent(dataCollectionReference, token) {
+async function getDataCollectionEvent(dataCollectionReference, token, urlBase) {
 
-  return await getItemData(dataCollectionReference?.['r:Agency'], dataCollectionReference?.['r:ID'], token)
+  return await getItemData(dataCollectionReference?.['r:Agency'], dataCollectionReference?.['r:ID'], token, urlBase)
 
 }
 
-async function getAllDataCollectionEvents(allStudyUnits, token) {
+async function getAllDataCollectionEvents(allStudyUnits, token, urlBase) {
 
   return await Promise.all(!!allStudyUnits && allStudyUnits.map(studyUnit => {
     let studyUnitXML = parser.parse(studyUnit.Item)
@@ -62,7 +60,7 @@ async function getAllDataCollectionEvents(allStudyUnits, token) {
         dataCollectionReference => !!dataCollectionReference)
 
     return Promise.all(dataCollectionReferences.map(dataCollectionReference =>
-      getDataCollectionEvent(dataCollectionReference, token)
+      getDataCollectionEvent(dataCollectionReference, token, urlBase)
     ))
 
   }))
@@ -199,7 +197,7 @@ function getFreeTextElementValues(allStudyUnits, token) {
 
 }
 
-export async function getDashboardData(token) {
+export async function getDashboardData(token, urlBase) {
 
   try {
 
@@ -211,14 +209,14 @@ export async function getDashboardData(token) {
     
     const allGroups = await Promise.all(groups.Results.map(group => {
 
-      return getItemData(group.AgencyId, group.Identifier, token)
+      return getItemData(group.AgencyId, group.Identifier, token, urlBase)
 
     }))
 
-    const allStudyUnits = allGroups.length > 0 ? await getAllStudyUnits(allGroups, token)
+    const allStudyUnits = allGroups.length > 0 ? await getAllStudyUnits(allGroups, token, urlBase)
       : []
 
-    const allDataCollectionEvents = allStudyUnits.length > 0 ? (await getAllDataCollectionEvents(allStudyUnits, token)).flat() : []
+    const allDataCollectionEvents = allStudyUnits.length > 0 ? (await getAllDataCollectionEvents(allStudyUnits, token, urlBase)).flat() : []
 
     const freeTextElementValues = await getFreeTextElementValues(allStudyUnits, token)
 
@@ -270,7 +268,11 @@ export async function getServerSideProps(context) {
 
   const username = !!context.req.cookies.username ? context.req.cookies.username : ""
 
-  const colecticaQueryResults = !!token ? await getDashboardData(context.req.cookies.token) : {}
+  const refererHost = !!context.req.cookies.refererHost ? context.req.cookies.refererHost : "" 
+
+  const urlBase = `https://${refererHost}/api/v1`;
+
+  const colecticaQueryResults = !!token ? await getDashboardData(context.req.cookies.token, urlBase) : {}
 
   return {
     props: {
