@@ -14,10 +14,14 @@ export default function LoginForm(props) {
     event.preventDefault();
 
     setIsLoading(true)
+
+    let requestBody = {}
+    requestBody.username = event.target.username.value
+    requestBody.password = event.target.password.value
+    requestBody.hostname = window.location.host
     
     executePostRequestWithoutToken("/token", 
-    event.target.username.value, 
-    event.target.password.value).then(data => {
+    requestBody).then(data => {
 
       props.setloginstatus(data.status)
 
