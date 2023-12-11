@@ -19,8 +19,8 @@ export default function LoginForm(props) {
     requestBody.username = event.target.username.value
     requestBody.password = event.target.password.value
     requestBody.hostname = window.location.host
-    
-    executePostRequestWithoutToken("/token", 
+
+    executePostRequestWithoutToken(`https://${process.env.COLECTICA_REPOSITORY_HOSTNAME}/token`, 
     requestBody).then(data => {
 
       props.setloginstatus(data.status)
