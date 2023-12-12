@@ -5,7 +5,7 @@ This purpose of this tool is to identify specific item types which are entered a
 ##Installation
 
 - Rename ecosystem.config.dist to ecosystem.config.js.
-- Update the value of the COLECTICA_REPOSITORY_HOSTNAME environment variable with the hostname of a server that hosts the Colectica Repository. This environment variable is used to construct the URL for the REST API that the dashboard queries in order to retrieve data from the Colectica Repository.        
+- Update the value of the COLECTICA_REPOSITORY_HOSTNAME environment variable with the name of a server that hosts the Colectica Repository. This environment variable is used to construct the URL for the REST API that the dashboard queries in order to retrieve data from the Colectica Repository.        
 
 ##Running the application locally
 
