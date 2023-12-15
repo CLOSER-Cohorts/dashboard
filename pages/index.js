@@ -268,9 +268,7 @@ export async function getServerSideProps(context) {
 
   const username = !!context.req.cookies.username ? context.req.cookies.username : ""
 
-  const refererHost = !!context.req.cookies.refererHost ? context.req.cookies.refererHost : "" 
-
-  const urlBase = `https://${refererHost}/api/v1`;
+  const urlBase = `https://${process.env.COLECTICA_REPOSITORY_HOSTNAME}/api/v1`;
 
   const colecticaQueryResults = !!token ? await getDashboardData(context.req.cookies.token, urlBase) : {}
 

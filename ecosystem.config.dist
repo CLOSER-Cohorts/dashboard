@@ -7,10 +7,12 @@ module.exports = {
       args: "start", //running on port 3000
       watch: false,
       "env": {
-      "NODE_EXTRA_CA_CERTS": "public/geant.pem"
+      "NODE_EXTRA_CA_CERTS": "public/geant.pem",
+      "COLECTICA_REPOSITORY_HOSTNAME": "enter hostname here"
       },
       "env_staging" : {
-      "NODE_EXTRA_CA_CERTS": "public/www.ucl.ac.uk.cer"
+      "NODE_EXTRA_CA_CERTS": "public/www.ucl.ac.uk.cer",
+      "COLECTICA_REPOSITORY_HOSTNAME": "enter hostname here"
     } 
   },
 ]

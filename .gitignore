@@ -31,3 +31,4 @@ yarn-error.log*
 
 certificates
 startDashboard.err
+ecosystem.config.js
