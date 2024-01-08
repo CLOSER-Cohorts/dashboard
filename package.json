@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "SET NODE_EXTRA_CA_CERTS=public/geant.pem && next dev",
+    "dev": "SET NODE_EXTRA_CA_CERTS=public/geant.pem&&SET COLECTICA_REPOSITORY_HOSTNAME=discovery.closer.ac.uk&& next dev",
     "start": "SET NODE_EXTRA_CA_CERTS=public/www.ucl.ac.uk.cer && next start"
   },
   "dependencies": {
