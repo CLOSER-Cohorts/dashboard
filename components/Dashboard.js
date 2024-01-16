@@ -17,10 +17,10 @@ export default function Dashboard(props) {
   const displayTable = (dataToDisplay) => {
 
     return !props.data.ErrorMessage ? dataToDisplay.map((dataField, index) => {
-      const uniqueValues = getUniqueArrayValues(props.data[dataField].map(data => {
+      const uniqueValues = props.data[dataField] ? getUniqueArrayValues(props.data[dataField].map(data => {
         return Object.keys(data).includes('userAttributeValue') ? data.userAttributeValue : data;
 
-      })).sort((x, y) => x.toString().charCodeAt() - y.toString().charCodeAt())
+      })).sort((x, y) => x.toString().charCodeAt() - y.toString().charCodeAt()) : []
 
       const tableData = uniqueValues.map(uniqueValue => {
         return !!uniqueValue && [uniqueValue.replace(' ', "\u00A0"), props.data[dataField].filter(
