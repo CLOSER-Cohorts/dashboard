@@ -203,7 +203,8 @@ export async function getDashboardData(token, urlBase) {
 
     const requestBody =  { 'ItemTypes': ['4bd6eef6-99df-40e6-9b11-5b8f64e5cb23'], 
                            'searchTerms': [''], 
-                           'MaxResults': 0 }
+                           'MaxResults': 0,
+                           'searchLatestVersion': true }
 
     const groups = await executePostRequestWithToken(`${urlBase}/_query`, token, requestBody)
     
