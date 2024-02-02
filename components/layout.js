@@ -14,6 +14,7 @@ export default function Layout({ children, home, token, username, setloginstatus
     <div className={styles.container}>
       <Head>
         <title>{name}</title>
+        <link rel="icon" href="/closer-favicon.png" />
       </Head>
       <div style={{ "display": "flex", "flexDirection": "row" }}>
         <h1 className={utilStyles.heading2Xl}>{name}</h1>
