@@ -269,6 +269,8 @@ export async function getServerSideProps(context) {
 
   const username = !!context.req.cookies.username ? context.req.cookies.username : ""
 
+  const homepageRedirect = process.env.REDIRECT_ON_LOGIN;
+
   const urlBase = `https://${process.env.COLECTICA_REPOSITORY_HOSTNAME}/api/v1`;
 
   const colecticaQueryResults = !!token ? await getDashboardData(context.req.cookies.token, urlBase) : {}
@@ -278,7 +280,8 @@ export async function getServerSideProps(context) {
       allPostsData,
       colecticaQueryResults,
       token,
-      username
+      username,
+      homepageRedirect
     },
   };
 }
@@ -299,7 +302,7 @@ function displayDashboard(value,
 }
 
 
-export default function Home({ colecticaQueryResults, token, username }) {
+export default function Home({ colecticaQueryResults, token, username, homepageRedirect }) {
 
   const [value, setValue] = useState(0);
 
@@ -313,7 +316,7 @@ export default function Home({ colecticaQueryResults, token, username }) {
   };
 
   return (
-    <Layout home token={token} username={username} setloginstatus={setLoginStatus}>
+    <Layout home token={token} username={username} setloginstatus={setLoginStatus} homepageRedirect={homepageRedirect}>
       The purpose of this tool is to identify specific item types which are entered as 
       'free text' for checking before deploying to production.
       {

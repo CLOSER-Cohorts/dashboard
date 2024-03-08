@@ -25,7 +25,7 @@ export default function LoginForm(props) {
 
       props.setloginstatus(data.status)
 
-      if (data.status === 200) window.location.href = '/dashboard'
+      if (data.status === 200) window.location.href = props.homepageRedirect
       
         else setIsLoading(false)
 
