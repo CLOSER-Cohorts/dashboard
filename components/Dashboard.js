@@ -35,6 +35,7 @@ export default function Dashboard(props) {
           allData={props.data}
           headers={[dataField, 'Frequency']}
           updateDetailsPanel={props.updateSelectedValueDetails}
+          colecticaRepositoryHostname={props.colecticaRepositoryHostname}
         />
       </div>
     }) : `Error retrieving data, the Collectica API is not reachable. ${props.data.ErrorMessage}`

@@ -269,7 +269,9 @@ export async function getServerSideProps(context) {
 
   const username = !!context.req.cookies.username ? context.req.cookies.username : ""
 
-  const urlBase = `https://${process.env.COLECTICA_REPOSITORY_HOSTNAME}/api/v1`;
+  const colecticaRepositoryHostname = process.env.COLECTICA_REPOSITORY_HOSTNAME
+
+  const urlBase = `https://${colecticaRepositoryHostname}/api/v1`;
 
   const colecticaQueryResults = !!token ? await getDashboardData(context.req.cookies.token, urlBase) : {}
 
@@ -278,7 +280,8 @@ export async function getServerSideProps(context) {
       allPostsData,
       colecticaQueryResults,
       token,
-      username
+      username,
+      colecticaRepositoryHostname
     },
   };
 }
@@ -287,19 +290,21 @@ function displayDashboard(value,
   colecticaQueryResults, 
   handleChange, 
   selectedValueDetails, 
-  updateSelectedValueDetails) {
+  updateSelectedValueDetails,
+  colecticaRepositoryHostname) {
 
   return <Dashboard value={value}
     data={colecticaQueryResults}
     handleChange={handleChange}
     selectedValueDetails={selectedValueDetails}
     updateSelectedValueDetails={updateSelectedValueDetails}
+    colecticaRepositoryHostname={colecticaRepositoryHostname}
   />
 
 }
 
 
-export default function Home({ colecticaQueryResults, token, username }) {
+export default function Home({ colecticaQueryResults, token, username, colecticaRepositoryHostname }) {
 
   const [value, setValue] = useState(0);
 
@@ -313,7 +318,7 @@ export default function Home({ colecticaQueryResults, token, username }) {
   };
 
   return (
-    <Layout home token={token} username={username} setloginstatus={setLoginStatus}>
+    <Layout home token={token} username={username} setloginstatus={setLoginStatus} colecticaRepositoryHostname={colecticaRepositoryHostname}>
       The purpose of this tool is to identify specific item types which are entered as 
       'free text' for checking before deploying to production.
       {
@@ -323,7 +328,8 @@ export default function Home({ colecticaQueryResults, token, username }) {
             colecticaQueryResults, 
             handleChange, 
             selectedValueDetails, 
-            updateSelectedValueDetails)
+            updateSelectedValueDetails,
+            colecticaRepositoryHostname)
       }
 
     </Layout>
