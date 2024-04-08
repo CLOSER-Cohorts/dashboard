@@ -10,7 +10,6 @@ export default function DataTable(props) {
       <ul>
         {selectedFieldValueInstances.map(selectedFieldInstance => {
           const url = `https://${props.colecticaRepositoryHostname}/item/${selectedFieldInstance.agency}/${selectedFieldInstance.studyUnitIdentifier}`
-          // const url = `https://discovery.closer.ac.uk/item/${selectedFieldInstance.agency}/${selectedFieldInstance.studyUnitIdentifier}`
           return <li><a target="_blank" href={url}>{url}</a></li>
         }
         )}
