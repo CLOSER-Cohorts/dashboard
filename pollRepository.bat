@@ -1,1 +1,1 @@
-npm run poll > polling.log 2>&1
+npm run poll > logs\polling.log 2>&1
