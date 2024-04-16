@@ -273,7 +273,7 @@ export async function getServerSideProps(context) {
 
   const colecticaRepositoryHostname = process.env.COLECTICA_REPOSITORY_HOSTNAME
 
-  const urlBase = `https://${collecticaRepositoryHostname}/api/v1`;
+  const urlBase = `https://${colecticaRepositoryHostname}/api/v1`;
 
   const colecticaQueryResults = !!token ? await getDashboardData(context.req.cookies.token, urlBase) : {}
 
