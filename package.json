@@ -2,10 +2,10 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "SET NODE_EXTRA_CA_CERTS=public/geant.pem &&SET REDIRECT_ON_LOGIN=/&&SET COLECTICA_REPOSITORY_HOSTNAME=discovery.closer.ac.uk&&next dev",
-    "start": "SET NODE_EXTRA_CA_CERTS=public/www.ucl.ac.uk.cer &&SET REDIRECT_ON_LOGIN=/&&SET COLECTICA_REPOSITORY_HOSTNAME=discovery.closer.ac.uk&& next start",
+    "dev": "SET NODE_EXTRA_CA_CERTS=public/geant.pem &&SET HOMEPAGE_REDIRECT=/&&SET COLECTICA_REPOSITORY_HOSTNAME=discovery.closer.ac.uk&&next dev",
+    "start": "SET NODE_EXTRA_CA_CERTS=public/www.ucl.ac.uk.cer &&SET HOMEPAGE_REDIRECT=/&&SET COLECTICA_REPOSITORY_HOSTNAME=discovery.closer.ac.uk&& next start",
     "test": "jest --env=jsdom",
-    "poll": "SET NODE_EXTRA_CA_CERTS=public/www.ucl.ac.uk.cer &&SET COLECTICA_REPOSITORY_HOSTNAME=discovery.closer.ac.uk&& node lib/pollRepository.mjs"
+    "poll": "SET NODE_EXTRA_CA_CERTS=public/www.ucl.ac.uk.cer &&SET COLECTICA_REPOSITORY_HOSTNAME=clsr-ppcolw01n.addev.ucl.ac.uk&& node lib/pollRepository.mjs"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",

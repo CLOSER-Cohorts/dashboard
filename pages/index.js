@@ -269,7 +269,7 @@ export async function getServerSideProps(context) {
 
   const username = !!context.req.cookies.username ? context.req.cookies.username : ""
 
-  const homepageRedirect = process.env.REDIRECT_ON_LOGIN;
+  const homepageRedirect = process.env.HOMEPAGE_REDIRECT;
 
   const urlBase = `https://${process.env.COLECTICA_REPOSITORY_HOSTNAME}/api/v1`;
 
