@@ -271,9 +271,9 @@ export async function getServerSideProps(context) {
 
   const homepageRedirect = process.env.HOMEPAGE_REDIRECT;
 
-  const repositoryHostname = process.env.COLECTICA_REPOSITORY_HOSTNAME
+  const collecticaRepositoryHostname = process.env.COLECTICA_REPOSITORY_HOSTNAME
 
-  const urlBase = `https://${repositoryHostname}/api/v1`;
+  const urlBase = `https://${collecticaRepositoryHostname}/api/v1`;
 
   const colecticaQueryResults = !!token ? await getDashboardData(context.req.cookies.token, urlBase) : {}
 
