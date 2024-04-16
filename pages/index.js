@@ -271,7 +271,9 @@ export async function getServerSideProps(context) {
 
   const homepageRedirect = process.env.HOMEPAGE_REDIRECT;
 
-  const urlBase = `https://${process.env.COLECTICA_REPOSITORY_HOSTNAME}/api/v1`;
+  const repositoryHostname = process.env.COLECTICA_REPOSITORY_HOSTNAME
+
+  const urlBase = `https://${crepositoryHostname}/api/v1`;
 
   const colecticaQueryResults = !!token ? await getDashboardData(context.req.cookies.token, urlBase) : {}
 
@@ -281,7 +283,8 @@ export async function getServerSideProps(context) {
       colecticaQueryResults,
       token,
       username,
-      homepageRedirect
+      homepageRedirect,
+      colecticaRepositoryHostname
     },
   };
 }
@@ -290,19 +293,21 @@ function displayDashboard(value,
   colecticaQueryResults, 
   handleChange, 
   selectedValueDetails, 
-  updateSelectedValueDetails) {
+  updateSelectedValueDetails,
+  colecticaRepositoryHostname) {
 
   return <Dashboard value={value}
     data={colecticaQueryResults}
     handleChange={handleChange}
     selectedValueDetails={selectedValueDetails}
     updateSelectedValueDetails={updateSelectedValueDetails}
+    colecticaRepositoryHostname={colecticaRepositoryHostname}
   />
 
 }
 
 
-export default function Home({ colecticaQueryResults, token, username, homepageRedirect }) {
+export default function Home({ colecticaQueryResults, token, username, colecticaRepositoryHostname, homepageRedirect }) {
 
   const [value, setValue] = useState(0);
 
@@ -316,7 +321,7 @@ export default function Home({ colecticaQueryResults, token, username, homepageR
   };
 
   return (
-    <Layout home token={token} username={username} setloginstatus={setLoginStatus} homepageRedirect={homepageRedirect}>
+    <Layout home token={token} username={username} setloginstatus={setLoginStatus} colecticaRepositoryHostname={colecticaRepositoryHostname} homepageRedirect={homepageRedirect}>
       The purpose of this tool is to identify specific item types which are entered as 
       'free text' for checking before deploying to production.
       {
@@ -326,7 +331,8 @@ export default function Home({ colecticaQueryResults, token, username, homepageR
             colecticaQueryResults, 
             handleChange, 
             selectedValueDetails, 
-            updateSelectedValueDetails)
+            updateSelectedValueDetails,
+            colecticaRepositoryHostname)
       }
 
     </Layout>
