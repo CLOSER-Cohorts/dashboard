@@ -271,7 +271,7 @@ export async function getServerSideProps(context) {
 
   const homepageRedirect = process.env.HOMEPAGE_REDIRECT;
 
-  const collecticaRepositoryHostname = process.env.COLECTICA_REPOSITORY_HOSTNAME
+  const colecticaRepositoryHostname = process.env.COLECTICA_REPOSITORY_HOSTNAME
 
   const urlBase = `https://${collecticaRepositoryHostname}/api/v1`;
 
