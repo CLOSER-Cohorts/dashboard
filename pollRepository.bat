@@ -1,0 +1,1 @@
+npm run poll > logs\polling.log 2>&1

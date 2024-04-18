@@ -8,7 +8,7 @@ import Head from 'next/head'
 
 const name = 'Dashboard';
 
-export default function Layout({ children, home, token, username, setloginstatus }) {
+export default function Layout({ children, home, token, username, setloginstatus, homepageRedirect }) {
 
   return (
     <div className={styles.container}>
@@ -20,9 +20,9 @@ export default function Layout({ children, home, token, username, setloginstatus
         <h1 className={utilStyles.heading2Xl}>{name}</h1>
 
         {!!token ? <div className={styles.container}>
-          <div className={styles.headerComponents}>{username} <LogoutForm /></div></div>
+          <div className={styles.headerComponents}>{username} <LogoutForm homepageRedirect={homepageRedirect}/></div></div>
           : <div className={styles.container}><div className={styles.headerComponents}>
-            <LoginForm setloginstatus={setloginstatus} /></div>
+            <LoginForm setloginstatus={setloginstatus} homepageRedirect={homepageRedirect}/></div>
             </div>}
 
       </div>
