@@ -3,7 +3,6 @@ import GenericDashboard from '../components/GenericDashboard';
 import Navbar from '../components/Navbar'
 import { React, useState } from "react";
 import fs from 'node:fs'
-const path = require('path');
 
 export async function getServerSideProps(context) {
 
