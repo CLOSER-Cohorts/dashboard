@@ -1,7 +1,9 @@
 import Layout from '../components/layout';
 import GenericDashboard from '../components/GenericDashboard';
+import Navbar from '../components/Navbar'
 import { React, useState } from "react";
 import fs from 'node:fs'
+const path = require('path');
 
 export async function getServerSideProps(context) {
 
@@ -21,46 +23,71 @@ export async function getServerSideProps(context) {
   var questionnairesWithoutExternalInstruments = null;
   var orphanQuestionnaires = null;
 
+  // If no cases are found for a particular issue, e.g. there are no orphan variables found,
+  // the file that stores those cases will not be present and a message will be logged
+  // indicating that the file does not exist.
+
   try {
     invalidAgencies = fs.readFileSync('./data/invalidAgencies.txt', 'utf8');
   } catch (err) {
-    console.error(err);
+    if (err.code=="ENOENT")
+      console.log(`${err.path} does not exist.`);
+    else
+      console.error(err);
   }
 
   try {
     orphanVariables = fs.readFileSync('./data/orphanVariables.txt', 'utf8');
   } catch (err) {
-    console.error(err);
+    if (err.code=="ENOENT")
+      console.log(`${err.path} does not exist.`);
+    else
+      console.error(err);
   }
 
   try {
     orphanQuestions = fs.readFileSync('./data/orphanQuestions.txt', 'utf8');
   } catch (err) {
-    console.error(err);
+    if (err.code=="ENOENT")
+      console.log(`${err.path} does not exist.`);
+    else
+      console.error(err);
   }
 
   try {
     orphanPhysicalInstances = fs.readFileSync('./data/orphanPhysicalInstances.txt', 'utf8');
   } catch (err) {
-    console.error(err);
+    if (err.code=="ENOENT")
+      console.log(`${err.path} does not exist.`);
+    else
+      console.error(err);
   }
 
   try {
     physicalInstancesWithNoFileUri = fs.readFileSync('./data/physicalInstancesWithNoFileUri.txt', 'utf8');
   } catch (err) {
-    console.error(err);
+    if (err.code=="ENOENT")
+      console.log(`${err.path} does not exist.`);
+    else
+      console.error(err);
   }
 
   try {
     questionnairesWithoutExternalInstruments = fs.readFileSync('./data/questionnairesWithoutExternalInstruments.txt', 'utf8');
   } catch (err) {
-    console.error(err);
+    if (err.code=="ENOENT")
+      console.log(`${err.path} does not exist.`);
+    else
+      console.error(err);
   }
 
   try {
     orphanQuestionnaires = fs.readFileSync('./data/orphanQuestionnaires.txt', 'utf8');
   } catch (err) {
-    console.error(err);
+    if (err.code=="ENOENT")
+      console.log(`${err.path} does not exist.`);
+    else
+      console.error(err);
   }
 
   var dashboardData = {
@@ -170,7 +197,8 @@ export default function Home({
 
   return (
     <Layout home token={token} username={username} setloginstatus={setLoginStatus} colecticaRepositoryHostname={colecticaRepositoryHostname} homepageRedirect={homepageRedirect}>
-      The purpose of this tool is to This purpose of this tool is to identify ingested content related issues, before deploying to production.
+      <Navbar/>
+      The purpose of this dashboard is to identify ingested content related issues, before deploying to production.
 
       {
         displayDashboard(value,
