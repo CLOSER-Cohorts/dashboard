@@ -46,6 +46,11 @@ exports[`renders correctly 1`] = `
             onTouchMove={[Function]}
             onTouchStart={[Function]}
             role="tab"
+            style={
+              {
+                "fontSize": ".6em",
+              }
+            }
             tabIndex={0}
             type="button"
           >
@@ -75,6 +80,11 @@ exports[`renders correctly 1`] = `
             onTouchMove={[Function]}
             onTouchStart={[Function]}
             role="tab"
+            style={
+              {
+                "fontSize": ".6em",
+              }
+            }
             tabIndex={-1}
             type="button"
           >
@@ -100,6 +110,11 @@ exports[`renders correctly 1`] = `
             onTouchMove={[Function]}
             onTouchStart={[Function]}
             role="tab"
+            style={
+              {
+                "fontSize": ".6em",
+              }
+            }
             tabIndex={-1}
             type="button"
           >
@@ -125,6 +140,11 @@ exports[`renders correctly 1`] = `
             onTouchMove={[Function]}
             onTouchStart={[Function]}
             role="tab"
+            style={
+              {
+                "fontSize": ".6em",
+              }
+            }
             tabIndex={-1}
             type="button"
           >
@@ -150,10 +170,15 @@ exports[`renders correctly 1`] = `
             onTouchMove={[Function]}
             onTouchStart={[Function]}
             role="tab"
+            style={
+              {
+                "fontSize": ".6em",
+              }
+            }
             tabIndex={-1}
             type="button"
           >
-            AnalysisUnit
+            Analysis Unit
           </button>
           <button
             aria-controls="simple-tabpanel-5"
@@ -175,10 +200,15 @@ exports[`renders correctly 1`] = `
             onTouchMove={[Function]}
             onTouchStart={[Function]}
             role="tab"
+            style={
+              {
+                "fontSize": ".6em",
+              }
+            }
             tabIndex={-1}
             type="button"
           >
-            KindOfData
+            Kind Of Data
           </button>
           <button
             aria-controls="simple-tabpanel-6"
@@ -200,6 +230,11 @@ exports[`renders correctly 1`] = `
             onTouchMove={[Function]}
             onTouchStart={[Function]}
             role="tab"
+            style={
+              {
+                "fontSize": ".6em",
+              }
+            }
             tabIndex={-1}
             type="button"
           >
@@ -225,6 +260,11 @@ exports[`renders correctly 1`] = `
             onTouchMove={[Function]}
             onTouchStart={[Function]}
             role="tab"
+            style={
+              {
+                "fontSize": ".6em",
+              }
+            }
             tabIndex={-1}
             type="button"
           >
@@ -250,6 +290,11 @@ exports[`renders correctly 1`] = `
             onTouchMove={[Function]}
             onTouchStart={[Function]}
             role="tab"
+            style={
+              {
+                "fontSize": ".6em",
+              }
+            }
             tabIndex={-1}
             type="button"
           >
@@ -284,12 +329,6 @@ exports[`renders correctly 1`] = `
           className="MuiBox-root css-19kzrtu"
         >
           <div>
-            <h4>
-              Total unique values for '
-              Lifestage
-              ': 
-              2
-            </h4>
             <table
               table-layout="fixed"
               width="100%"
@@ -300,11 +339,6 @@ exports[`renders correctly 1`] = `
                     align="left"
                   >
                     Lifestage
-                  </th>
-                  <th
-                    align="left"
-                  >
-                    Frequency
                   </th>
                 </tr>
               </thead>
@@ -356,54 +390,6 @@ exports[`renders correctly 1`] = `
           </div>
         </div>
       </div>
-      <div
-        aria-labelledby="simple-tab-1"
-        hidden={true}
-        id="simple-tabpanel-1"
-        role="tabpanel"
-      />
-      <div
-        aria-labelledby="simple-tab-2"
-        hidden={true}
-        id="simple-tabpanel-2"
-        role="tabpanel"
-      />
-      <div
-        aria-labelledby="simple-tab-3"
-        hidden={true}
-        id="simple-tabpanel-3"
-        role="tabpanel"
-      />
-      <div
-        aria-labelledby="simple-tab-4"
-        hidden={true}
-        id="simple-tabpanel-4"
-        role="tabpanel"
-      />
-      <div
-        aria-labelledby="simple-tab-5"
-        hidden={true}
-        id="simple-tabpanel-5"
-        role="tabpanel"
-      />
-      <div
-        aria-labelledby="simple-tab-6"
-        hidden={true}
-        id="simple-tabpanel-6"
-        role="tabpanel"
-      />
-      <div
-        aria-labelledby="simple-tab-7"
-        hidden={true}
-        id="simple-tabpanel-7"
-        role="tabpanel"
-      />
-      <div
-        aria-labelledby="simple-tab-8"
-        hidden={true}
-        id="simple-tabpanel-8"
-        role="tabpanel"
-      />
     </div>
     <div
       style={

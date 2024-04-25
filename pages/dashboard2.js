@@ -158,7 +158,13 @@ export default function Home({
     updateSelectedValueDetails("")
   };
 
-  const tabNames = ["Orphan datasets", "Datasets missing files", "Orphan variables", "Orphan questionnaires", "Questionnaires missing PDFs", "Orphan questions", "Invalid agencies"]
+  const tabNames = ["Orphan datasets", 
+    "Datasets missing files", 
+    "Orphan variables", 
+    "Orphan questionnaires", 
+    "Questionnaires missing PDFs", 
+    "Orphan questions", 
+    "Invalid agencies"]
   
   const tableData = getTableData(dashboardData)
 
