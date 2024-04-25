@@ -1,5 +1,6 @@
 import Layout from '../components/layout';
-import Dashboard from '../components/Dashboard';
+import GenericDashboard from '../components/GenericDashboard';
+import Navbar from '../components/Navbar'
 import { executeGetRequest, executePostRequestWithToken, convertToArray } from '../lib/utility';
 import { React, useState } from "react";
 
@@ -289,23 +290,65 @@ export async function getServerSideProps(context) {
   };
 }
 
+const panelContents = (tableCell, e, data, tableHeaders, hostname) => {
+  
+  const selectedFieldValueInstances = data[tableHeaders[0]].filter(
+    ddiElement => (Object.keys(ddiElement).includes('userAttributeValue') 
+        ? ddiElement.userAttributeValue : ddiElement) === e.currentTarget.textContent.replace("\u00A0", ' '))
+
+  return <div><h2>{tableCell}</h2>
+    <ul>
+      {selectedFieldValueInstances.map(selectedFieldInstance => {
+        const url = `https://${hostname}/item/${selectedFieldInstance.agency}/${selectedFieldInstance.studyUnitIdentifier}`
+        return <li><a target="_blank" href={url}>{url}</a></li>
+      }
+      )}
+    </ul>
+  </div>
+  
+}
+
+function getTableData(colecticaQueryResults) {
+  var tableData={}
+  !colecticaQueryResults.ErrorMessage ? Object.keys(colecticaQueryResults).map((dataField, index) => {
+    const uniqueValues = colecticaQueryResults[dataField] ? [...new Set(colecticaQueryResults[dataField].map(data => {
+        return Object.keys(data).includes('userAttributeValue') ? data.userAttributeValue : data;
+  
+      }))].sort((x, y) => x.toString().charCodeAt() - y.toString().charCodeAt()) : []
+  
+    tableData[dataField] = uniqueValues.map(uniqueValue => {
+        return !!uniqueValue && [uniqueValue.replace(' ', "\u00A0"), colecticaQueryResults[dataField]
+        .filter(
+          fieldValue => (Object.keys(fieldValue).includes('userAttributeValue')
+            ? fieldValue.userAttributeValue
+            : fieldValue) === uniqueValue).length]
+      })
+    }) : `Error retrieving data, the Collectica API is not reachable. ${colecticaQueryResults.ErrorMessage}`
+    return tableData
+}
+
 function displayDashboard(value, 
   colecticaQueryResults, 
   handleChange, 
   selectedValueDetails, 
   updateSelectedValueDetails,
-  colecticaRepositoryHostname) {
+  colecticaRepositoryHostname,
+  tabNames,
+  panelContents,
+  tableData) {
 
-  return <Dashboard value={value}
+  return <GenericDashboard value={value}
     data={colecticaQueryResults}
     handleChange={handleChange}
     selectedValueDetails={selectedValueDetails}
     updateSelectedValueDetails={updateSelectedValueDetails}
     colecticaRepositoryHostname={colecticaRepositoryHostname}
+    tabNames={tabNames}
+    panelContents={panelContents}
+    tableData={tableData}
   />
 
 }
-
 
 export default function Home({ colecticaQueryResults, token, username, colecticaRepositoryHostname, homepageRedirect }) {
 
@@ -319,10 +362,24 @@ export default function Home({ colecticaQueryResults, token, username, colectica
     setValue(newValue);
     updateSelectedValueDetails("")
   };
+  
+  const tableData = getTableData(colecticaQueryResults)
 
+  const tabNames = ["Lifestage", 
+    "Lifestage Description", 
+    "Creator", 
+    "Publisher", 
+    "Analysis Unit",
+    "Kind Of Data",
+    "Country",
+    "Mode of Collection",
+    "Type of Mode of Collection"
+  ];
+     
   return (
     <Layout home token={token} username={username} setloginstatus={setLoginStatus} colecticaRepositoryHostname={colecticaRepositoryHostname} homepageRedirect={homepageRedirect}>
-      The purpose of this tool is to identify specific item types which are entered as 
+      <Navbar/>
+      The purpose of this dashboard is to identify specific item types which are entered as 
       'free text' for checking before deploying to production.
       {
         loginStatus === 401 ? " Invalid login details"
@@ -332,7 +389,11 @@ export default function Home({ colecticaQueryResults, token, username, colectica
             handleChange, 
             selectedValueDetails, 
             updateSelectedValueDetails,
-            colecticaRepositoryHostname)
+            colecticaRepositoryHostname,
+            tabNames,
+            panelContents,
+            tableData
+          )
       }
 
     </Layout>
