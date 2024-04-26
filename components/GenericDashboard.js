@@ -15,7 +15,7 @@ export default function GenericDashboard(props) {
 
   function dashboardTabs() {
     return props.tabNames.map((tabName, i) => {
-      return <Tab label={tabName} style={{ fontSize: '.6em' }} {...a11yProps(i)} key={i} />
+      return <Tab label={tabName} style={{ fontSize: '.6em', width: 'min-content', textAlign: 'justify' }} {...a11yProps(i)} key={i} />
     })
 
   }
@@ -39,7 +39,15 @@ export default function GenericDashboard(props) {
 
   return <Box sx={{ width: '100%' }}>
     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-      <Tabs value={props.value} onChange={props.handleChange} aria-label="basic tabs example">
+      <Tabs value={props.value} 
+        onChange={props.handleChange} 
+        aria-label="Dashboard tabs"
+        sx={{
+          '.MuiTabs-flexContainer': {
+            flexWrap: 'wrap',
+          },
+        }}
+        >
         {dashboardTabs()}
       </Tabs>
     </Box>
