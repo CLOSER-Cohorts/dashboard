@@ -3,6 +3,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import TabPanel from '../components/TabPanel';
 import Box from '@mui/material/Box';
+import styles from '../styles/dashboard.module.css';
 
 export default function Dashboard(props) {
 
@@ -45,7 +46,14 @@ export default function Dashboard(props) {
 
   return Object.keys(props.data).length > 0 && <Box sx={{ width: '100%' }}>
     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-      <Tabs value={props.value} onChange={props.handleChange} aria-label="basic tabs example">
+      <Tabs value={props.value}
+        sx={{
+          '.MuiTabs-flexContainer': {
+            flexWrap: 'wrap',
+          },
+        }}
+        onChange={props.handleChange} 
+        aria-label="Dashboard tabs">
         <Tab label="Lifestage" {...a11yProps(0)} />
         <Tab label="Lifestage Description" {...a11yProps(1)} />
         <Tab label="Creator" {...a11yProps(2)} />

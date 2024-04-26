@@ -4,6 +4,10 @@ const nextConfig = {
   experimental: {
     largePageDataBytes: 128 * 40000,
   },
+  i18n: {
+    locales: ["en"],
+    defaultLocale: "en",
+  },
 }
  
 module.exports = nextConfig
