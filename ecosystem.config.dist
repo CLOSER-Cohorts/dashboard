@@ -14,7 +14,7 @@ module.exports = {
       "env_staging" : {
       "NODE_EXTRA_CA_CERTS": "public/www.ucl.ac.uk.cer",
       "COLECTICA_REPOSITORY_HOSTNAME": "enter hostname here",
-      "HOMEPAGE_REDIRECT": "/dashboard"
+      "HOMEPAGE_REDIRECT": "/"
     } 
   },
 ]
