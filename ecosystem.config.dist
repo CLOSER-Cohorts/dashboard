@@ -9,7 +9,7 @@ module.exports = {
       "env": {
       "NODE_EXTRA_CA_CERTS": "public/geant.pem",
       "COLECTICA_REPOSITORY_HOSTNAME": "enter hostname here",
-      "HOMEPAGE_REDIRECT": "/dashboard"
+      "HOMEPAGE_REDIRECT": "/"
       },
       "env_staging" : {
       "NODE_EXTRA_CA_CERTS": "public/www.ucl.ac.uk.cer",
