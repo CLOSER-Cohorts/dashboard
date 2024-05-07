@@ -18,7 +18,7 @@
     "plugin-transform-react-jsx": "^0.0.1-security",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "react-test-renderer": "^18.2.0",
+    "react-test-renderer": "^18.3.1",
     "swr": "^2.2.5"
   },
   "engines": {
