@@ -370,9 +370,8 @@ export default function Home({ colecticaQueryResults, token, username, colectica
 
   const tableData = {}
 
-  tabNames.forEach(tabName => {
-    console.log(tabName)
-    tableData[tabName.replaceAll(" ", "")] = unorderedTableData[tabName.replaceAll(" ", "")]    
+  userAttributeTitles.forEach(fieldTitle => {
+    tableData[fieldTitle] = unorderedTableData[fieldTitle]
   });
        
   return (
