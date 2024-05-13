@@ -9,7 +9,7 @@ export default function DataTable(props) {
           key={index}
           onClick={index === 0 ? (e) => { props.updateDetailsPanel(props.panelContents(tableCell, e, props.allData, props.headers, props.colecticaRepositoryHostname)); window.scrollTo(0, 0); } : null}
         >
-          {index === 0 ? <a role="button" tabindex="0" title={`Click here to view links to items containing '${tableCell}'`}>{tableCell}</a> : tableCell}
+          {index === 0 ? <a role="button" tabIndex="0" title={`Click here to view links to items containing '${tableCell}'`}>{tableCell}</a> : tableCell}
         </td>
 
       }

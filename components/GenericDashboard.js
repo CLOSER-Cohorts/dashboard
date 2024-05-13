@@ -21,7 +21,7 @@ export default function GenericDashboard(props) {
   }
 
   function dashboardTabPanels() {
-    return Object.keys(props.data).map((tabName, i) => {
+    return Object.keys(props.tableData).map((tabName, i) => {
       return <TabPanel value={props.value} index={i} key={i}>
         <div key={0}>
           <DataTable key={0} data={props.tableData}
