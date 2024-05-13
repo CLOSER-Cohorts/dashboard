@@ -8,15 +8,18 @@ const { XMLParser } = require("fast-xml-parser");
 
 const parser = new XMLParser();
 
-const userAttributeTitles = ['Lifestage',
-  'LifestageDescription',
-  'Creator',
-  'Publisher',
-  'AnalysisUnit',
-  'KindOfData',
-  'Country',
-  'ModeOfCollectionDescription',
-  'ModeOfCollectionType']
+const tabNames = ["Lifestage", 
+    "Lifestage Description", 
+    "Creator", 
+    "Publisher", 
+    "Analysis Unit",
+    "Kind Of Data",
+    "Country",
+    "Mode Of Collection",
+    "Type Of Mode Of Collection"
+  ];
+
+const userAttributeTitles = tabNames.map(tabName => tabName.replaceAll(" ", ""))
 
 export async function getItemData(agencyId, identifier, token, urlBase) {
 
@@ -363,19 +366,14 @@ export default function Home({ colecticaQueryResults, token, username, colectica
     updateSelectedValueDetails("")
   };
   
-  const tableData = getTableData(colecticaQueryResults)
+  const unorderedTableData = getTableData(colecticaQueryResults)
 
-  const tabNames = ["Lifestage", 
-    "Lifestage Description", 
-    "Creator", 
-    "Publisher", 
-    "Analysis Unit",
-    "Kind Of Data",
-    "Country",
-    "Mode of Collection",
-    "Type of Mode of Collection"
-  ];
-     
+  const tableData = {}
+
+  userAttributeTitles.forEach(fieldTitle => {
+    tableData[fieldTitle] = unorderedTableData[fieldTitle]
+  });
+       
   return (
     <Layout home token={token} username={username} setloginstatus={setLoginStatus} colecticaRepositoryHostname={colecticaRepositoryHostname} homepageRedirect={homepageRedirect}>
       The purpose of this dashboard is to identify specific item types which are entered as 

@@ -369,7 +369,7 @@ exports[`renders correctly 1`] = `
                   >
                     <a
                       role="button"
-                      tabindex="0"
+                      tabIndex="0"
                       title="Click here to view links to items containing 'Adolescence'"
                     >
                       Adolescence
@@ -391,7 +391,7 @@ exports[`renders correctly 1`] = `
                   >
                     <a
                       role="button"
-                      tabindex="0"
+                      tabIndex="0"
                       title="Click here to view links to items containing 'Third age'"
                     >
                       Third age
