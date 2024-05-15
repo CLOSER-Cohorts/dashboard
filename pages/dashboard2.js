@@ -21,6 +21,7 @@ export async function getServerSideProps(context) {
   var physicalInstancesWithNoFileUri = null;
   var questionnairesWithoutExternalInstruments = null;
   var orphanQuestionnaires = null;
+  var dataCollectionsWithoutOrganisation = null;
 
   // If no cases are found for a particular issue, e.g. there are no orphan variables found,
   // the file that stores those cases will not be present and a message will be logged
@@ -89,6 +90,15 @@ export async function getServerSideProps(context) {
       console.error(err);
   }
 
+  try {
+    dataCollectionsWithoutOrganisation = fs.readFileSync('./data/dataCollectionsNotReferencingOrganization.txt', 'utf8');
+  } catch (err) {
+    if (err.code=="ENOENT")
+      console.log(`${err.path} does not exist.`);
+    else
+      console.error(err);
+  }
+
   var dashboardData = {
     "orphanPhysicalInstances": !!orphanPhysicalInstances && orphanPhysicalInstances.trim().split('\n').map(x => Array(x)),
     "physicalInstancesWithNoFileUri": !!physicalInstancesWithNoFileUri && physicalInstancesWithNoFileUri.trim().split('\n').map(x => Array(x)),
@@ -96,7 +106,8 @@ export async function getServerSideProps(context) {
     "orphanQuestionnaires": !!orphanQuestionnaires && orphanQuestionnaires.trim().split('\n').map(x => Array(x)),
     "questionnairesWithoutExternalInstruments": !!questionnairesWithoutExternalInstruments && questionnairesWithoutExternalInstruments.trim().split('\n').map(x => Array(x)),
     "orphanQuestions": !!orphanQuestions && orphanQuestions.trim().split('\n').map(x => Array(x)),
-    "invalidAgencies": !!invalidAgencies && invalidAgencies.trim().split('\n').map(x => Array(x))
+    "invalidAgencies": !!invalidAgencies && invalidAgencies.trim().split('\n').map(x => Array(x)),
+    "dataCollectionsWithoutOrganisation": !!dataCollectionsWithoutOrganisation && dataCollectionsWithoutOrganisation.trim().split('\n').map(x => Array(x))
   }
 
   return {
@@ -190,7 +201,8 @@ export default function Home({
     "Orphan questionnaires", 
     "Questionnaires missing PDFs", 
     "Orphan questions", 
-    "Invalid agencies"]
+    "Invalid agencies",
+    "Data collection without organisation"]
   
   const tableData = getTableData(dashboardData)
 
