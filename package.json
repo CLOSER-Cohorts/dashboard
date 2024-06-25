@@ -10,7 +10,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
-    "@mui/material": "^5.15.19",
+    "@mui/material": "^5.15.20",
     "fast-xml-parser": "^4.4.0",
     "gray-matter": "^4.0.3",
     "jest-environment-jsdom": "^29.7.0",
