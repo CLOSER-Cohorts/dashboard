@@ -8,7 +8,7 @@
     "poll": "SET NODE_EXTRA_CA_CERTS=public/www.ucl.ac.uk.cer &&SET COLECTICA_REPOSITORY_HOSTNAME=discovery.closer.ac.uk&& node lib/pollRepository.mjs"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.4",
+    "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
     "@mui/material": "^5.16.4",
     "fast-xml-parser": "^4.4.1",
