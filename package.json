@@ -8,10 +8,12 @@
     "poll": "SET NODE_EXTRA_CA_CERTS=public/www.ucl.ac.uk.cer &&SET COLECTICA_REPOSITORY_HOSTNAME=discovery.closer.ac.uk&& node lib/pollRepository.mjs"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.4",
+    "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
     "@mui/material": "^5.16.5",
-    "fast-xml-parser": "^4.4.0",
+    "fast-xml-parser": "^4.4.1",
+    "@mui/material": "^5.16.4",
+    "fast-xml-parser": "^4.4.1",
     "gray-matter": "^4.0.3",
     "jest-environment-jsdom": "^29.7.0",
     "next": "latest",
@@ -26,7 +28,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.24.9",
-    "@babel/preset-env": "^7.24.8",
+    "@babel/preset-env": "^7.25.0",
     "@babel/preset-react": "^7.24.7",
     "babel-jest": "^29.7.0",
     "jest": "^29.7.0"
