@@ -8,10 +8,10 @@ exports[`renders correctly 1`] = `
     className="MuiBox-root css-1gsv261"
   >
     <div
-      className="MuiTabs-root css-yiej45-MuiTabs-root"
+      className="MuiTabs-root css-1him51b-MuiTabs-root"
     >
       <div
-        className="MuiTabs-scroller MuiTabs-fixed css-jpln7h-MuiTabs-scroller"
+        className="MuiTabs-scroller MuiTabs-fixed css-s2t35c-MuiTabs-scroller"
         style={
           {
             "marginBottom": -0,
@@ -22,14 +22,14 @@ exports[`renders correctly 1`] = `
         <div
           aria-label="Dashboard tabs"
           aria-orientation={null}
-          className="MuiTabs-flexContainer css-heg063-MuiTabs-flexContainer"
+          className="MuiTabs-flexContainer css-1wxkzlj-MuiTabs-flexContainer"
           onKeyDown={[Function]}
           role="tablist"
         >
           <button
             aria-controls="simple-tabpanel-0"
             aria-selected={true}
-            className="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-1h9z7r5-MuiButtonBase-root-MuiTab-root"
+            className="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-1usuzwp-MuiButtonBase-root-MuiTab-root"
             disabled={false}
             id="simple-tab-0"
             onBlur={[Function]}
@@ -58,14 +58,14 @@ exports[`renders correctly 1`] = `
           >
             Lifestage
             <span
-              className="MuiTabs-indicator css-1aquho2-MuiTabs-indicator"
+              className="MuiTabs-indicator css-1qltlow-MuiTabs-indicator"
               style={{}}
             />
           </button>
           <button
             aria-controls="simple-tabpanel-1"
             aria-selected={false}
-            className="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-1h9z7r5-MuiButtonBase-root-MuiTab-root"
+            className="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-1usuzwp-MuiButtonBase-root-MuiTab-root"
             disabled={false}
             id="simple-tab-1"
             onBlur={[Function]}
@@ -97,7 +97,7 @@ exports[`renders correctly 1`] = `
           <button
             aria-controls="simple-tabpanel-2"
             aria-selected={false}
-            className="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-1h9z7r5-MuiButtonBase-root-MuiTab-root"
+            className="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-1usuzwp-MuiButtonBase-root-MuiTab-root"
             disabled={false}
             id="simple-tab-2"
             onBlur={[Function]}
@@ -129,7 +129,7 @@ exports[`renders correctly 1`] = `
           <button
             aria-controls="simple-tabpanel-3"
             aria-selected={false}
-            className="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-1h9z7r5-MuiButtonBase-root-MuiTab-root"
+            className="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-1usuzwp-MuiButtonBase-root-MuiTab-root"
             disabled={false}
             id="simple-tab-3"
             onBlur={[Function]}
@@ -161,7 +161,7 @@ exports[`renders correctly 1`] = `
           <button
             aria-controls="simple-tabpanel-4"
             aria-selected={false}
-            className="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-1h9z7r5-MuiButtonBase-root-MuiTab-root"
+            className="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-1usuzwp-MuiButtonBase-root-MuiTab-root"
             disabled={false}
             id="simple-tab-4"
             onBlur={[Function]}
@@ -193,7 +193,7 @@ exports[`renders correctly 1`] = `
           <button
             aria-controls="simple-tabpanel-5"
             aria-selected={false}
-            className="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-1h9z7r5-MuiButtonBase-root-MuiTab-root"
+            className="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-1usuzwp-MuiButtonBase-root-MuiTab-root"
             disabled={false}
             id="simple-tab-5"
             onBlur={[Function]}
@@ -225,7 +225,7 @@ exports[`renders correctly 1`] = `
           <button
             aria-controls="simple-tabpanel-6"
             aria-selected={false}
-            className="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-1h9z7r5-MuiButtonBase-root-MuiTab-root"
+            className="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-1usuzwp-MuiButtonBase-root-MuiTab-root"
             disabled={false}
             id="simple-tab-6"
             onBlur={[Function]}
@@ -257,7 +257,7 @@ exports[`renders correctly 1`] = `
           <button
             aria-controls="simple-tabpanel-7"
             aria-selected={false}
-            className="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-1h9z7r5-MuiButtonBase-root-MuiTab-root"
+            className="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-1usuzwp-MuiButtonBase-root-MuiTab-root"
             disabled={false}
             id="simple-tab-7"
             onBlur={[Function]}
@@ -289,7 +289,7 @@ exports[`renders correctly 1`] = `
           <button
             aria-controls="simple-tabpanel-8"
             aria-selected={false}
-            className="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-1h9z7r5-MuiButtonBase-root-MuiTab-root"
+            className="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-1usuzwp-MuiButtonBase-root-MuiTab-root"
             disabled={false}
             id="simple-tab-8"
             onBlur={[Function]}
