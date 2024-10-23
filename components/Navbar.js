@@ -15,7 +15,8 @@ export default function Navbar(props) {
             <div>
                 <Link
                     style={props.selectedDashboard == 1 ? highlightedLinkStyle : {}}
-                    href="/dashboard2">Missing/incorrect relationships</Link>
+                    href="/dashboard2">Missing/incorrect relationships
+                </Link>
             </div>
         </div>
     );
