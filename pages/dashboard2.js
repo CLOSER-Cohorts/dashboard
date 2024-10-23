@@ -208,7 +208,7 @@ export default function Home({
 
   return (
     <Layout home token={token} username={username} setloginstatus={setLoginStatus} colecticaRepositoryHostname={colecticaRepositoryHostname} homepageRedirect={homepageRedirect}>
-      <Navbar/>
+      <Navbar selectedDashboard={1}/>
       The purpose of this dashboard is to identify ingested content related issues, before deploying to production.
 
       {

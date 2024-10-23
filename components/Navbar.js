@@ -1,13 +1,22 @@
 import Link from 'next/link';
 
 export default function Navbar(props) {
+
+    const highlightedLinkStyle = { "fontWeight": "bold", "textDecoration": "underline" }
+
     return (
         <div style={{ "display": "flex", "flexDirection": "row", "columnGap": "2em" }}>
             <div>
-                <Link href="/">Free text fields</Link>
+                <Link
+                    style={props.selectedDashboard == 0 ? highlightedLinkStyle : {}}
+                    href="/">Free text fields
+                </Link>
             </div>
             <div>
-                <Link href="/dashboard2">Missing/incorrect relationships</Link>
+                <Link
+                    style={props.selectedDashboard == 1 ? highlightedLinkStyle : {}}
+                    href="/dashboard2">Missing/incorrect relationships
+                </Link>
             </div>
         </div>
     );
