@@ -341,8 +341,8 @@ function displayDashboard(value,
   tableData) {
 
   return Object.keys(colecticaQueryResults).length > 0 ? <div><Navbar selectedDashboard={0}/>
-  The purpose of this dashboard is to identify specific item types which are entered as 
-  'free text' for checking before deploying to production.
+  The purpose of this dashboard is to identify incorrectly entered free text field values in specific item types 
+  before deploying to production.
   <GenericDashboard value={value}
     data={colecticaQueryResults}
     handleChange={handleChange}
