@@ -340,7 +340,10 @@ function displayDashboard(value,
   panelContents,
   tableData) {
 
-  return Object.keys(colecticaQueryResults).length > 0 ? <div><Navbar/><GenericDashboard value={value}
+  return Object.keys(colecticaQueryResults).length > 0 ? <div><Navbar selectedDashboard={0}/>
+  The purpose of this dashboard is to identify incorrectly entered free text field values in specific item types 
+  before deploying to production.
+  <GenericDashboard value={value}
     data={colecticaQueryResults}
     handleChange={handleChange}
     selectedValueDetails={selectedValueDetails}
@@ -376,8 +379,6 @@ export default function Home({ colecticaQueryResults, token, username, colectica
        
   return (
     <Layout home token={token} username={username} setloginstatus={setLoginStatus} colecticaRepositoryHostname={colecticaRepositoryHostname} homepageRedirect={homepageRedirect}>
-      The purpose of this dashboard is to identify specific item types which are entered as 
-      'free text' for checking before deploying to production.
       {
         loginStatus === 401 ? " Invalid login details"
           :

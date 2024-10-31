@@ -1,6 +1,10 @@
 ## Dashboard
 
-This purpose of this tool is to identify specific item types which are entered as 'free text' for checking before deploying to production.
+There are several dashboards in this application, which are used to perform different types of checks on the data and identify the following issues before deploying to production:
+
+- Item types which contain incorrectly entered 'free text' for some field values
+
+- Ingested content related issues as described in https://wiki.ucl.ac.uk/display/CTTEAM/Dashboard+-+Content+checks
 
 ## Installation
 
