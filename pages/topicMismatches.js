@@ -106,12 +106,12 @@ function displayDashboard(value,
 function getTableData(rawData) {
   var tableData = {}
 
-  const uniqueValues = [...new Set(rawData['topicMismatches'].map((questionTopicPair) => {
+  const uniqueValues =!!rawData['topicMismatches'] ? [...new Set(rawData['topicMismatches'].map((questionTopicPair) => {
     return String(questionTopicPair['questionUri']).split(":")[2]
-  }))]
+  }))] : []
 
   tableData['topicMismatches'] = uniqueValues.map(uniqueValue => {
-    return !!uniqueValue && [uniqueValue, rawData['topicMismatches'].filter(
+    return !!uniqueValue && [uniqueValue, !!rawData['topicMismatches'] & rawData['topicMismatches'].filter(
       fieldValue => String(fieldValue['questionUri']).split(":")[2] === uniqueValue).length]
   })
 
