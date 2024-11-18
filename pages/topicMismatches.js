@@ -111,7 +111,7 @@ function getTableData(rawData) {
   }))] : []
 
   tableData['topicMismatches'] = uniqueValues.map(uniqueValue => {
-    return !!uniqueValue && [uniqueValue, !!rawData['topicMismatches'] & rawData['topicMismatches'].filter(
+    return !!uniqueValue && [uniqueValue, !!rawData['topicMismatches'] && rawData['topicMismatches'].filter(
       fieldValue => String(fieldValue['questionUri']).split(":")[2] === uniqueValue).length]
   })
 
