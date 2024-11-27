@@ -18,6 +18,18 @@ export default function Navbar(props) {
                     href="/dashboard2">Missing/incorrect relationships
                 </Link>
             </div>
+
+
+
+
+
+
+            <div>
+                <Link
+                    style={props.selectedDashboard == 1 ? highlightedLinkStyle : {}}
+                    href="/questionsMappedToMultipleTopics">Questions mapped to multiple topics
+                </Link>
+            </div>
         </div>
     );
 
