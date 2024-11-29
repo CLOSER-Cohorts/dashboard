@@ -19,7 +19,7 @@ export default function Navbar(props) {
                 </Link>
             </div>
             <div>
-                <Link href="/topicMismatches">Topic assignment issues</Link>
+                <Link href="/topicIssues">Topic assignment issues</Link>
             </div>
         </div>
     );
