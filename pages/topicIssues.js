@@ -175,7 +175,7 @@ function getTableData(rawData) {
     if (dataField == 'topicMismatches') {
       const uniqueValues = !!rawData['topicMismatches'] ? [...new Set(rawData['topicMismatches'].map((questionTopicPair) => {
         return String(questionTopicPair['questionUri']).split(":")[2]
-      }))] : []
+      }))].sort() : []
 
       tableData['topicMismatches'] = uniqueValues.map(uniqueValue => {
         return !!uniqueValue && [uniqueValue, !!rawData['topicMismatches'] && rawData['topicMismatches'].filter(
@@ -187,7 +187,7 @@ function getTableData(rawData) {
     else {
       const uniqueValues = !!rawData['questionsMappedToMultipleGroups'] ? [...new Set(rawData['questionsMappedToMultipleGroups'].map((questionTopicPair) => {
         return String(questionTopicPair['question']['AgencyId'])
-      }))] : []
+      }))].sort() : []
 
       tableData['questionsMappedToMultipleGroups'] = uniqueValues.map(uniqueValue => {
         return !!uniqueValue && [uniqueValue, !!rawData['questionsMappedToMultipleGroups'] && rawData['questionsMappedToMultipleGroups'].filter(
