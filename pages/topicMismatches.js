@@ -108,7 +108,7 @@ function getTableData(rawData) {
 
   const uniqueValues =!!rawData['topicMismatches'] ? [...new Set(rawData['topicMismatches'].map((questionTopicPair) => {
     return String(questionTopicPair['questionUri']).split(":")[2]
-  }))] : []
+  }))].sort() : []
 
   tableData['topicMismatches'] = uniqueValues.map(uniqueValue => {
     return !!uniqueValue && [uniqueValue, !!rawData['topicMismatches'] && rawData['topicMismatches'].filter(
