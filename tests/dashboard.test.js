@@ -44,7 +44,7 @@ function getTableData(colecticaQueryResults) {
     const uniqueValues = colecticaQueryResults[dataField] ? [...new Set(colecticaQueryResults[dataField].map(data => {
       return Object.keys(data).includes('userAttributeValue') ? data.userAttributeValue : data;
 
-    }))].sort((x, y) => x.toString().charCodeAt() - y.toString().charCodeAt()) : []
+    }))].sort() : []
 
     tableData[dataField] = uniqueValues.map(uniqueValue => {
       return !!uniqueValue && [uniqueValue.replace(' ', "\u00A0"), colecticaQueryResults[dataField]
