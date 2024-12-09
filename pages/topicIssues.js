@@ -46,7 +46,7 @@ export async function getServerSideProps(context) {
 
   var dashboardData = {
     "topicMismatches": !!topicMismatches && JSON.parse(topicMismatches),
-    "questionsMappedToMultipleGroups" : mappedToMultipleGroups
+    "questionsMappedToMultipleGroups": mappedToMultipleGroups
   }
 
   return {
@@ -105,13 +105,13 @@ const panelContentsForQuestionsWithMultipleTopics = (tableCell, tableData, hostn
     <ul>
       {selectedFieldValueInstances.map((selectedFieldInstance, index) => {
         const questionUrl = `https://${hostname}/item/${selectedFieldInstance['question']['AgencyId']}/${selectedFieldInstance['question']['Identifier']}`
-        
+
         const questionGroups = selectedFieldInstance['questionGroups'].map((questionGroup, groupIndex) => {
           const questionGroupUrl = `https://${hostname}/item/${questionGroup['AgencyId']}/${questionGroup['Identifier']}`
           return <div key={groupIndex}>Question Group: <a target="_blank" href={questionGroupUrl}>{`${questionGroup['ItemName']?.['en-GB']}, ${questionGroup['Label']?.['en-GB']}`}</a></div>
         }
         )
-        
+
         return <li key={index}>
           <div style={{ "display": "flex", "flexDirection": "row", "padding": "1em" }}><div style={{ "width": "5em", "padding": "1em" }}><b>Question:</b></div>
             <div>
@@ -119,7 +119,7 @@ const panelContentsForQuestionsWithMultipleTopics = (tableCell, tableData, hostn
               <div>Label: <a target="_blank" href={questionUrl}>{selectedFieldInstance['question']['Label']?.['en-GB']}</a></div>
               <div>Summary: {selectedFieldInstance['question']['Summary']['en-GB']}</div>
               {questionGroups}
-              
+
             </div>
           </div>
         </li>
@@ -136,12 +136,12 @@ const panelContents = (tableCell, e, tableData, tableHeaders, hostname) => {
   if (tableHeaders == ['topicMismatches']) {
 
     return panelContentsForMisMatchedTopics(tableCell, tableData, hostname)
-  
+
   }
   else {
 
     return panelContentsForQuestionsWithMultipleTopics(tableCell, tableData, hostname)
-    
+
   }
 }
 
@@ -172,31 +172,31 @@ function getTableData(rawData) {
   var tableData = {}
 
   Object.keys(rawData).map((dataField, index) => {
-    if (dataField=='topicMismatches') {
-  const uniqueValues =!!rawData['topicMismatches'] ? [...new Set(rawData['topicMismatches'].map((questionTopicPair) => {
-    return String(questionTopicPair['questionUri']).split(":")[2]
-  }))] : []
+    if (dataField == 'topicMismatches') {
+      const uniqueValues = !!rawData['topicMismatches'] ? [...new Set(rawData['topicMismatches'].map((questionTopicPair) => {
+        return String(questionTopicPair['questionUri']).split(":")[2]
+      }))].sort() : []
 
-  tableData['topicMismatches'] = uniqueValues.map(uniqueValue => {
-    return !!uniqueValue && [uniqueValue, !!rawData['topicMismatches'] && rawData['topicMismatches'].filter(
-      fieldValue => String(fieldValue['questionUri']).split(":")[2] === uniqueValue).length]
+      tableData['topicMismatches'] = uniqueValues.map(uniqueValue => {
+        return !!uniqueValue && [uniqueValue, !!rawData['topicMismatches'] && rawData['topicMismatches'].filter(
+          fieldValue => String(fieldValue['questionUri']).split(":")[2] === uniqueValue).length]
+      })
+
+    }
+
+    else {
+      const uniqueValues = !!rawData['questionsMappedToMultipleGroups'] ? [...new Set(rawData['questionsMappedToMultipleGroups'].map((questionTopicPair) => {
+        return String(questionTopicPair['question']['AgencyId'])
+      }))].sort() : []
+
+      tableData['questionsMappedToMultipleGroups'] = uniqueValues.map(uniqueValue => {
+        return !!uniqueValue && [uniqueValue, !!rawData['questionsMappedToMultipleGroups'] && rawData['questionsMappedToMultipleGroups'].filter(
+          fieldValue => String(fieldValue['question']['AgencyId']) === uniqueValue).length]
+
+      })
+    }
+
   })
-
-}
-
-else {
-  const uniqueValues =!!rawData['questionsMappedToMultipleGroups'] ? [...new Set(rawData['questionsMappedToMultipleGroups'].map((questionTopicPair) => {
-    return String(questionTopicPair['question']['AgencyId'])
-  }))] : []
-
-  tableData['questionsMappedToMultipleGroups'] = uniqueValues.map(uniqueValue => {
-    return !!uniqueValue && [uniqueValue, !!rawData['questionsMappedToMultipleGroups'] && rawData['questionsMappedToMultipleGroups'].filter(
-      fieldValue => String(fieldValue['question']['AgencyId']) === uniqueValue).length]
-  
-  })
-}
-  
-})
 
   return tableData
 }
