@@ -1,7 +1,6 @@
 export default function DataTable(props) {
 
   function tableCells(row) {
-
     return row.map(
       (tableCell, index) => {
         return <td align="left"
@@ -9,7 +8,7 @@ export default function DataTable(props) {
           key={index}
           onClick={index === 0 ? (e) => { props.updateDetailsPanel(props.panelContents(tableCell, e, props.allData, props.headers, props.colecticaRepositoryHostname)); window.scrollTo(0, 0); } : null}
         >
-          {index === 0 ? <a role="button" tabIndex="0" title={`Click here to view links to items containing '${tableCell}'`}>{tableCell}</a> : tableCell}
+          {index === 0 ? <a role="button" tabIndex="0" title={`Click here to view links to items relating to '${tableCell}'`}>{tableCell}</a> : tableCell}
         </td>
 
       }
@@ -17,7 +16,6 @@ export default function DataTable(props) {
   }
 
   function tableRows() {
-
     return (props.data[props.headers[0]]?.length!=0) ? !!props.data[props.headers[0]] && props.data[props.headers[0]].map((tableRow, index) => {
       return <tr key={index}>{tableCells(tableRow)}</tr>
       }) : <tr><td>No instances of this issue found.</td></tr>
