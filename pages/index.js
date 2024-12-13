@@ -102,8 +102,17 @@ function getFreeTextElementValues(allStudyUnits, token) {
 
     !!attributePairs && convertToArray(attributePairs).map(attributePair => {
 
-      const userAttributeTitle = JSON.parse(
-        attributePair['r:AttributeValue'])['Title']?.['en-GB'].trim()
+      var userAttributeTitle 
+      if (!!JSON.parse(
+        attributePair['r:AttributeValue'])['Title']['en-GB'])
+        userAttributeTitle = JSON.parse(
+              attributePair['r:AttributeValue'])['Title']['en-GB']
+      else if (!!JSON.parse(
+        attributePair['r:AttributeValue'])['Title']['en'])
+        userAttributeTitle = JSON.parse(
+              attributePair['r:AttributeValue'])['Title']['en']
+      else userAttributeTitle = JSON.parse(
+        attributePair['r:AttributeValue'])['Title']        
       const userAttributeValue = JSON.parse(attributePair['r:AttributeValue'])?.['StringValue']
       const freeTextElementValue = {
         "agency": studyUnit.AgencyId,
