@@ -112,9 +112,9 @@ export async function getServerSideProps(context) {
   };
 }
 
-const panelContentsForMisMatchedTopics = (tableCell, tableData, hostname) => {
+const panelContentsForMisMatchedTopics = (tableCell, itemCounts, hostname) => {
 
-  const selectedFieldValueInstances = tableData['topicMismatches'].filter(
+  const selectedFieldValueInstances = itemCounts['topicMismatches'].filter(
     topicMismatch => String(topicMismatch['questionUrn']).split(":")[2] == tableCell)
 
   return <div><h2>{tableCell}</h2>
@@ -148,9 +148,9 @@ const panelContentsForMisMatchedTopics = (tableCell, tableData, hostname) => {
       </ul></div>
 }
 
-const panelContentsForItemsWithMultipleTopics = (tableCell, tableData, hostname, listItemLabel) => {
+const panelContentsForItemsWithMultipleTopics = (tableCell, itemCounts, hostname, listItemLabel) => {
 
-  const selectedFieldValueInstances = tableData.filter(
+  const selectedFieldValueInstances = itemCounts.filter(
     itemMappedToMultipleGroups => itemMappedToMultipleGroups[listItemLabel.toLowerCase()]['AgencyId'] == tableCell)
 
   return <div><h2>{tableCell}</h2>
@@ -182,9 +182,9 @@ const panelContentsForItemsWithMultipleTopics = (tableCell, tableData, hostname,
 
 }
 
-const panelContentsForItemsWithNoTopics = (tableCell, tableData, hostname, listItemLabel) => {
+const panelContentsForItemsWithNoTopics = (tableCell, itemCounts, hostname, listItemLabel) => {
 
-  const selectedFieldValueInstances = tableData.filter(
+  const selectedFieldValueInstances = itemCounts.filter(
     questionMappedToNoGroups => questionMappedToNoGroups['AgencyId'] == tableCell)
   return <div><h2>{tableCell}</h2>
     <ul>
@@ -206,29 +206,29 @@ const panelContentsForItemsWithNoTopics = (tableCell, tableData, hostname, listI
 
 }
 
-const panelContents = (tableCell, e, tableData, tableHeaders, hostname) => {
+const panelContents = (tableCell, e, itemCounts, tableHeaders, hostname) => {
 
   if (tableHeaders[0] == ['topicMismatches']) {
-    return panelContentsForMisMatchedTopics(tableCell, tableData, hostname)
+    return panelContentsForMisMatchedTopics(tableCell, itemCounts, hostname)
 
   }
   else if (tableHeaders[0] == ['topicMismatches']) {
-    return panelContentsForMisMatchedTopics(tableCell, tableData, hostname)
+    return panelContentsForMisMatchedTopics(tableCell, itemCounts, hostname)
 
   }
   else if (tableHeaders[0] == ['questionsMappedToNoGroups']) {
-    return panelContentsForItemsWithNoTopics(tableCell, tableData[tableHeaders[0]], hostname, "Question:")
+    return panelContentsForItemsWithNoTopics(tableCell, itemCounts[tableHeaders[0]], hostname, "Question:")
 
   }
   else if (tableHeaders[0] == ['variablesMappedToNoGroups']) {
-    return panelContentsForItemsWithNoTopics(tableCell, tableData[tableHeaders[0]], hostname, "Variable:")
+    return panelContentsForItemsWithNoTopics(tableCell, itemCounts[tableHeaders[0]], hostname, "Variable:")
 
   }
   else if (tableHeaders[0] == ['questionsMappedToMultipleGroups']) {
-    return panelContentsForItemsWithMultipleTopics(tableCell, tableData[tableHeaders[0]], hostname, "Question")
+    return panelContentsForItemsWithMultipleTopics(tableCell, itemCounts[tableHeaders[0]], hostname, "Question")
   }
   else {
-    return panelContentsForItemsWithMultipleTopics(tableCell, tableData[tableHeaders[0]], hostname, "Variable")
+    return panelContentsForItemsWithMultipleTopics(tableCell, itemCounts[tableHeaders[0]], hostname, "Variable")
 
   }
 }
@@ -241,7 +241,7 @@ function displayDashboard(value,
   colecticaRepositoryHostname,
   tabNames,
   panelContents,
-  dashboardData) {
+  itemCountsPerAgency) {
 
   return <GenericDashboard value={value}
     data={data}
@@ -251,13 +251,13 @@ function displayDashboard(value,
     colecticaRepositoryHostname={colecticaRepositoryHostname}
     tabNames={tabNames}
     panelContents={panelContents}
-    tableData={dashboardData}
+    itemCounts={itemCountsPerAgency}
   />
 
 }
 
-function getTableData(rawData) {
-  var tableData = {}
+function getItemCounts(rawData) {
+  var itemCounts = {}
 
   Object.keys(rawData).map((dataField, index) => {
     if (dataField == 'topicMismatches') {
@@ -265,7 +265,7 @@ function getTableData(rawData) {
         return String(questionTopicPair['questionUrn']).split(":")[2]
       }))].sort() : []
 
-      tableData['topicMismatches'] = uniqueValues.map(uniqueValue => {
+      itemCounts['topicMismatches'] = uniqueValues.map(uniqueValue => {
         return !!uniqueValue && [uniqueValue, !!rawData['topicMismatches'] && rawData['topicMismatches'].filter(
           fieldValue => String(fieldValue['questionUrn']).split(":")[2] === uniqueValue).length]
       })
@@ -278,7 +278,7 @@ function getTableData(rawData) {
         return String(questionTopicPair['AgencyId'])
       }))].sort() : []
 
-      tableData['questionsMappedToNoGroups'] = uniqueValues.map(uniqueValue => {
+      itemCounts['questionsMappedToNoGroups'] = uniqueValues.map(uniqueValue => {
         return !!uniqueValue && [uniqueValue, !!rawData['questionsMappedToNoGroups'] && rawData['questionsMappedToNoGroups'].filter(
           fieldValue => String(fieldValue['AgencyId']) === uniqueValue).length]
 
@@ -292,7 +292,7 @@ function getTableData(rawData) {
         return String(variable['AgencyId'])
       }))].sort() : []
 
-      tableData['variablesMappedToNoGroups'] = uniqueValues.map(uniqueValue => {
+      itemCounts['variablesMappedToNoGroups'] = uniqueValues.map(uniqueValue => {
         return !!uniqueValue && [uniqueValue, !!rawData['variablesMappedToNoGroups'] && rawData['variablesMappedToNoGroups'].filter(
           fieldValue => String(fieldValue['AgencyId']) === uniqueValue).length]
 
@@ -306,7 +306,7 @@ function getTableData(rawData) {
         return String(variable['variable']['AgencyId'])
       }))].sort() : []
 
-      tableData['variablesMappedToMultipleGroups'] = uniqueValues.map(uniqueValue => {
+      itemCounts['variablesMappedToMultipleGroups'] = uniqueValues.map(uniqueValue => {
         return !!uniqueValue && [uniqueValue, !!rawData['variablesMappedToMultipleGroups'] && rawData['variablesMappedToMultipleGroups'].filter(
           fieldValue => String(fieldValue['variable']['AgencyId']) === uniqueValue).length]
 
@@ -319,7 +319,7 @@ function getTableData(rawData) {
         return String(questionTopicPair['question']['AgencyId'])
       }))].sort() : []
 
-      tableData['questionsMappedToMultipleGroups'] = uniqueValues.map(uniqueValue => {
+      itemCounts['questionsMappedToMultipleGroups'] = uniqueValues.map(uniqueValue => {
         return !!uniqueValue && [uniqueValue, !!rawData['questionsMappedToMultipleGroups'] && rawData['questionsMappedToMultipleGroups'].filter(
           fieldValue => String(fieldValue['question']['AgencyId']) === uniqueValue).length]
 
@@ -328,7 +328,7 @@ function getTableData(rawData) {
 
   })
 
-  return tableData
+  return itemCounts
 }
 
 export default function Home({
@@ -357,7 +357,7 @@ export default function Home({
     "Variables mapped to no topics"
   ]
 
-  const tableData = getTableData(dashboardData)
+  const itemCountsPerAgency = getItemCounts(dashboardData)
 
   return (
     <Layout home token={token} username={username} setloginstatus={setLoginStatus} colecticaRepositoryHostname={colecticaRepositoryHostname} homepageRedirect={homepageRedirect}>
@@ -372,7 +372,7 @@ export default function Home({
           colecticaRepositoryHostname,
           tabNames,
           panelContents,
-          tableData)
+          itemCountsPerAgency)
       }
 
     </Layout>
