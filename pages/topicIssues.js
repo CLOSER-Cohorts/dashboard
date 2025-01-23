@@ -24,9 +24,6 @@ export async function getServerSideProps(context) {
 
   var variablesMappedToNoGroups = null;
 
-  // If no question/variable mismatches are found the topicMismatches file will 
-  // not be present and a message will be logged indicating that the file does not exist.
-
   try {
     topicMismatches = fs.readFileSync('./data/topicMismatches.json', 'utf8');
   } catch (err) {
@@ -35,9 +32,6 @@ export async function getServerSideProps(context) {
     else
       console.error(err);
   }
-
-  // If no questions are found the questionsMappedToMultipleGroups file will 
-  // not be present and a message will be logged indicating that the file does not exist.
 
   try {
     questionsMappedToMultipleGroups = fs.readFileSync('./data/questionsMappedToMultipleGroups.json', 'utf8');
@@ -49,9 +43,6 @@ export async function getServerSideProps(context) {
     }
   }
   
-  // If no questions are found the variablesMappedToMultipleGroups file will 
-  // not be present and a message will be logged indicating that the file does not exist.
-
   try {
     variablesMappedToMultipleGroups = fs.readFileSync('./data/variablesMappedToMultipleGroups.json', 'utf8');
   } catch (err) {
@@ -61,9 +52,6 @@ export async function getServerSideProps(context) {
       console.error(err);
   }
 
-  // If no questions are found the questionsNotMappedToAnyGroups file will 
-  // not be present and a message will be logged indicating that the file does not exist.
-
   try {
     questionsMappedToNoGroups = fs.readFileSync('./data/questionsNotMappedToAnyGroups.json', 'utf8');
   } catch (err) {
@@ -72,9 +60,6 @@ export async function getServerSideProps(context) {
     else
       console.error(err);
   }
-
-  // If no variables are found the variablesNotMappedToAnyGroups file will 
-  // not be present and a message will be logged indicating that the file does not exist.
 
   try {
     variablesMappedToNoGroups = fs.readFileSync('./data/variablesNotMappedToAnyGroups.json', 'utf8');
