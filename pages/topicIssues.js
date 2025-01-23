@@ -189,13 +189,13 @@ const panelContentsForItemsWithNoTopics = (tableCell, itemCounts, hostname, list
   return <div><h2>{tableCell}</h2>
     <ul>
       {selectedFieldValueInstances.map((selectedFieldInstance, index) => {
-        const questionUrl = `https://${hostname}/item/${selectedFieldInstance['AgencyId']}/${selectedFieldInstance['Identifier']}`
+        const itemUrl = `https://${hostname}/item/${selectedFieldInstance['AgencyId']}/${selectedFieldInstance['Identifier']}`
         return <li key={index}>
           <div style={{ "display": "flex", "flexDirection": "row", "padding": "1em" }}><div style={{ "width": "5em", "padding": "1em" }}><b>{listItemLabel}</b></div>
             <div>
-              <div>Name: <a target="_blank" href={questionUrl}>{selectedFieldInstance['ItemName']}</a></div>
+              <div>Name: <a target="_blank" href={itemUrl}>{selectedFieldInstance['ItemName']}</a></div>
               <div>Summary: {selectedFieldInstance['ItemDescription']}</div>
-              <div>Label: <a target="_blank" href={questionUrl}>{selectedFieldInstance['Label']}</a></div>
+              <div>Label: <a target="_blank" href={itemUrl}>{selectedFieldInstance['Label']}</a></div>
             </div>
           </div>
         </li>
