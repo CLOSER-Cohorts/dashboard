@@ -49,7 +49,7 @@ export async function getServerSideProps(context) {
     }
   }
   
-// If no questions are found the questionsMappedToMultipleGroups file will 
+  // If no questions are found the variablesMappedToMultipleGroups file will 
   // not be present and a message will be logged indicating that the file does not exist.
 
   try {
@@ -61,7 +61,7 @@ export async function getServerSideProps(context) {
       console.error(err);
   }
 
-  // If no questions are found the questionsMappedToNoGroups file will 
+  // If no questions are found the questionsNotMappedToAnyGroups file will 
   // not be present and a message will be logged indicating that the file does not exist.
 
   try {
@@ -73,7 +73,7 @@ export async function getServerSideProps(context) {
       console.error(err);
   }
 
-  // If no variables are found the variablesMappedToNoGroups file will 
+  // If no variables are found the variablesNotMappedToAnyGroups file will 
   // not be present and a message will be logged indicating that the file does not exist.
 
   try {
@@ -85,19 +85,19 @@ export async function getServerSideProps(context) {
       console.error(err);
   }
 
-  const mappedToMultipleGroups = !!questionsMappedToMultipleGroups && JSON.parse(questionsMappedToMultipleGroups)
+  const questionsMappedToMultipleGroupsJSON = !!questionsMappedToMultipleGroups && JSON.parse(questionsMappedToMultipleGroups)
 
   const variablesMappedToMultipleGroupsJSON = !!variablesMappedToMultipleGroups && JSON.parse(variablesMappedToMultipleGroups)
 
-  const mappedToNoGroups = !!questionsMappedToNoGroups && JSON.parse(questionsMappedToNoGroups)
+  const questionsMappedToNoGroupsJSON = !!questionsMappedToNoGroups && JSON.parse(questionsMappedToNoGroups)
 
   const variablesMappedToNoGroupsJSON = !!variablesMappedToNoGroups && JSON.parse(variablesMappedToNoGroups)
 
   var dashboardData = {
     "topicMismatches": !!topicMismatches && JSON.parse(topicMismatches),
-    "questionsMappedToMultipleGroups": mappedToMultipleGroups,
+    "questionsMappedToMultipleGroups": questionsMappedToMultipleGroupsJSON,
     "variablesMappedToMultipleGroups": variablesMappedToMultipleGroupsJSON,
-    "questionsMappedToNoGroups": mappedToNoGroups,
+    "questionsMappedToNoGroups": questionsMappedToNoGroupsJSON,
     "variablesMappedToNoGroups": variablesMappedToNoGroupsJSON
   }
 
