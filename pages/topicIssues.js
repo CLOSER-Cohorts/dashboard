@@ -97,7 +97,7 @@ export async function getServerSideProps(context) {
   };
 }
 
-const panelContentsForMisMatchedTopics = (tableCell, itemCounts, hostname) => {
+const panelContentsForMismatchedTopics = (tableCell, itemCounts, hostname) => {
 
   const selectedFieldValueInstances = itemCounts['topicMismatches'].filter(
     topicMismatch => String(topicMismatch['questionUrn']).split(":")[2] == tableCell)
@@ -194,7 +194,7 @@ const panelContentsForItemsWithNoTopics = (tableCell, itemCounts, hostname, list
 const panelContents = (tableCell, e, itemCounts, tableHeaders, hostname) => {
 
   if (tableHeaders[0] == ['topicMismatches']) {
-    return panelContentsForMisMatchedTopics(tableCell, itemCounts, hostname)
+    return panelContentsForMismatchedTopics(tableCell, itemCounts, hostname)
   }
   else if (tableHeaders[0] == ['questionsMappedToNoGroups']) {
     return panelContentsForItemsWithNoTopics(tableCell, 
@@ -214,7 +214,7 @@ const panelContents = (tableCell, e, itemCounts, tableHeaders, hostname) => {
       hostname,
       "Question")
   }
-  else if (tableHeaders[0] == ['variablesMappedToMultipleGroups']){
+  else if (tableHeaders[0] == ['variablesMappedToMultipleGroups']){ 
     return panelContentsForItemsWithMultipleTopics(tableCell,
       itemCounts[tableHeaders[0]], 
       hostname,
@@ -303,7 +303,7 @@ function getItemCounts(rawData) {
 
     }
 
-    else {
+    else if (dataField == 'questionsMappedToMultipleGroups')  {
       const uniqueValues = !!rawData['questionsMappedToMultipleGroups'] ? [...new Set(rawData['questionsMappedToMultipleGroups'].map((questionTopicPair) => {
         return String(questionTopicPair['question']['AgencyId'])
       }))].sort() : []
