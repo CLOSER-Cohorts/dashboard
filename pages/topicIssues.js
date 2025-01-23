@@ -18,8 +18,11 @@ export async function getServerSideProps(context) {
 
   var questionsMappedToMultipleGroups = null;
 
-  // If no question/variable mismatches are found the topicMismatches file will 
-  // not be present and a message will be logged indicating that the file does not exist.
+  var variablesMappedToMultipleGroups = null;
+
+  var questionsMappedToNoGroups = null;
+
+  var variablesMappedToNoGroups = null;
 
   try {
     topicMismatches = fs.readFileSync('./data/topicMismatches.json', 'utf8');
@@ -30,11 +33,18 @@ export async function getServerSideProps(context) {
       console.error(err);
   }
 
-  // If no questions are found the questionsMappedToMultipleGroups file will 
-  // not be present and a message will be logged indicating that the file does not exist.
-
   try {
     questionsMappedToMultipleGroups = fs.readFileSync('./data/questionsMappedToMultipleGroups.json', 'utf8');
+  } catch (err) {
+    if (err.code == "ENOENT")
+      console.log(`${err.path} does not exist.`);
+    else {
+      console.error(err);
+    }
+  }
+
+  try {
+    variablesMappedToMultipleGroups = fs.readFileSync('./data/variablesMappedToMultipleGroups.json', 'utf8');
   } catch (err) {
     if (err.code == "ENOENT")
       console.log(`${err.path} does not exist.`);
@@ -42,11 +52,38 @@ export async function getServerSideProps(context) {
       console.error(err);
   }
 
-  const mappedToMultipleGroups = !!questionsMappedToMultipleGroups && JSON.parse(questionsMappedToMultipleGroups)
+  try {
+    questionsMappedToNoGroups = fs.readFileSync('./data/questionsNotMappedToAnyGroups.json', 'utf8');
+  } catch (err) {
+    if (err.code == "ENOENT")
+      console.log(`${err.path} does not exist.`);
+    else
+      console.error(err);
+  }
+
+  try {
+    variablesMappedToNoGroups = fs.readFileSync('./data/variablesNotMappedToAnyGroups.json', 'utf8');
+  } catch (err) {
+    if (err.code == "ENOENT")
+      console.log(`${err.path} does not exist.`);
+    else
+      console.error(err);
+  }
+
+  const questionsMappedToMultipleGroupsJSON = !!questionsMappedToMultipleGroups && JSON.parse(questionsMappedToMultipleGroups)
+
+  const variablesMappedToMultipleGroupsJSON = !!variablesMappedToMultipleGroups && JSON.parse(variablesMappedToMultipleGroups)
+
+  const questionsMappedToNoGroupsJSON = !!questionsMappedToNoGroups && JSON.parse(questionsMappedToNoGroups)
+
+  const variablesMappedToNoGroupsJSON = !!variablesMappedToNoGroups && JSON.parse(variablesMappedToNoGroups)
 
   var dashboardData = {
     "topicMismatches": !!topicMismatches && JSON.parse(topicMismatches),
-    "questionsMappedToMultipleGroups": mappedToMultipleGroups
+    "questionsMappedToMultipleGroups": questionsMappedToMultipleGroupsJSON,
+    "variablesMappedToMultipleGroups": variablesMappedToMultipleGroupsJSON,
+    "questionsMappedToNoGroups": questionsMappedToNoGroupsJSON,
+    "variablesMappedToNoGroups": variablesMappedToNoGroupsJSON
   }
 
   return {
@@ -60,21 +97,21 @@ export async function getServerSideProps(context) {
   };
 }
 
-const panelContentsForMisMatchedTopics = (tableCell, tableData, hostname) => {
+const panelContentsForMismatchedTopics = (tableCell, itemCounts, hostname) => {
 
-  const selectedFieldValueInstances = tableData['topicMismatches'].filter(
-    topicMismatch => String(topicMismatch['questionUri']).split(":")[2] == tableCell)
+  const selectedFieldValueInstances = itemCounts['topicMismatches'].filter(
+    topicMismatch => String(topicMismatch['questionUrn']).split(":")[2] == tableCell)
 
   return <div><h2>{tableCell}</h2>
     <ul>
       {selectedFieldValueInstances.map((selectedFieldInstance, index) => {
-        const questionUrl = `https://${hostname}/item/${selectedFieldInstance['questionUri'].split(":")[2]}/${selectedFieldInstance['questionUri'].split(":")[3]}`
+        const questionUrl = `https://${hostname}/item/${selectedFieldInstance['questionUrn'].split(":")[2]}/${selectedFieldInstance['questionUrn'].split(":")[3]}`
         const questionGroupUrl = `https://${hostname}/item/${selectedFieldInstance['questionGroupUrn'].split(":")[2]}/${selectedFieldInstance['questionGroupUrn'].split(":")[3]}`
 
         const variableUrl = `https://${hostname}/item/${selectedFieldInstance['relatedVariableUrn'].split(":")[2]}/${selectedFieldInstance['relatedVariableUrn'].split(":")[3]}`
         const variableGroupUrl = `https://${hostname}/item/${selectedFieldInstance['relatedVariableGroupUrn'].split(":")[2]}/${selectedFieldInstance['relatedVariableGroupUrn'].split(":")[3]}`
 
-        return <li>
+        return <li key={index}>
           <div style={{ "display": "flex", "flexDirection": "row", "padding": "1em" }}><div style={{ "width": "5em", "padding": "1em" }}><b>Question:</b></div>
             <div>
               <div>Name: <a target="_blank" href={questionUrl}>{selectedFieldInstance['questionName']}</a></div>
@@ -96,29 +133,29 @@ const panelContentsForMisMatchedTopics = (tableCell, tableData, hostname) => {
     </ul></div>
 }
 
-const panelContentsForQuestionsWithMultipleTopics = (tableCell, tableData, hostname) => {
+const panelContentsForItemsWithMultipleTopics = (tableCell, itemCounts, hostname, listItemLabel) => {
 
-  const selectedFieldValueInstances = tableData['questionsMappedToMultipleGroups'].filter(
-    questionMappedToMultipleGroups => questionMappedToMultipleGroups['question']['AgencyId'] == tableCell)
+  const selectedFieldValueInstances = itemCounts.filter(
+    itemMappedToMultipleGroups => itemMappedToMultipleGroups[listItemLabel.toLowerCase()]['AgencyId'] == tableCell)
 
   return <div><h2>{tableCell}</h2>
     <ul>
       {selectedFieldValueInstances.map((selectedFieldInstance, index) => {
-        const questionUrl = `https://${hostname}/item/${selectedFieldInstance['question']['AgencyId']}/${selectedFieldInstance['question']['Identifier']}`
+        const itemUrl = `https://${hostname}/item/${selectedFieldInstance[listItemLabel.toLowerCase()]['AgencyId']}/${selectedFieldInstance[listItemLabel.toLowerCase()]['Identifier']}`
 
-        const questionGroups = selectedFieldInstance['questionGroups'].map((questionGroup, groupIndex) => {
-          const questionGroupUrl = `https://${hostname}/item/${questionGroup['AgencyId']}/${questionGroup['Identifier']}`
-          return <div key={groupIndex}>Question Group: <a target="_blank" href={questionGroupUrl}>{`${questionGroup['ItemName']?.['en-GB']}, ${questionGroup['Label']?.['en-GB']}`}</a></div>
+        const itemGroups = selectedFieldInstance['groups'].map((itemGroup, groupIndex) => {
+          const itemGroupUrl = `https://${hostname}/item/${itemGroup['AgencyId']}/${itemGroup['Identifier']}`
+          return <div key={groupIndex}>Question Group: <a target="_blank" href={itemGroupUrl}>{`${itemGroup['ItemName']?.['en-GB']}, ${itemGroup['Label']?.['en-GB']}`}</a></div>
         }
         )
 
         return <li key={index}>
-          <div style={{ "display": "flex", "flexDirection": "row", "padding": "1em" }}><div style={{ "width": "5em", "padding": "1em" }}><b>Question:</b></div>
+          <div style={{ "display": "flex", "flexDirection": "row", "padding": "1em" }}><div style={{ "width": "5em", "padding": "1em" }}><b>{listItemLabel}:</b></div>
             <div>
-              <div>Name: <a target="_blank" href={questionUrl}>{selectedFieldInstance['question']['ItemName']?.['en-GB']}</a></div>
-              <div>Label: <a target="_blank" href={questionUrl}>{selectedFieldInstance['question']['Label']?.['en-GB']}</a></div>
-              <div>Summary: {selectedFieldInstance['question']['Summary']['en-GB']}</div>
-              {questionGroups}
+              <div>Name: <a target="_blank" href={itemUrl}>{selectedFieldInstance[listItemLabel, listItemLabel.toLowerCase()]['ItemName']?.['en-GB']}</a></div>
+              <div>Label: <a target="_blank" href={itemUrl}>{selectedFieldInstance[listItemLabel.toLowerCase()]['Label']?.['en-GB']}</a></div>
+              <div>Summary: {selectedFieldInstance[listItemLabel.toLowerCase()]['Summary']['en-GB']}</div>
+              {itemGroups}
 
             </div>
           </div>
@@ -130,18 +167,58 @@ const panelContentsForQuestionsWithMultipleTopics = (tableCell, tableData, hostn
 
 }
 
+const panelContentsForItemsWithNoTopics = (tableCell, itemCounts, hostname, listItemLabel) => {
 
-const panelContents = (tableCell, e, tableData, tableHeaders, hostname) => {
+  const selectedFieldValueInstances = itemCounts.filter(
+    questionMappedToNoGroups => questionMappedToNoGroups['AgencyId'] == tableCell)
+  return <div><h2>{tableCell}</h2>
+    <ul>
+      {selectedFieldValueInstances.map((selectedFieldInstance, index) => {
+        const itemUrl = `https://${hostname}/item/${selectedFieldInstance['AgencyId']}/${selectedFieldInstance['Identifier']}`
+        return <li key={index}>
+          <div style={{ "display": "flex", "flexDirection": "row", "padding": "1em" }}><div style={{ "width": "5em", "padding": "1em" }}><b>{listItemLabel}</b></div>
+            <div>
+              <div>Name: <a target="_blank" href={itemUrl}>{selectedFieldInstance['ItemName']}</a></div>
+              <div>Summary: {selectedFieldInstance['ItemDescription']}</div>
+              <div>Label: <a target="_blank" href={itemUrl}>{selectedFieldInstance['Label']}</a></div>
+            </div>
+          </div>
+        </li>
 
-  if (tableHeaders == ['topicMismatches']) {
+      })}
 
-    return panelContentsForMisMatchedTopics(tableCell, tableData, hostname)
+    </ul></div>
 
+}
+
+const panelContents = (tableCell, e, itemCounts, tableHeaders, hostname) => {
+
+  if (tableHeaders[0] == ['topicMismatches']) {
+    return panelContentsForMismatchedTopics(tableCell, itemCounts, hostname)
   }
-  else {
-
-    return panelContentsForQuestionsWithMultipleTopics(tableCell, tableData, hostname)
-
+  else if (tableHeaders[0] == ['questionsMappedToNoGroups']) {
+    return panelContentsForItemsWithNoTopics(tableCell, 
+      itemCounts[tableHeaders[0]], 
+      hostname, 
+     "Question:")
+  }
+  else if (tableHeaders[0] == ['variablesMappedToNoGroups']) {
+    return panelContentsForItemsWithNoTopics(tableCell,
+      itemCounts[tableHeaders[0]],
+      hostname,
+      "Variable:")
+  }
+  else if (tableHeaders[0] == ['questionsMappedToMultipleGroups']) {
+    return panelContentsForItemsWithMultipleTopics(tableCell,
+      itemCounts[tableHeaders[0]],
+      hostname,
+      "Question")
+  }
+  else if (tableHeaders[0] == ['variablesMappedToMultipleGroups']){ 
+    return panelContentsForItemsWithMultipleTopics(tableCell,
+      itemCounts[tableHeaders[0]], 
+      hostname,
+      "Variable") 
   }
 }
 
@@ -153,7 +230,7 @@ function displayDashboard(value,
   colecticaRepositoryHostname,
   tabNames,
   panelContents,
-  dashboardData) {
+  itemCountsPerAgency) {
 
   return <GenericDashboard value={value}
     data={data}
@@ -163,33 +240,75 @@ function displayDashboard(value,
     colecticaRepositoryHostname={colecticaRepositoryHostname}
     tabNames={tabNames}
     panelContents={panelContents}
-    tableData={dashboardData}
+    itemCounts={itemCountsPerAgency}
   />
 
 }
 
-function getTableData(rawData) {
-  var tableData = {}
+function getItemCounts(rawData) {
+  var itemCounts = {}
 
   Object.keys(rawData).map((dataField, index) => {
     if (dataField == 'topicMismatches') {
       const uniqueValues = !!rawData['topicMismatches'] ? [...new Set(rawData['topicMismatches'].map((questionTopicPair) => {
-        return String(questionTopicPair['questionUri']).split(":")[2]
+        return String(questionTopicPair['questionUrn']).split(":")[2]
       }))].sort() : []
 
-      tableData['topicMismatches'] = uniqueValues.map(uniqueValue => {
+      itemCounts['topicMismatches'] = uniqueValues.map(uniqueValue => {
         return !!uniqueValue && [uniqueValue, !!rawData['topicMismatches'] && rawData['topicMismatches'].filter(
-          fieldValue => String(fieldValue['questionUri']).split(":")[2] === uniqueValue).length]
+          fieldValue => String(fieldValue['questionUrn']).split(":")[2] === uniqueValue).length]
       })
 
     }
 
-    else {
+    else if (dataField == 'questionsMappedToNoGroups') {
+
+      const uniqueValues = !!rawData['questionsMappedToNoGroups'] ? [...new Set(rawData['questionsMappedToNoGroups'].map((questionTopicPair) => {
+        return String(questionTopicPair['AgencyId'])
+      }))].sort() : []
+
+      itemCounts['questionsMappedToNoGroups'] = uniqueValues.map(uniqueValue => {
+        return !!uniqueValue && [uniqueValue, !!rawData['questionsMappedToNoGroups'] && rawData['questionsMappedToNoGroups'].filter(
+          fieldValue => String(fieldValue['AgencyId']) === uniqueValue).length]
+
+      })
+
+    }
+
+    else if (dataField == 'variablesMappedToNoGroups') {
+
+      const uniqueValues = !!rawData['variablesMappedToNoGroups'] ? [...new Set(rawData['variablesMappedToNoGroups'].map((variable) => {
+        return String(variable['AgencyId'])
+      }))].sort() : []
+
+      itemCounts['variablesMappedToNoGroups'] = uniqueValues.map(uniqueValue => {
+        return !!uniqueValue && [uniqueValue, !!rawData['variablesMappedToNoGroups'] && rawData['variablesMappedToNoGroups'].filter(
+          fieldValue => String(fieldValue['AgencyId']) === uniqueValue).length]
+
+      })
+
+    }
+
+    else if (dataField == 'variablesMappedToMultipleGroups') {
+
+      const uniqueValues = !!rawData['variablesMappedToMultipleGroups'] ? [...new Set(rawData['variablesMappedToMultipleGroups'].map((variable) => {
+        return String(variable['variable']['AgencyId'])
+      }))].sort() : []
+
+      itemCounts['variablesMappedToMultipleGroups'] = uniqueValues.map(uniqueValue => {
+        return !!uniqueValue && [uniqueValue, !!rawData['variablesMappedToMultipleGroups'] && rawData['variablesMappedToMultipleGroups'].filter(
+          fieldValue => String(fieldValue['variable']['AgencyId']) === uniqueValue).length]
+
+      })
+
+    }
+
+    else if (dataField == 'questionsMappedToMultipleGroups')  {
       const uniqueValues = !!rawData['questionsMappedToMultipleGroups'] ? [...new Set(rawData['questionsMappedToMultipleGroups'].map((questionTopicPair) => {
         return String(questionTopicPair['question']['AgencyId'])
       }))].sort() : []
 
-      tableData['questionsMappedToMultipleGroups'] = uniqueValues.map(uniqueValue => {
+      itemCounts['questionsMappedToMultipleGroups'] = uniqueValues.map(uniqueValue => {
         return !!uniqueValue && [uniqueValue, !!rawData['questionsMappedToMultipleGroups'] && rawData['questionsMappedToMultipleGroups'].filter(
           fieldValue => String(fieldValue['question']['AgencyId']) === uniqueValue).length]
 
@@ -198,7 +317,7 @@ function getTableData(rawData) {
 
   })
 
-  return tableData
+  return itemCounts
 }
 
 export default function Home({
@@ -221,10 +340,13 @@ export default function Home({
   };
 
   const tabNames = ["Question/variable topic mismatches",
-    "Questions mapped to multiple topics"
+    "Questions mapped to multiple topics",
+    "Variables mapped to multiple topics",
+    "Questions mapped to no topics",
+    "Variables mapped to no topics"
   ]
 
-  const tableData = getTableData(dashboardData)
+  const itemCountsPerAgency = getItemCounts(dashboardData)
 
   return (
     <Layout home token={token} username={username} setloginstatus={setLoginStatus} colecticaRepositoryHostname={colecticaRepositoryHostname} homepageRedirect={homepageRedirect}>
@@ -239,7 +361,7 @@ export default function Home({
           colecticaRepositoryHostname,
           tabNames,
           panelContents,
-          tableData)
+          itemCountsPerAgency)
       }
 
     </Layout>
