@@ -195,26 +195,30 @@ const panelContents = (tableCell, e, itemCounts, tableHeaders, hostname) => {
 
   if (tableHeaders[0] == ['topicMismatches']) {
     return panelContentsForMisMatchedTopics(tableCell, itemCounts, hostname)
-
-  }
-  else if (tableHeaders[0] == ['topicMismatches']) {
-    return panelContentsForMisMatchedTopics(tableCell, itemCounts, hostname)
-
   }
   else if (tableHeaders[0] == ['questionsMappedToNoGroups']) {
-    return panelContentsForItemsWithNoTopics(tableCell, itemCounts[tableHeaders[0]], hostname, "Question:")
-
+    return panelContentsForItemsWithNoTopics(tableCell, 
+      itemCounts[tableHeaders[0]], 
+      hostname, 
+     "Question:")
   }
   else if (tableHeaders[0] == ['variablesMappedToNoGroups']) {
-    return panelContentsForItemsWithNoTopics(tableCell, itemCounts[tableHeaders[0]], hostname, "Variable:")
-
+    return panelContentsForItemsWithNoTopics(tableCell,
+      itemCounts[tableHeaders[0]],
+      hostname,
+      "Variable:")
   }
   else if (tableHeaders[0] == ['questionsMappedToMultipleGroups']) {
-    return panelContentsForItemsWithMultipleTopics(tableCell, itemCounts[tableHeaders[0]], hostname, "Question")
+    return panelContentsForItemsWithMultipleTopics(tableCell,
+      itemCounts[tableHeaders[0]],
+      hostname,
+      "Question")
   }
-  else {
-    return panelContentsForItemsWithMultipleTopics(tableCell, itemCounts[tableHeaders[0]], hostname, "Variable")
-
+  else if (tableHeaders[0] == ['variablesMappedToMultipleGroups']){
+    return panelContentsForItemsWithMultipleTopics(tableCell,
+      itemCounts[tableHeaders[0]], 
+      hostname,
+      "Variable") 
   }
 }
 
