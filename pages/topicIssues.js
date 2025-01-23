@@ -35,14 +35,14 @@ export async function getServerSideProps(context) {
 
   try {
     questionsMappedToMultipleGroups = fs.readFileSync('./data/questionsMappedToMultipleGroups.json', 'utf8');
-    } catch (err) {
+  } catch (err) {
     if (err.code == "ENOENT")
       console.log(`${err.path} does not exist.`);
-    else{
+    else {
       console.error(err);
     }
   }
-  
+
   try {
     variablesMappedToMultipleGroups = fs.readFileSync('./data/variablesMappedToMultipleGroups.json', 'utf8');
   } catch (err) {
@@ -130,7 +130,7 @@ const panelContentsForMisMatchedTopics = (tableCell, itemCounts, hostname) => {
 
       })}
 
-      </ul></div>
+    </ul></div>
 }
 
 const panelContentsForItemsWithMultipleTopics = (tableCell, itemCounts, hostname, listItemLabel) => {
@@ -152,7 +152,7 @@ const panelContentsForItemsWithMultipleTopics = (tableCell, itemCounts, hostname
         return <li key={index}>
           <div style={{ "display": "flex", "flexDirection": "row", "padding": "1em" }}><div style={{ "width": "5em", "padding": "1em" }}><b>{listItemLabel}:</b></div>
             <div>
-              <div>Name: <a target="_blank" href={itemUrl}>{selectedFieldInstance[listItemLabel,listItemLabel.toLowerCase()]['ItemName']?.['en-GB']}</a></div>
+              <div>Name: <a target="_blank" href={itemUrl}>{selectedFieldInstance[listItemLabel, listItemLabel.toLowerCase()]['ItemName']?.['en-GB']}</a></div>
               <div>Label: <a target="_blank" href={itemUrl}>{selectedFieldInstance[listItemLabel.toLowerCase()]['Label']?.['en-GB']}</a></div>
               <div>Summary: {selectedFieldInstance[listItemLabel.toLowerCase()]['Summary']['en-GB']}</div>
               {itemGroups}
