@@ -11,16 +11,14 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@mui/material": "^5.16.5",
-    "fast-xml-parser": "^4.5.0",
     "@mui/material": "^6.4.1",
     "fast-xml-parser": "^4.5.1",
     "gray-matter": "^4.0.3",
     "jest-environment-jsdom": "^29.7.0",
     "next": "latest",
     "plugin-transform-react-jsx": "^0.0.1-security",
-    "react": "19.0.0",
-    "react-dom": "18.3.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-test-renderer": "^18.3.1",
     "swr": "^2.3.0"
   },
