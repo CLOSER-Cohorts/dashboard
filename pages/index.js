@@ -310,9 +310,9 @@ const panelContents = (tableCell, e, data, tableHeaders, hostname) => {
 
   return <div><h2>{tableCell}</h2>
     <ul>
-      {selectedFieldValueInstances.map(selectedFieldInstance => {
+      {selectedFieldValueInstances.map((selectedFieldInstance, index) => {
         const url = `https://${hostname}/item/${selectedFieldInstance.agency}/${selectedFieldInstance.studyUnitIdentifier}`
-        return <li><a target="_blank" href={url}>{url}</a></li>
+        return <li key={index}><a target="_blank" href={url}>{url}</a></li>
       }
       )}
     </ul>
@@ -320,15 +320,15 @@ const panelContents = (tableCell, e, data, tableHeaders, hostname) => {
   
 }
 
-function getTableData(colecticaQueryResults) {
-  var tableData={}
+function getFieldValueCounts(colecticaQueryResults) {
+  var fieldValueCounts={}
   !colecticaQueryResults.ErrorMessage ? Object.keys(colecticaQueryResults).map((dataField, index) => {
     const uniqueValues = colecticaQueryResults[dataField] ? [...new Set(colecticaQueryResults[dataField].map(data => {
         return Object.keys(data).includes('userAttributeValue') ? data.userAttributeValue : data;
   
       }))].sort() : []
   
-    tableData[dataField] = uniqueValues.map(uniqueValue => {
+    fieldValueCounts[dataField] = uniqueValues.map(uniqueValue => {
         return !!uniqueValue && [uniqueValue.replace(' ', "\u00A0"), colecticaQueryResults[dataField]
         .filter(
           fieldValue => (Object.keys(fieldValue).includes('userAttributeValue')
@@ -336,7 +336,7 @@ function getTableData(colecticaQueryResults) {
             : fieldValue) === uniqueValue).length]
       })
     }) : `Error retrieving data, the Collectica API is not reachable. ${colecticaQueryResults.ErrorMessage}`
-    return tableData
+    return fieldValueCounts
 }
 
 function displayDashboard(value, 
@@ -347,7 +347,7 @@ function displayDashboard(value,
   colecticaRepositoryHostname,
   tabNames,
   panelContents,
-  tableData) {
+  fieldValueCounts) {
 
   return Object.keys(colecticaQueryResults).length > 0 ? <div><Navbar selectedDashboard={0}/>
   The purpose of this dashboard is to identify incorrectly entered free text field values in specific item types 
@@ -360,7 +360,7 @@ function displayDashboard(value,
     colecticaRepositoryHostname={colecticaRepositoryHostname}
     tabNames={tabNames}
     panelContents={panelContents}
-    tableData={tableData}
+    itemCounts={fieldValueCounts}
   /></div> : ""
 
 }
@@ -378,14 +378,14 @@ export default function Home({ colecticaQueryResults, token, username, colectica
     updateSelectedValueDetails("")
   };
   
-  const unorderedTableData = getTableData(colecticaQueryResults)
+  const unorderedFieldValueCounts = getFieldValueCounts(colecticaQueryResults)
 
-  const tableData = {}
+  const fieldValueCounts = {}
 
   userAttributeTitles.forEach(fieldTitle => {
-    tableData[fieldTitle] = unorderedTableData[fieldTitle]
+    fieldValueCounts[fieldTitle] = unorderedFieldValueCounts[fieldTitle]
   });
-       
+
   return (
     <Layout home token={token} username={username} setloginstatus={setLoginStatus} colecticaRepositoryHostname={colecticaRepositoryHostname} homepageRedirect={homepageRedirect}>
       {
@@ -399,7 +399,7 @@ export default function Home({ colecticaQueryResults, token, username, colectica
             colecticaRepositoryHostname,
             tabNames,
             panelContents,
-            tableData
+            fieldValueCounts
           )
       }
 

@@ -128,9 +128,9 @@ const panelContents = (tableCell, e, tableData, tableHeaders, hostname) => {
 
   return <div><h2>{tableCell}</h2>
     <ul>
-      {selectedFieldValueInstances.map(selectedFieldInstance => {
+      {selectedFieldValueInstances.map((selectedFieldInstance, index) => {
         const url = `https://${hostname}/item/${String(selectedFieldInstance).split(":")[2]}/${String(selectedFieldInstance).split(":")[3]}`
-        return <li><a target="_blank" href={url}>{url}</a></li>
+        return <li key={index}><a target="_blank" href={url}>{url}</a></li>
       }
       )}
     </ul>
@@ -146,7 +146,7 @@ function displayDashboard(value,
   colecticaRepositoryHostname,
   tabNames,
   panelContents,
-  dashboardData) {
+  itemCountsPerAgency) {
 
   return <GenericDashboard value={value}
     data={data}
@@ -156,24 +156,24 @@ function displayDashboard(value,
     colecticaRepositoryHostname={colecticaRepositoryHostname}
     tabNames={tabNames}
     panelContents={panelContents}
-    tableData={dashboardData}
+    itemCounts={itemCountsPerAgency}
   />
 
 }
 
-function getTableData(rawData) {
-  var tableData = {}
+function getItemCounts(rawData) {
+  var itemCountsPerAgency = {}
   Object.keys(rawData).map((dataField, index) => {
     const uniqueValues = rawData[dataField] ? [...new Set(rawData[dataField].map(data => {
       return String(data).split(":")[2];
     }))].sort() : []
 
-    tableData[dataField] = uniqueValues.map(uniqueValue => {
+    itemCountsPerAgency[dataField] = uniqueValues.map(uniqueValue => {
       return !!uniqueValue && [uniqueValue, rawData[dataField].filter(
         fieldValue => String(fieldValue).split(":")[2] === uniqueValue).length]
     })
   })
-  return tableData
+  return itemCountsPerAgency
 }
 
 export default function Home({
@@ -204,7 +204,7 @@ export default function Home({
     "Invalid agencies",
     "Data collection without organisation"]
   
-  const tableData = getTableData(dashboardData)
+  const itemCountsPerAgency = getItemCounts(dashboardData)
 
   return (
     <Layout home token={token} username={username} setloginstatus={setLoginStatus} colecticaRepositoryHostname={colecticaRepositoryHostname} homepageRedirect={homepageRedirect}>
@@ -220,7 +220,7 @@ export default function Home({
           colecticaRepositoryHostname,
           tabNames,
           panelContents,
-          tableData)
+          itemCountsPerAgency)
       }
 
     </Layout>
