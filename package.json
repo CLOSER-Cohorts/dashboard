@@ -19,7 +19,7 @@
     "plugin-transform-react-jsx": "^0.0.1-security",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-test-renderer": "^18.3.1",
+    "react-test-renderer": "^19.0.0",
     "swr": "^2.3.0"
   },
   "engines": {
