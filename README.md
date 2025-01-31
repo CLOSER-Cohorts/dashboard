@@ -43,7 +43,7 @@ The dashboard page for missing/incomplete relationships between items(pages/dash
 
 In order for the code that generates the files in the data directory to function, the lib/pollRepository.mjs and package.json files need to be modified after they are checked out. The login credentials for an account with the 'Guest' (i.e. read-only) role on a Colectica repository and the hostname of that repository need to be manually entered in the code; these details are too sensitive to store in a public repository.
 
-The 'poll' entry in the 'scripts' section of the package.json file needs to be modified so the COLECTICA_REPOSITORY_HOSTNAME environment variable is set to the hostname of the Colectica repository that is being polled. The following line at the top of the lib/pollRepository.mjs file needs to be updated with the login details of a user with the 'Guest' role on the Colectica repository that is being polled:
+The 'poll' and 'findTopicIssues' entries in the 'scripts' section of the package.json file need to be modified so the COLECTICA_REPOSITORY_HOSTNAME environment variable is set to the hostname of the Colectica repository that is being polled. The following line at the top of the lib/pollRepository.mjs and lib/findItemsWithTopicIssues.mjs files needs to be updated with the login details of a user with the 'Guest' role on the Colectica repository that is being polled:
 
 ```
 const tokenObject = await getToken("user", "password", process.env.COLECTICA_REPOSITORY_HOSTNAME)
