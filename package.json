@@ -6,7 +6,7 @@
     "start": "SET NODE_EXTRA_CA_CERTS=public/www.ucl.ac.uk.cer &&SET HOMEPAGE_REDIRECT=/&&SET COLECTICA_REPOSITORY_HOSTNAME=discovery.closer.ac.uk&& next start",
     "test": "jest --env=jsdom",
     "poll": "SET NODE_EXTRA_CA_CERTS=public/www.ucl.ac.uk.cer &&SET COLECTICA_REPOSITORY_HOSTNAME=discovery.closer.ac.uk&& node lib/pollRepository.mjs",
-    "findTopicMismatches": "SET NODE_EXTRA_CA_CERTS=public/www.ucl.ac.uk.cer &&SET COLECTICA_REPOSITORY_HOSTNAME=discovery.closer.ac.uk&& node lib/findItemsWithTopicIssues.mjs"
+    "findTopicIssues": "SET NODE_EXTRA_CA_CERTS=public/www.ucl.ac.uk.cer &&SET COLECTICA_REPOSITORY_HOSTNAME=discovery.closer.ac.uk&& node lib/findItemsWithTopicIssues.mjs"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
