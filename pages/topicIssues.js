@@ -53,7 +53,7 @@ export async function getServerSideProps(context) {
   }
 
   try {
-    questionsMappedToNoGroups = fs.readFileSync('./data/questionsNotMappedToAnyGroups.json', 'utf8');
+    questionsMappedToNoGroups = fs.readFileSync('./data/questionsNotMappedToAnyGroup.json', 'utf8');
   } catch (err) {
     if (err.code == "ENOENT")
       console.log(`${err.path} does not exist.`);
@@ -62,7 +62,7 @@ export async function getServerSideProps(context) {
   }
 
   try {
-    variablesMappedToNoGroups = fs.readFileSync('./data/variablesNotMappedToAnyGroups.json', 'utf8');
+    variablesMappedToNoGroups = fs.readFileSync('./data/variablesNotMappedToAnyGroup.json', 'utf8');
   } catch (err) {
     if (err.code == "ENOENT")
       console.log(`${err.path} does not exist.`);
