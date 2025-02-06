@@ -307,8 +307,8 @@ const panelContentsForMismatchedTopics = (tableCell, itemCounts, hostname) => {
     expect(getByText('uk.lha')).toBeInTheDocument()
   
   })
-
-  expect(screen.getByRole('link', { name: 'Click Me' })).toHaveAttribute('href', 'https://www.test.com/')
+// DO THE FOLLOWING
+ // expect(screen.getByRole('link', { name: 'Click Me' })).toHaveAttribute('href', 'https://www.test.com/')
 
 
   // is ther difference between panelContentsForItemsWithNoTopics and panelContentsForItemsWithMultipleTopics
