@@ -1,5 +1,5 @@
-/*
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react'
+import '@testing-library/jest-dom'
 
 import GenericDashboard from '../components/GenericDashboard';
 
@@ -69,17 +69,47 @@ const tabNames = ["Lifestage",
   "Type of Mode of Collection"
 ];
 
+const userAttributeTitles = tabNames.map(tabName => tabName.replaceAll(" ", ""))
+
+function getFieldValueCounts(colecticaQueryResults) {
+  var fieldValueCounts={}
+  !colecticaQueryResults.ErrorMessage ? Object.keys(colecticaQueryResults).map((dataField, index) => {
+    const uniqueValues = colecticaQueryResults[dataField] ? [...new Set(colecticaQueryResults[dataField].map(data => {
+        return Object.keys(data).includes('userAttributeValue') ? data.userAttributeValue : data;
+  
+      }))].sort() : []
+  
+    fieldValueCounts[dataField] = uniqueValues.map(uniqueValue => {
+        return !!uniqueValue && [uniqueValue.replace(' ', "\u00A0"), colecticaQueryResults[dataField]
+        .filter(
+          fieldValue => (Object.keys(fieldValue).includes('userAttributeValue')
+            ? fieldValue.userAttributeValue
+            : fieldValue) === uniqueValue).length]
+      })
+    }) : `Error retrieving data, the Collectica API is not reachable. ${colecticaQueryResults.ErrorMessage}`
+    return fieldValueCounts
+}
+
+const unorderedFieldValueCounts = getFieldValueCounts(colecticaQueryResults)
+
+  const fieldValueCounts = {}
+
+  userAttributeTitles.forEach(fieldTitle => {
+    fieldValueCounts[fieldTitle] = unorderedFieldValueCounts[fieldTitle]
+  });
+
 const tableData = getTableData(colecticaQueryResults)
 
-it('renders correctly', () => {
-  const tree = renderer
-    .create(<GenericDashboard value={0}
-      data={colecticaQueryResults}
-      tabNames={tabNames}
-      panelContents={panelContents}
-      tableData={tableData}
-    />)
-    .toJSON();
-  expect(tree).toMatchSnapshot();
-});
-*/
+test('loads and displays panel for free text fields', async () => {
+  // ARRANGE
+  const {getByText} = render(<GenericDashboard value={0}
+    data={colecticaQueryResults}
+    tabNames={tabNames}
+    panelContents={panelContents}
+    itemCounts={fieldValueCounts}
+  />)
+
+  expect(getByText('Third age')).toBeInTheDocument()
+  expect(getByText('Adolescence')).toBeInTheDocument()
+
+})
