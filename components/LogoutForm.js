@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { executeGetRequestWithoutToken } from '../lib/utility';
+import { executeGetRequestWithoutToken } from '../lib/utility.mjs';
 import utilStyles from '../styles/utils.module.css';
 
 export default function LogoutForm(props) {

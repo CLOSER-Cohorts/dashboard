@@ -3,8 +3,18 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import TabPanel from './TabPanel';
 import Box from '@mui/material/Box';
+import { useState } from "react";
 
 export default function GenericDashboard(props) {
+
+  const [selectedValueDetails, updateSelectedValueDetails] = useState("");
+
+  const [value, setValue] = useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+    updateSelectedValueDetails("")
+  };
 
   function a11yProps(index) {
     return {
@@ -22,12 +32,12 @@ export default function GenericDashboard(props) {
 
   function dashboardTabPanels() {
     return !!props.itemCounts && Object.keys(props.itemCounts).map((tabName, i) => {
-      return <TabPanel value={props.value} index={i} key={i}>
+      return <TabPanel value={value} index={i} key={i}>
         <div key={0}>
           <DataTable key={0} itemCounts={props.itemCounts}
             allData={props.data}
             headers={[tabName]}
-            updateDetailsPanel={props.updateSelectedValueDetails}
+            updateDetailsPanel={updateSelectedValueDetails}
             colecticaRepositoryHostname={props.colecticaRepositoryHostname}
             panelContents={props.panelContents}
           />
@@ -39,8 +49,8 @@ export default function GenericDashboard(props) {
 
   return <Box sx={{ width: '100%' }}>
     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-      <Tabs value={props.value} 
-        onChange={props.handleChange} 
+      <Tabs value={value}
+        onChange={handleChange}
         aria-label="Dashboard tabs"
         sx={{
           '.MuiTabs-flexContainer': {
@@ -55,7 +65,7 @@ export default function GenericDashboard(props) {
       <div style={{ "width": "60%" }}>
         {dashboardTabPanels()}
       </div>
-      <div style={{ "flex": "1 1 100%" }}>{props.selectedValueDetails}</div>
+      <div style={{ "flex": "1 1 100%" }}>{selectedValueDetails}</div>
     </div>
   </Box>
 
