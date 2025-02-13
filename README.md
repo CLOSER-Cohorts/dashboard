@@ -48,3 +48,10 @@ The 'poll' and 'findTopicIssues' entries in the 'scripts' section of the package
 ```
 const tokenObject = await getToken("user", "password", process.env.COLECTICA_REPOSITORY_HOSTNAME)
 ```
+
+## Running the jest tests
+
+```
+npm i
+npm run test
+```

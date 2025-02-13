@@ -19,7 +19,9 @@ export default function Navbar(props) {
                 </Link>
             </div>
             <div>
-                <Link href="/topicIssues">Topic assignment issues</Link>
+                <Link
+                style={props.selectedDashboard == 2 ? highlightedLinkStyle : {}}
+                href="/topicIssues">Topic assignment issues</Link>
             </div>
         </div>
     );

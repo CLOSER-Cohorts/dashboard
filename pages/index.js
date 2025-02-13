@@ -1,6 +1,7 @@
 import Layout from '../components/layout';
 import GenericDashboard from '../components/GenericDashboard';
 import Navbar from '../components/Navbar'
+import { getFieldValueCounts } from '../lib/frontendUtility';
 import { executeGetRequest, executePostRequestWithToken, convertToArray } from '../lib/utility';
 import { React, useState } from "react";
 
@@ -320,30 +321,8 @@ const panelContents = (tableCell, e, data, tableHeaders, hostname) => {
   
 }
 
-function getFieldValueCounts(colecticaQueryResults) {
-  var fieldValueCounts={}
-  !colecticaQueryResults.ErrorMessage ? Object.keys(colecticaQueryResults).map((dataField, index) => {
-    const uniqueValues = colecticaQueryResults[dataField] ? [...new Set(colecticaQueryResults[dataField].map(data => {
-        return Object.keys(data).includes('userAttributeValue') ? data.userAttributeValue : data;
-  
-      }))].sort() : []
-  
-    fieldValueCounts[dataField] = uniqueValues.map(uniqueValue => {
-        return !!uniqueValue && [uniqueValue.replace(' ', "\u00A0"), colecticaQueryResults[dataField]
-        .filter(
-          fieldValue => (Object.keys(fieldValue).includes('userAttributeValue')
-            ? fieldValue.userAttributeValue
-            : fieldValue) === uniqueValue).length]
-      })
-    }) : `Error retrieving data, the Collectica API is not reachable. ${colecticaQueryResults.ErrorMessage}`
-    return fieldValueCounts
-}
-
-function displayDashboard(value, 
-  colecticaQueryResults, 
-  handleChange, 
-  selectedValueDetails, 
-  updateSelectedValueDetails,
+function displayDashboard(
+  colecticaQueryResults,
   colecticaRepositoryHostname,
   tabNames,
   panelContents,
@@ -352,11 +331,8 @@ function displayDashboard(value,
   return Object.keys(colecticaQueryResults).length > 0 ? <div><Navbar selectedDashboard={0}/>
   The purpose of this dashboard is to identify incorrectly entered free text field values in specific item types 
   before deploying to production.
-  <GenericDashboard value={value}
+  <GenericDashboard
     data={colecticaQueryResults}
-    handleChange={handleChange}
-    selectedValueDetails={selectedValueDetails}
-    updateSelectedValueDetails={updateSelectedValueDetails}
     colecticaRepositoryHostname={colecticaRepositoryHostname}
     tabNames={tabNames}
     panelContents={panelContents}
@@ -367,16 +343,7 @@ function displayDashboard(value,
 
 export default function Home({ colecticaQueryResults, token, username, colecticaRepositoryHostname, homepageRedirect }) {
 
-  const [value, setValue] = useState(0);
-
   const [loginStatus, setLoginStatus] = useState("");
-
-  const [selectedValueDetails, updateSelectedValueDetails] = useState("");
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-    updateSelectedValueDetails("")
-  };
   
   const unorderedFieldValueCounts = getFieldValueCounts(colecticaQueryResults)
 
@@ -391,11 +358,8 @@ export default function Home({ colecticaQueryResults, token, username, colectica
       {
         loginStatus === 401 ? " Invalid login details"
           :
-          displayDashboard(value, 
-            colecticaQueryResults, 
-            handleChange, 
-            selectedValueDetails, 
-            updateSelectedValueDetails,
+          displayDashboard(
+            colecticaQueryResults,
             colecticaRepositoryHostname,
             tabNames,
             panelContents,

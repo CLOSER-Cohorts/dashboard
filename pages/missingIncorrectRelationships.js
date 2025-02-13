@@ -1,6 +1,7 @@
 import Layout from '../components/layout';
 import GenericDashboard from '../components/GenericDashboard';
 import Navbar from '../components/Navbar'
+import { getItemCountsMissingRelationships, panelContentsMissingRelationships } from '../lib/frontendUtility'
 import { React, useState } from "react";
 import fs from 'node:fs'
 
@@ -121,59 +122,21 @@ export async function getServerSideProps(context) {
   };
 }
 
-const panelContents = (tableCell, e, tableData, tableHeaders, hostname) => {
-
-  const selectedFieldValueInstances = tableData[tableHeaders[0]].filter(
-    urn => String(urn).split(":")[2] == tableCell)
-
-  return <div><h2>{tableCell}</h2>
-    <ul>
-      {selectedFieldValueInstances.map((selectedFieldInstance, index) => {
-        const url = `https://${hostname}/item/${String(selectedFieldInstance).split(":")[2]}/${String(selectedFieldInstance).split(":")[3]}`
-        return <li key={index}><a target="_blank" href={url}>{url}</a></li>
-      }
-      )}
-    </ul>
-  </div>
-
-}
-
-function displayDashboard(value,
+function displayDashboard(
   data,
-  handleChange,
-  selectedValueDetails,
-  updateSelectedValueDetails,
   colecticaRepositoryHostname,
   tabNames,
-  panelContents,
+  panelContentsMissingRelationships,
   itemCountsPerAgency) {
 
-  return <GenericDashboard value={value}
+  return <GenericDashboard
     data={data}
-    handleChange={handleChange}
-    selectedValueDetails={selectedValueDetails}
-    updateSelectedValueDetails={updateSelectedValueDetails}
     colecticaRepositoryHostname={colecticaRepositoryHostname}
     tabNames={tabNames}
-    panelContents={panelContents}
+    panelContents={panelContentsMissingRelationships}
     itemCounts={itemCountsPerAgency}
   />
 
-}
-
-function getItemCounts(rawData) {
-  var itemCountsPerAgency = {}
-  Object.keys(rawData).map((dataField, index) => {
-    const uniqueValues = rawData[dataField] ? [...new Set(rawData[dataField].map(data => {
-      return String(data).split(":")[2];
-    }))].sort() : []
-
-    itemCountsPerAgency[dataField] = uniqueValues.map(uniqueValue => {
-      return !!uniqueValue && [uniqueValue, rawData[dataField].filter(
-        fieldValue => String(fieldValue).split(":")[2] === uniqueValue).length]
-    })
-  })
-  return itemCountsPerAgency
 }
 
 export default function Home({
@@ -184,16 +147,7 @@ export default function Home({
   homepageRedirect 
   }) {
 
-  const [value, setValue] = useState(0);
-
   const [loginStatus, setLoginStatus] = useState("");
-
-  const [selectedValueDetails, updateSelectedValueDetails] = useState("");
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-    updateSelectedValueDetails("")
-  };
 
   const tabNames = ["Orphan datasets", 
     "Datasets missing files", 
@@ -204,7 +158,7 @@ export default function Home({
     "Invalid agencies",
     "Data collection without organisation"]
   
-  const itemCountsPerAgency = getItemCounts(dashboardData)
+  const itemCountsPerAgency = getItemCountsMissingRelationships(dashboardData)
 
   return (
     <Layout home token={token} username={username} setloginstatus={setLoginStatus} colecticaRepositoryHostname={colecticaRepositoryHostname} homepageRedirect={homepageRedirect}>
@@ -212,14 +166,11 @@ export default function Home({
       The purpose of this dashboard is to identify ingested content related issues, before deploying to production.
 
       {
-        displayDashboard(value,
+        displayDashboard(
           dashboardData,
-          handleChange,
-          selectedValueDetails,
-          updateSelectedValueDetails,
           colecticaRepositoryHostname,
           tabNames,
-          panelContents,
+          panelContentsMissingRelationships,
           itemCountsPerAgency)
       }
 
