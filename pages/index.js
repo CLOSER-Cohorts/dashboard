@@ -15,7 +15,7 @@ const tabNames = ["Lifestage",
     "Publisher", 
     "Analysis Unit",
     "Kind Of Data",
-    "Country",
+    "CountryCode",
     "Mode Of Collection",
     "Type Of Mode Of Collection"
   ];
@@ -96,6 +96,10 @@ function getFreeTextElementValues(allStudyUnits, token) {
 
   const freeTextElementValues = {};
 
+  userAttributeTitles.forEach(userAttributeTitle =>
+    freeTextElementValues[userAttributeTitle] = []
+  )
+
   !!allStudyUnits && allStudyUnits.map(studyUnit => {
     let studyUnitXML = parser.parse(studyUnit.Item)
 
@@ -139,12 +143,12 @@ function getFreeTextElementValues(allStudyUnits, token) {
 
     let kindsOfData = studyUnitXML.Fragment.StudyUnit?.['r:KindOfData']
 
-    let countries = studyUnitXML.Fragment.StudyUnit['r:Coverage']['r:SpatialCoverage']?.['r:Country']
+    let countryCodes = studyUnitXML.Fragment.StudyUnit['r:Coverage']['r:SpatialCoverage']?.['r:CountryCode']
 
-    !!countries && convertToArray(countries).forEach(country => {
+    !!countryCodes && convertToArray(countryCodes).forEach(countryCode => {
 
-      populateFreeTextElementValue('Country',
-        !!country ? country : "EMPTY VALUE",
+      populateFreeTextElementValue('CountryCode',
+        !!countryCode ? countryCode : "EMPTY VALUE",
         freeTextElementValues,
         studyUnit.AgencyId,
         studyUnit.Identifier)
@@ -328,16 +332,18 @@ function displayDashboard(
   panelContents,
   fieldValueCounts) {
 
+  const dashboardPanels = !!colecticaQueryResults.errorMessage ? colecticaQueryResults.errorMessage : <GenericDashboard
+  data={colecticaQueryResults}
+  colecticaRepositoryHostname={colecticaRepositoryHostname}
+  tabNames={tabNames}
+  panelContents={panelContents}
+  itemCounts={fieldValueCounts}
+/>
+
   return Object.keys(colecticaQueryResults).length > 0 ? <div><Navbar selectedDashboard={0}/>
   The purpose of this dashboard is to identify incorrectly entered free text field values in specific item types 
   before deploying to production.
-  <GenericDashboard
-    data={colecticaQueryResults}
-    colecticaRepositoryHostname={colecticaRepositoryHostname}
-    tabNames={tabNames}
-    panelContents={panelContents}
-    itemCounts={fieldValueCounts}
-  /></div> : ""
+  {dashboardPanels} </div>: ""
 
 }
 

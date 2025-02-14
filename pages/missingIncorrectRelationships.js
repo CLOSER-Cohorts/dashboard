@@ -101,14 +101,14 @@ export async function getServerSideProps(context) {
   }
 
   var dashboardData = {
-    "orphanPhysicalInstances": !!orphanPhysicalInstances && orphanPhysicalInstances.trim().split('\n').map(x => Array(x)),
-    "physicalInstancesWithNoFileUri": !!physicalInstancesWithNoFileUri && physicalInstancesWithNoFileUri.trim().split('\n').map(x => Array(x)),
-    "orphanVariables": !!orphanVariables && orphanVariables.trim().split('\n').map(x => Array(x)),
-    "orphanQuestionnaires": !!orphanQuestionnaires && orphanQuestionnaires.trim().split('\n').map(x => Array(x)),
-    "questionnairesWithoutExternalInstruments": !!questionnairesWithoutExternalInstruments && questionnairesWithoutExternalInstruments.trim().split('\n').map(x => Array(x)),
-    "orphanQuestions": !!orphanQuestions && orphanQuestions.trim().split('\n').map(x => Array(x)),
-    "invalidAgencies": !!invalidAgencies && invalidAgencies.trim().split('\n').map(x => Array(x)),
-    "dataCollectionsWithoutOrganisation": !!dataCollectionsWithoutOrganisation && dataCollectionsWithoutOrganisation.trim().split('\n').map(x => Array(x))
+    "orphanPhysicalInstances": !!orphanPhysicalInstances ? orphanPhysicalInstances.trim().split('\n').map(x => Array(x)) : [],
+    "physicalInstancesWithNoFileUri": !!physicalInstancesWithNoFileUri ? physicalInstancesWithNoFileUri.trim().split('\n').map(x => Array(x)) : [],
+    "orphanVariables": !!orphanVariables ? orphanVariables.trim().split('\n').map(x => Array(x)) : [],
+    "orphanQuestionnaires": !!orphanQuestionnaires ? orphanQuestionnaires.trim().split('\n').map(x => Array(x)) : [],
+    "questionnairesWithoutExternalInstruments": !!questionnairesWithoutExternalInstruments ? questionnairesWithoutExternalInstruments.trim().split('\n').map(x => Array(x)) : [],
+    "orphanQuestions": !!orphanQuestions ? orphanQuestions.trim().split('\n').map(x => Array(x)) : [],
+    "invalidAgencies": !!invalidAgencies ? invalidAgencies.trim().split('\n').map(x => Array(x)) : [],
+    "dataCollectionsWithoutOrganisation": !!dataCollectionsWithoutOrganisation ? dataCollectionsWithoutOrganisation.trim().split('\n').map(x => Array(x)) : []
   }
 
   return {

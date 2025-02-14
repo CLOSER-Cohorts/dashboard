@@ -71,16 +71,16 @@ export async function getServerSideProps(context) {
       console.error(err);
   }
 
-  const questionsMappedToMultipleGroupsJSON = !!questionsMappedToMultipleGroups && JSON.parse(questionsMappedToMultipleGroups)
+  const questionsMappedToMultipleGroupsJSON = !!questionsMappedToMultipleGroups ? JSON.parse(questionsMappedToMultipleGroups) : []
 
-  const variablesMappedToMultipleGroupsJSON = !!variablesMappedToMultipleGroups && JSON.parse(variablesMappedToMultipleGroups)
+  const variablesMappedToMultipleGroupsJSON = !!variablesMappedToMultipleGroups ? JSON.parse(variablesMappedToMultipleGroups) : []
 
-  const questionsMappedToNoGroupsJSON = !!questionsMappedToNoGroups && JSON.parse(questionsMappedToNoGroups)
+  const questionsMappedToNoGroupsJSON = !!questionsMappedToNoGroups ? JSON.parse(questionsMappedToNoGroups) : []
 
-  const variablesMappedToNoGroupsJSON = !!variablesMappedToNoGroups && JSON.parse(variablesMappedToNoGroups)
+  const variablesMappedToNoGroupsJSON = !!variablesMappedToNoGroups ? JSON.parse(variablesMappedToNoGroups) : []
 
   var dashboardData = {
-    "topicMismatches": !!topicMismatches && JSON.parse(topicMismatches),
+    "topicMismatches": !!topicMismatches && JSON.parse(topicMismatches) ? JSON.parse(topicMismatches) : [],
     "questionsMappedToMultipleGroups": questionsMappedToMultipleGroupsJSON,
     "variablesMappedToMultipleGroups": variablesMappedToMultipleGroupsJSON,
     "questionsMappedToNoGroups": questionsMappedToNoGroupsJSON,
