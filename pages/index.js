@@ -15,7 +15,7 @@ const tabNames = ["Lifestage",
     "Publisher", 
     "Analysis Unit",
     "Kind Of Data",
-    "Country",
+    "CountryCode",
     "Mode Of Collection",
     "Type Of Mode Of Collection"
   ];
@@ -96,6 +96,10 @@ function getFreeTextElementValues(allStudyUnits, token) {
 
   const freeTextElementValues = {};
 
+  userAttributeTitles.forEach(userAttributeTitle =>
+    freeTextElementValues[userAttributeTitle] = []
+  )
+
   !!allStudyUnits && allStudyUnits.map(studyUnit => {
     let studyUnitXML = parser.parse(studyUnit.Item)
 
@@ -139,12 +143,12 @@ function getFreeTextElementValues(allStudyUnits, token) {
 
     let kindsOfData = studyUnitXML.Fragment.StudyUnit?.['r:KindOfData']
 
-    let countries = studyUnitXML.Fragment.StudyUnit['r:Coverage']['r:SpatialCoverage']?.['r:Country']
+    let countryCodes = studyUnitXML.Fragment.StudyUnit['r:Coverage']['r:SpatialCoverage']?.['r:CountryCode']
 
-    !!countries && convertToArray(countries).forEach(country => {
+    !!countryCodes && convertToArray(countryCodes).forEach(countryCode => {
 
       populateFreeTextElementValue('CountryCode',
-        !!country ? country : "EMPTY VALUE",
+        !!countryCode ? countryCode : "EMPTY VALUE",
         freeTextElementValues,
         studyUnit.AgencyId,
         studyUnit.Identifier)

@@ -16,7 +16,7 @@ export default function DataTable(props) {
   }
 
   function tableRows() {
-    return (!!props.itemCounts[props.headers[0]]) ? !!props.itemCounts[props.headers[0]] && props.itemCounts[props.headers[0]].map((tableRow, index) => {
+    return (props.itemCounts[props.headers[0]]?.length!=0) ? !!props.itemCounts[props.headers[0]] && props.itemCounts[props.headers[0]].map((tableRow, index) => {
       return <tr key={index}>{tableCells(tableRow)}</tr>
       }) : <tr><td>No instances found.</td></tr>
 
