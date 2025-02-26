@@ -20,6 +20,7 @@ jobs:
           npm i
           npm run test
         if: ${{ failure() }}
+        uses: act10ns/slack@v2.0.0
         with:
           webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
           message: Running jest tests2. 🍏 This job's status is ${{ job.status }}.      
