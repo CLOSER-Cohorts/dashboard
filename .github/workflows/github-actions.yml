@@ -21,7 +21,9 @@ jobs:
           npm run test
       - name: The demo step has failed
         if: ${{ failure()}}
+        runs-on: ubuntu-latest
         steps:
+          - uses: actions/checkout@v4
           - run: echo "🍏 This job's status is FAILED BAD."  
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - name: slack - GitHub Actions Slack integration
