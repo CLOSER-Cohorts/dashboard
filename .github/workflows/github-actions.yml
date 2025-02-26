@@ -21,7 +21,7 @@ jobs:
           npm run test
       - name: The demo step has failed
         if: ${{ failure()}}
-        run: echo "🍏 This job's status is FAILED BAD."  
+        run: echo "🍏 This job's status is ${{ job.status }}."  
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - name: slack - GitHub Actions Slack integration
         uses: act10ns/slack@v2.0.0
