@@ -18,7 +18,14 @@ jobs:
       - name: Run jest tests
         run: |
           npm i
-          npm run test    
+          npm run test
+        if: ${{ failure() }}
+        steps:
+          - name: Notify Slack on Failure
+            uses: act10ns/slack@v2.0.0
+            with:
+              webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+              message: Running jest tests2. 🍏 This job's status is ${{ job.status }}.      
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - name: slack - GitHub Actions Slack integration
         uses: act10ns/slack@v2.0.0
