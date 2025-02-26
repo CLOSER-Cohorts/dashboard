@@ -25,4 +25,4 @@ jobs:
         with:
           webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
           message: Running jest tests. 🍏 This job's status is ${{ job.status }}.
-     on-failure: Running jest tests. 🍏 This job's status is ${{ job.status }}.
+    on-failure: Running jest tests. 🍏 This job's status is ${{ job.status }}.
