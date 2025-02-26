@@ -101,7 +101,7 @@ describe('load, display and interact with panels for topic related issues', () =
     await userEvent.click(screen.getByText('Questions mapped to no topics'))
     expect(getByText('questionsMappedToNoGroups')).toBeInTheDocument()
     expect(getByText('uk.cls.bcs70')).toBeInTheDocument()
-    expect(getByText('uk.gensco2t')).toBeInTheDocument()
+    expect(getByText('uk.genscot')).toBeInTheDocument()
     expect(getByText('uk.iser.ukhls')).toBeInTheDocument()
     expect(getByText('uk.lha')).toBeInTheDocument()
     await userEvent.click(screen.getByText('uk.lha'))
