@@ -26,3 +26,12 @@ jobs:
           webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
           status: ${{ job.status }}
           message: Running jest tests. 🍏 This job's status is ${{ job.status }}.
+  notify_on_failure:
+    if: ${{ failure() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Slack on Failure
+        uses: act10ns/slack@v2.0.0
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          message: Running jest tests. 🍏 This job's status is ${{ job.status }}.
