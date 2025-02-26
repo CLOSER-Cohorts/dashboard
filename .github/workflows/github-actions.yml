@@ -20,3 +20,12 @@ jobs:
           npm i
           npm run test    
       - run: echo "🍏 This job's status is ${{ job.status }}."
+  slack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: slack - GitHub Actions Slack integration
+        uses: act10ns/slack@v2.0.0
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          status: ${{ job.status }}
+          message: Running testing
