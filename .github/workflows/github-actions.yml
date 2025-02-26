@@ -19,7 +19,7 @@ jobs:
         run: |
           npm i
           npm run test    
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - run: echo "🍏 This job's status is."
       - name: slack - GitHub Actions Slack integration
         uses: act10ns/slack@v2.0.0
         with:
