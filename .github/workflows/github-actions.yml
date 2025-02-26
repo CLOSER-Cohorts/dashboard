@@ -20,6 +20,7 @@ jobs:
           npm i
           npm run test
         if: ${{ failure() }}
+        runs-on: ubuntu-latest
         steps:
           - name: Notify Slack on Failure
             uses: act10ns/slack@v2.0.0
