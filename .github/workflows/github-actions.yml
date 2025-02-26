@@ -26,7 +26,6 @@ jobs:
           webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
           message: Running jest tests. 🍏 This job's status is success.
   notify_on_failure:
-    if: ${{ failure() }}
     runs-on: ubuntu-latest
     steps:
       - name: Notify Slack on Failure
