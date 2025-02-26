@@ -25,4 +25,6 @@ jobs:
         with:
           webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
           message: Running jest tests. 🍏 This job's status is ${{ job.status }}.
-    on-failure: Running jest tests. 🍏 This job's status is ${{ job.status }}.
+    on-failure: 
+       needs: Explore-GitHub-Actions
+       run: echo "Running jest tests. 🍏 This job's status is ${{ Explore-GitHub-Actions.status }}."
