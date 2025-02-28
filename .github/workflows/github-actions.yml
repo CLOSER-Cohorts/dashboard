@@ -25,12 +25,13 @@ jobs:
         with:
           webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
           status: ${{ job.status }}
-          message: 🔎 Branch ${{ github.ref }} has been pushed to the repository ${{ github.repository }}. 
-             Running jest tests. 🍏 The test suite status is '${{ job.status }}'. Please check the branch for errors.  
+          message: 🔎 Branch ${{ github.ref }} has been pushed to the repository ${{ github.repository }},
+             running jest tests. 🍏 The test suite status is '${{ job.status }}'. Please check the branch for errors.  
       - run: echo "🍏 This job's status is '${{ job.status }}.'"
       - name: slack - GitHub Actions Slack integration
         uses: act10ns/slack@v2.0.0
         with:
           webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
           status: ${{ job.status }}
-          message: Running jest tests. 🍏 The test suite status is '${{ job.status }}''.
+          message: 🔎 Branch ${{ github.ref }} has been pushed to the repository ${{ github.repository }},
+             running jest tests. 🍏 The test suite status is '${{ job.status }}''.
