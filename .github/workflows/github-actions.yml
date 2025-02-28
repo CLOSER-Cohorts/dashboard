@@ -34,4 +34,4 @@ jobs:
           webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
           status: ${{ job.status }}
           message: 🔎 Branch ${{ github.ref }} has been pushed to the repository ${{ github.repository }},
-             running jest tests on this branch. 🍏 The test suite status is '${{ job.status }}''.
+             running jest tests on this branch. 🍏 The test suite status is '${{ job.status }}'.
