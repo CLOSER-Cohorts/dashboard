@@ -1,4 +1,4 @@
-name: GitHub Actions Demo
+name: Run dashboard jest tests
 run-name: ${{ github.ref }} on ${{ github.repository }}
 on: [push]
 jobs:
