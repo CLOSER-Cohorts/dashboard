@@ -1,4 +1,4 @@
-name: "Node.js Vulnerabilities"
+name: "Node.js Vulnerabilities Cron"
 on:
   schedule:
     - cron: "51 12 * * *"
