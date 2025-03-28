@@ -5,6 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - name: Install is-my-node-vulnerable
+      - name: Install and run is-my-node-vulnerable
+        run: node -v
         run: npx is-my-node-vulnerable
       
