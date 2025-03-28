@@ -1,7 +1,7 @@
 name: "Node.js Vulnerabilities Cron"
 on:
   schedule:
-    - cron: "01 13 * * *"
+    - cron: "4 13 * * *"
 
 jobs:
   is-my-node-vulnerable:
