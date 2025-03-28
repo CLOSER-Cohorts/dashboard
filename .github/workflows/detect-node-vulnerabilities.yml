@@ -4,6 +4,7 @@ jobs:
   is-my-node-vulnerable:
     runs-on: ubuntu-latest
     steps:
+      - run: date
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - name: Get node version
         run: node -v
