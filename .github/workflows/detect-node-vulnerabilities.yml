@@ -4,6 +4,7 @@ jobs:
   is-my-node-vulnerable:
     runs-on: ubuntu-latest
     steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - name: Install is-my-node-vulnerable
         run: npx is-my-node-vulnerable
       - uses: actions/checkout@v3
