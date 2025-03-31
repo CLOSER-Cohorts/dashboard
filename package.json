@@ -18,13 +18,10 @@
     "gray-matter": "^4.0.3",
     "jest-environment-jsdom": "^29.7.0",
     "next": "latest",
-    "node": "=18.20.8",
+    "node": "^18.20.8",
     "plugin-transform-react-jsx": "^0.0.1-security",
     "react-dom": "^19.0.0",
     "swr": "^2.3.3"
-  },
-  "engines": {
-    "node": ">=18.20.8 <22.14.0"
   },
   "devDependencies": {
     "@babel/core": "^7.26.10",
