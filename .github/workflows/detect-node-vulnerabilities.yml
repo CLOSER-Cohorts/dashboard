@@ -9,6 +9,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Install
         run: npm install node -g --force
+      - name: Install 2
+        run: npm install node  
       - name: Get node version
         run: node -v
       - name: Install and run is-my-node-vulnerable
