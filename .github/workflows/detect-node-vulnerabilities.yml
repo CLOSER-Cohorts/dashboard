@@ -7,8 +7,10 @@ jobs:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - name: Check out repository code
         uses: actions/checkout@v4
-      - name: Install
-        run: npm install node -g
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '16.x'
       - name: Get node version
         run: node -v
       - name: Install and run is-my-node-vulnerable
