@@ -1,7 +1,7 @@
 name: "Node.js Vulnerabilities Cron"
 on:
   schedule:
-    - cron: "51 12 * * *"
+    - cron: "09 09 * * *"
 
 jobs:
   is-my-node-vulnerable:
@@ -11,4 +11,4 @@ jobs:
       - name: Check Node.js
         uses: nodejs/is-my-node-vulnerable@v1
         with:
-          node-version: "18.14.1"
+          node-version: "17.0.0"
