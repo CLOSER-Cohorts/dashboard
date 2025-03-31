@@ -11,6 +11,7 @@ jobs:
         run: npm install node  
       - name: Get node version
         run: node -v
+        run: .\node_modules\node\bin\node -v
       - name: Install and run is-my-node-vulnerable
         run: npx is-my-node-vulnerable
       
