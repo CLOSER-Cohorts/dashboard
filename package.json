@@ -19,7 +19,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "next": "latest",
     "plugin-transform-react-jsx": "^0.0.1-security",
-    "react-dom": "^19.0.0",
+    "react-dom": "^19.1.0",
     "swr": "^2.3.3"
   },
   "engines": {
