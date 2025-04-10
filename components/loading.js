@@ -1,6 +1,5 @@
-// components/PageLoader.tsx
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Box from '@mui/material/Box';
 
