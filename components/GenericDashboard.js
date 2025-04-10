@@ -3,11 +3,14 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import TabPanel from './TabPanel';
 import Box from '@mui/material/Box';
-import { useState } from "react";
+import { React, useState } from "react";
+import Loading from './loading';
 
 export default function GenericDashboard(props) {
 
   const [selectedValueDetails, updateSelectedValueDetails] = useState("");
+
+  const [loading, setLoading] = useState(false);
 
   const [value, setValue] = useState(0);
 
@@ -62,8 +65,11 @@ export default function GenericDashboard(props) {
       </Tabs>
     </Box>
     <div style={{ "display": "flex", "flexDirection": "row" }}>
+      <Loading
+        loading={loading}
+        setLoading={setLoading}/>
       <div style={{ "width": "60%" }}>
-        {dashboardTabPanels()}
+        {!loading && dashboardTabPanels()}
       </div>
       <div style={{ "flex": "1 1 100%" }}>{selectedValueDetails}</div>
     </div>

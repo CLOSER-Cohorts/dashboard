@@ -332,13 +332,15 @@ function displayDashboard(
   panelContents,
   fieldValueCounts) {
 
-  const dashboardPanels = !!colecticaQueryResults.errorMessage ? colecticaQueryResults.errorMessage : <GenericDashboard
-  data={colecticaQueryResults}
-  colecticaRepositoryHostname={colecticaRepositoryHostname}
-  tabNames={tabNames}
-  panelContents={panelContents}
-  itemCounts={fieldValueCounts}
-/>
+  const dashboardPanels = !!colecticaQueryResults.errorMessage
+      ? colecticaQueryResults.errorMessage
+      : <GenericDashboard
+          data={colecticaQueryResults}
+          colecticaRepositoryHostname={colecticaRepositoryHostname}
+          tabNames={tabNames}
+          panelContents={panelContents}
+          itemCounts={fieldValueCounts}
+        />
 
   return Object.keys(colecticaQueryResults).length > 0 ? <div><Navbar selectedDashboard={0}/>
   The purpose of this dashboard is to identify incorrectly entered free text field values in specific item types 
@@ -372,7 +374,6 @@ export default function Home({ colecticaQueryResults, token, username, colectica
             fieldValueCounts
           )
       }
-
     </Layout>
   )
 }

@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import userEvent from '@testing-library/user-event'
 import React from "react";
+import { useRouter } from 'next/router';
 
 import GenericDashboard from '../components/GenericDashboard';
 import { getItemCountsTopicIssues, panelContentsTopicIssues } from '../lib/frontendUtility'
@@ -54,10 +55,23 @@ const tabNames = ["Question/variable topic mismatches",
 
 const itemCountsPerAgency = getItemCountsTopicIssues(dashboardData)
 
+const mockRouterEvents = {
+  on: jest.fn(),
+  off: jest.fn(),
+};
+
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}));
+
 window.scrollTo = jest.fn()
 
 describe('load, display and interact with panels for topic related issues', () => {
   beforeEach(() => {
+    useRouter.mockReturnValue({
+      events: mockRouterEvents,
+    });
+
     ({ getByText } = render(<GenericDashboard
       data={dashboardData}
       tabNames={tabNames}

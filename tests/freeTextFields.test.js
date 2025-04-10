@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import userEvent from '@testing-library/user-event'
+import { useRouter } from 'next/router';
 
 import GenericDashboard from '../components/GenericDashboard';
 import { getFieldValueCounts, panelContentsDashbord } from '../lib/frontendUtility';
@@ -79,8 +80,21 @@ userAttributeTitles.forEach(fieldTitle => {
   fieldValueCounts[fieldTitle] = unorderedFieldValueCounts[fieldTitle]
 });
 
+const mockRouterEvents = {
+  on: jest.fn(),
+  off: jest.fn(),
+};
+
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}));
+
 describe('loads and displays panel for free text fields', () => {
   beforeEach(() => {
+    useRouter.mockReturnValue({
+          events: mockRouterEvents,
+        });
+
     ({ getByText } = render(<GenericDashboard value={0}
       data={colecticaQueryResults}
       tabNames={tabNames}
