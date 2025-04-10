@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import userEvent from '@testing-library/user-event'
 import React from "react";
+import { useRouter } from 'next/router';
 
 import GenericDashboard from '../components/GenericDashboard';
 import { getItemCountsMissingRelationships, panelContentsMissingRelationships } from '../lib/frontendUtility.js';
@@ -37,10 +38,23 @@ var dashboardData = {
 
 const itemCountsPerAgency = getItemCountsMissingRelationships(dashboardData)
 
+const mockRouterEvents = {
+    on: jest.fn(),
+    off: jest.fn(),
+  };
+
+  jest.mock('next/router', () => ({
+    useRouter: jest.fn(),
+  }));
+
 window.scrollTo = jest.fn()
 
 describe('loads and displays panels for missing/incorrect relationships', () => {
     beforeEach(() => {
+        useRouter.mockReturnValue({
+              events: mockRouterEvents,
+            });
+
         ({ getByText } = render(<GenericDashboard
             data={dashboardData}
             colecticaRepositoryHostname="discovery.closer.ac.uk"
