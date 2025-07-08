@@ -20,7 +20,7 @@
     "next": "latest",
     "plugin-transform-react-jsx": "^0.0.1-security",
     "react-dom": "^19.1.0",
-    "swr": "^2.3.3"
+    "swr": "^2.3.4"
   },
   "engines": {
     "node": ">=18"
