@@ -83,7 +83,7 @@ export async function getServerSideProps(context) {
   }
 
   try {
-    orphanQuestionnaires = fs.readFileSync('./data/orphanQuestionnaires.txt', 'utf8');
+    orphanQuestionnaires = fs.readFileSync('./data/questionnairesNotWithinDataCollection.txt', 'utf8');
   } catch (err) {
     if (err.code=="ENOENT")
       console.log(`${err.path} does not exist.`);
