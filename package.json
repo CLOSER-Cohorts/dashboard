@@ -14,7 +14,7 @@
     "@mui/material": "^7.3.9",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/user-event": "^14.6.1",
-    "fast-xml-parser": "^5.5.7",
+    "fast-xml-parser": "^5.5.9",
     "gray-matter": "^4.0.3",
     "jest-environment-jsdom": "^30.3.0",
     "next": "latest",
