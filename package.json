@@ -16,7 +16,7 @@
     "@testing-library/user-event": "^14.6.1",
     "fast-xml-parser": "^5.8.0",
     "gray-matter": "^4.0.3",
-    "jest-environment-jsdom": "^30.3.0",
+    "jest-environment-jsdom": "^30.4.1",
     "next": "latest",
     "plugin-transform-react-jsx": "^0.0.1-security",
     "react-dom": "^19.2.5",
@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
-    "@babel/preset-env": "^7.29.3",
+    "@babel/preset-env": "^7.29.7",
     "@babel/preset-react": "^7.29.7",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
