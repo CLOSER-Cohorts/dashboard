@@ -11,7 +11,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@mui/material": "^9.0.0",
+    "@mui/material": "^9.3.1",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/user-event": "^14.6.1",
     "fast-xml-parser": "^5.8.0",
@@ -19,7 +19,7 @@
     "jest-environment-jsdom": "^30.4.1",
     "next": "latest",
     "plugin-transform-react-jsx": "^0.0.1-security",
-    "react-dom": "^19.2.5",
+    "react-dom": "^19.2.8",
     "swr": "^2.4.1"
   },
   "engines": {
@@ -27,9 +27,9 @@
   },
   "devDependencies": {
     "@babel/core": "^8.0.1",
-    "@babel/preset-env": "^7.29.7",
+    "@babel/preset-env": "^8.0.2",
     "@babel/preset-react": "^8.0.1",
-    "@testing-library/jest-dom": "^7.0.0",
+    "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.2",
     "babel-jest": "^30.4.1",
     "jest": "^30.3.0",
