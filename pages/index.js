@@ -308,11 +308,11 @@ export async function getServerSideProps(context) {
 }
 
 const panelContents = (tableCell, e, data, tableHeaders, hostname) => {
-  
+  console.log("HELLO")
+  console.log(e.currentTarget)
+  console.log(e.currentTarget.textContent)
+    
   const selectedFieldValueInstances = data[tableHeaders[0]].filter(
-    console.log("HELLO")
-    console.log(e.currentTarget)
-    console.log(e.currentTarget.textContent)
     ddiElement => (Object.keys(ddiElement).includes('userAttributeValue') 
         ? ddiElement.userAttributeValue : ddiElement) === e.currentTarget.textContent.replace("\u00A0", ' '))
 
