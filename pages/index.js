@@ -296,7 +296,7 @@ export async function getServerSideProps(context) {
   const urlBase = `https://${colecticaRepositoryHostname}/api/v1`;
 
   const colecticaQueryResults = !!token ? await getDashboardData(context.req.cookies.token, urlBase) : {}
-
+  console.log(colecticaQueryResults)
   return {
     props: {
       allPostsData,
