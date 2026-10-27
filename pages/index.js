@@ -174,12 +174,13 @@ function getFreeTextElementValues(allStudyUnits, token) {
 
     }
 
+    /*
     populateFreeTextElementValue('AnalysisUnit',
       analysisUnit,
       freeTextElementValues,
       studyUnit.AgencyId,
       studyUnit.Identifier)
-
+*/
 
     !!kindsOfData && convertToArray(kindsOfData).forEach(kindOfData => {
 
