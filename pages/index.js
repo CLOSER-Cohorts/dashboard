@@ -313,7 +313,7 @@ const panelContents = (tableCell, e, data, tableHeaders, hostname) => {
   console.log(e.currentTarget.textContent)
     
 
-  const selectedFieldValueInstances = []
+  const selectedFieldValueInstances = null
   /*
   const selectedFieldValueInstances = data[tableHeaders[0]].filter(
     ddiElement => (Object.keys(ddiElement).includes('userAttributeValue') 
