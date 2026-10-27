@@ -312,10 +312,13 @@ const panelContents = (tableCell, e, data, tableHeaders, hostname) => {
   console.log(e.currentTarget)
   console.log(e.currentTarget.textContent)
     
+
+  const selectedFieldValueInstances = []
+  /*
   const selectedFieldValueInstances = data[tableHeaders[0]].filter(
     ddiElement => (Object.keys(ddiElement).includes('userAttributeValue') 
         ? ddiElement.userAttributeValue : ddiElement) === e.currentTarget.textContent.replace("\u00A0", ' '))
-
+*/
   return <div><h2>{tableCell}</h2>
     <ul>
       {selectedFieldValueInstances.map((selectedFieldInstance, index) => {
