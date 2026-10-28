@@ -293,6 +293,7 @@ export async function getServerSideProps(context) {
   const urlBase = `https://${colecticaRepositoryHostname}/api/v1`;
 
   const colecticaQueryResults = !!token ? await getDashboardData(context.req.cookies.token, urlBase) : {}
+
   return {
     props: {
       allPostsData,
@@ -306,6 +307,7 @@ export async function getServerSideProps(context) {
 }
 
 const panelContents = (tableCell, e, data, tableHeaders, hostname) => {
+  
   const selectedFieldValueInstances = data[tableHeaders[0]].filter(
     ddiElement => (Object.keys(ddiElement).includes('userAttributeValue') 
         ? ddiElement.userAttributeValue : ddiElement) === e.currentTarget.textContent.replace("\u00A0", ' '))
@@ -318,7 +320,7 @@ const panelContents = (tableCell, e, data, tableHeaders, hostname) => {
       }
       )}
     </ul>
-  </div> 
+  </div>
   
 }
 
