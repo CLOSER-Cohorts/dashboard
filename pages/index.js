@@ -177,7 +177,8 @@ function getFreeTextElementValues(allStudyUnits, token) {
     console.log("ANALYSIS UNIT")
     console.log(analysisUnit)
 
-    !!analysisUnit && populateFreeTextElementValue('AnalysisUnit',
+    //!!analysisUnit && 
+    populateFreeTextElementValue('AnalysisUnit',
       analysisUnit,
       freeTextElementValues,
       studyUnit.AgencyId,
