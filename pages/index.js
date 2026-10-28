@@ -177,8 +177,7 @@ function getFreeTextElementValues(allStudyUnits, token) {
     console.log("ANALYSIS UNIT")
     console.log(analysisUnit)
 
-    //!!analysisUnit && 
-    populateFreeTextElementValue('AnalysisUnit',
+    !!analysisUnit && populateFreeTextElementValue('AnalysisUnit',
       analysisUnit,
       freeTextElementValues,
       studyUnit.AgencyId,
@@ -315,8 +314,6 @@ const panelContents = (tableCell, e, data, tableHeaders, hostname) => {
   console.log(e.currentTarget.textContent)
     
 
-  const selectedFieldValueInstances = null
-  /*
   const selectedFieldValueInstances = data[tableHeaders[0]].filter(
     ddiElement => (Object.keys(ddiElement).includes('userAttributeValue') 
         ? ddiElement.userAttributeValue : ddiElement) === e.currentTarget.textContent.replace("\u00A0", ' '))
@@ -329,11 +326,7 @@ const panelContents = (tableCell, e, data, tableHeaders, hostname) => {
       }
       )}
     </ul>
-  </div>
-  */
- return <div><h2>{tableCell}</h2>
-    <ul><li>TEST</li></ul>
-    </div>
+  </div> 
   
 }
 
